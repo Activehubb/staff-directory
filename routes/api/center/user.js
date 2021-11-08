@@ -9,7 +9,12 @@ router.post(
 	'/',
 	[
 		check('username', 'Username is required').not().isEmpty(),
-		check('email', 'Email is required').not().isEmpty(),
+		check('email', 'Email is required with ext @oauife.edu.ng')
+			.isEmail()
+			.contains('@oauife.edu.ng')
+			.normalizeEmail()
+			.not()
+			.isEmpty(),
 		check('password', 'Password should be at least 8 chars long').isLength({
 			min: 8,
 		}),

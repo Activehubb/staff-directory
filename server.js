@@ -16,8 +16,9 @@ app.use('/api/admin/admin', require('./routes/api/admin/admin'))
 app.use('/api/admin/auth', require('./routes/api/admin/auth'))
 
 // Center Routes
-app.use('/api/center/center', require('./routes/api/center/center'));
+app.use('/api/center/user', require('./routes/api/center/user'));
 app.use('/api/center/auth', require('./routes/api/center/auth'));
+app.use('/api/center/profile', require('./routes/api/center/profile'))
 
 
 const PORT = process.env.PORT || 4400;

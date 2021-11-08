@@ -12,7 +12,12 @@ router.post(
 	'/',
 	[
 		check('username', 'Username is required').not().isEmpty(),
-		check('email', 'Email is required').not().isEmpty(),
+		check('email', 'Email is required with ext @oauife.edu.ng')
+			.isEmail()
+			.contains('@oauife.edu.ng')
+			.normalizeEmail()
+			.not()
+			.isEmpty(),
 		check('password', 'Password should be at least 8 chars long').isLength({
 			min: 8,
 		}),
@@ -92,14 +97,14 @@ router.put(
 		const { password } = req.body;
 
 		try {
-			const updPass = await Admin.findById(req.params.id)
+			const updPass = await Admin.findById(req.params.id);
 
-			const salt = await bcrypt.genSalt(10)
-			const newPass = await bcrypt.hash(password, salt)
+			const salt = await bcrypt.genSalt(10);
+			const newPass = await bcrypt.hash(password, salt);
 
-			updPass.password = newPass
-			
-			await updPass.save()
+			updPass.password = newPass;
+
+			await updPass.save();
 
 			console.log(newPass);
 			res.status(200).json(updPass);

@@ -7,50 +7,21 @@ const CenterSchema = new Schema(
 			type: Schema.Types.ObjectId,
 			ref: 'centerUser',
 		},
-		education: [
-			{
-				school: {
-					type: String,
-					required: true,
-				},
-				degree: {
-					type: String,
-					required: true,
-				},
-				fieldofstudy: {
-					type: String,
-					required: true,
-				},
-				from: {
-					type: Date,
-					required: true,
-				},
-				to: {
-					type: Date,
-				},
-				current: {
-					type: Boolean,
-					default: false,
-				},
-				description: {
-					type: String,
-				},
-			},
-		],
-		social: {
-			youtube: {
+		bio: {
+			type: Object,
+			fname: {
 				type: String,
+				required: true,
 			},
-			twitter: {
+			lname: {
 				type: String,
+				require: true,
 			},
-			facebook: {
-				type: String,
+			qualification: {
+				type: [Array],
+				required: true,
 			},
-			linkedIn: {
-				type: String,
-			},
-			Instagram: {
+			phoneNumber: {
 				type: String,
 			},
 		},
