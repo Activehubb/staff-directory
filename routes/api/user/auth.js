@@ -1,22 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const auth = require('../../../middleware/auth');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { check, validationResult } = require('express-validator');
 const dotenv = require('dotenv').config();
-const CenterUser = require('../../../models/centers/User');
-const centerAuth = require('../../../middleware/centerAuth');
+const User = require('../../../models/user/User');
+const userAuth = require('../../../middleware/userAuth');
 
 // Login
 
 router.post(
 	'/',
 	[
-		check('email', 'Email is required with ext @oauife.edu.ng')
-			.isEmail()
-			.contains('@oauife.edu.ng')
-			.normalizeEmail(),
 		check('password', 'Password should be ata least 8 chars long').isLength({
 			min: 8,
 		}),
@@ -34,17 +29,17 @@ router.post(
 
 		try {
 			if (username) {
-				let centerUser = await CenterUser.findOne({
+				let user = await User.findOne({
 					username,
 				});
 
-				if (!centerUser) {
+				if (!user) {
 					return res.status(400).json({
 						errors: [{ msg: 'Invalid Credentials' }],
 					});
 				}
 
-				const validate = await bcrypt.compare(password, centerUser.password);
+				const validate = await bcrypt.compare(password, user.password);
 
 				if (!validate) {
 					return res.status(400).json({
@@ -53,8 +48,8 @@ router.post(
 				}
 
 				const payload = {
-					centerUser: {
-						id: centerUser.id,
+					user: {
+						id: user.id,
 					},
 				};
 
@@ -68,17 +63,17 @@ router.post(
 					}
 				);
 			} else if (email) {
-				let centerUser = await CenterUser.findOne({
+				let user = await User.findOne({
 					email,
 				});
 
-				if (!centerUser) {
+				if (!user) {
 					return res.status(400).json({
 						errors: [{ msg: 'Invalid Credentials' }],
 					});
 				}
 
-				const validate = await bcrypt.compare(password, centerUser.password);
+				const validate = await bcrypt.compare(password, user.password);
 
 				if (!validate) {
 					return res.status(400).json({
@@ -87,8 +82,8 @@ router.post(
 				}
 
 				const payload = {
-					centerUser: {
-						id: centerUser.id,
+					user: {
+						id: user.id,
 					},
 				};
 
@@ -110,11 +105,11 @@ router.post(
 );
 
 // Get Logged In User
-router.get('/:id', centerAuth, async (req, res) => {
+router.get('/', userAuth, async (req, res) => {
 	try {
-		const centerUser = await CenterUser.findById(req.params.id).select('-password');
+		const userId = await User.findById(req.user.id).select('-password');
 
-		res.json(centerUser);
+		res.json(userId);
 	} catch (err) {
 		res.status(500).send('Server error');
 		console.error(err.message);
@@ -123,12 +118,12 @@ router.get('/:id', centerAuth, async (req, res) => {
 
 // Delete Admin
 
-router.delete('/:id', centerAuth, async (req, res) => {
+router.delete('/:id', userAuth, async (req, res) => {
 	try {
-		const centerUser = await CenterUser.findById(req.centerUser._id);
-		if (centerUser._id === req.params.id) {
+		const user = await User.findById(req.user.id);
+		if (user.id === req.params.id) {
 			try {
-				await CenterUser.findByIdAndDelete(req.params.id);
+				await User.findByIdAndDelete(req.params.id);
 				res.status(200).json('Account deleted successfully');
 			} catch (err) {
 				console.error(err.message);

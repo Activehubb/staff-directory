@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const CenterSchema = new Schema(
+const ProfileSchema = new Schema(
 	{
-		centerUser: {
+		user: {
 			type: Schema.Types.ObjectId,
-			ref: 'centerUser',
+			ref: 'user',
 		},
 		bio: {
 			type: Object,
@@ -25,8 +25,22 @@ const CenterSchema = new Schema(
 				type: String,
 			},
 		},
+		category: {
+			center: {
+				type: String,
+			},
+			department: {
+				type: String
+			},
+			institute: {
+				type: String
+			},
+			unit: {
+				type: String
+			}
+		}
 	},
 	{ timestamps: true }
 );
 
-module.exports = Center = mongoose.model('center', CenterSchema);
+module.exports = Profile = mongoose.model('profile', ProfileSchema);

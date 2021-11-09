@@ -3,7 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
-const CenterUser = require('../../../models/centers/User');
+const User = require('../../../models/user/User');
 
 router.post(
 	'/',
@@ -31,15 +31,15 @@ router.post(
 		const { username, email, password } = req.body;
 
 		try {
-			let centerUser = await CenterUser.findOne({ email });
+			let user = await User.findOne({ email });
 
-			if (centerUser) {
+			if (user) {
 				return res.status(400).json({
 					errors: [{ msg: `${email} already exists` }],
 				});
 			}
 
-			centerUser = new CenterUser({
+			user = new User({
 				username,
 				email,
 				password,
@@ -47,13 +47,13 @@ router.post(
 
 			const salt = await bcrypt.genSalt(10);
 
-			centerUser.password = await bcrypt.hash(password, salt);
+			user.password = await bcrypt.hash(password, salt);
 
-			await centerUser.save();
+			await user.save();
 
 			const payload = {
-				centerUser: {
-					id: centerUser.id,
+				user: {
+					id: user.id,
 				},
 			};
 
@@ -94,7 +94,7 @@ router.put(
 		const { password } = req.body;
 
 		try {
-			const updPass = await CenterUser.findById(req.params.id);
+			const updPass = await User.findById(req.params.id);
 
 			const salt = await bcrypt.genSalt(10);
 			const newPass = await bcrypt.hash(password, salt);

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const auth = require('../../../middleware/auth');
+const adminAuth = require('../../../middleware/adminAuth');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { check, validationResult } = require('express-validator');
@@ -12,7 +12,8 @@ const Admin = require('../../../models/admin/Admin');
 router.post(
 	'/',
 	[
-		check('password', 'Password should be ata least 8 chars long').isLength({
+		check('email').isEmail().normalizeEmail(),
+		check('password', 'Password should be at least 8 chars long').isLength({
 			min: 8,
 		}),
 	],
@@ -105,7 +106,7 @@ router.post(
 );
 
 // Get Logged In User
-router.get('/', auth, async (req, res) => {
+router.get('/', adminAuth, async (req, res) => {
 	try {
 		const adm = await Admin.findById(req.admin.id).select('-password');
 
@@ -118,21 +119,13 @@ router.get('/', auth, async (req, res) => {
 
 // Delete Admin
 
-router.delete('/:id', auth, async (req, res) => {
+router.delete('/', adminAuth, async (req, res) => {
 	try {
-		const adm = await Admin.findById(req.admin._id);
-		if (adm._id === req.params.id) {
-			try {
-				await Admin.findByIdAndDelete(req.params.id);
-				res.status(200).json('Account deleted successfully');
-			} catch (err) {
-				console.error(err.message);
-				res.status(500).send('Server error');
-			}
-		}
+		await Admin.findByIdAndDelete(req.admin._id);
+		res.status(200).json('Account deleted successfully');
 	} catch (err) {
 		console.error(err.message);
-		res.status(401).send('Access denied account can\'t be deleted');
+		res.status(500).send('Server error');
 	}
 });
 
