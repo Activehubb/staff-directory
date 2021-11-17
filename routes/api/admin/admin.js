@@ -97,7 +97,7 @@ router.put(
 		const { password } = req.body;
 
 		try {
-			const updPass = await Admin.findById(req.params.id).select('-password');
+			const updPass = await Admin.findById(req.params.id)
 
 			const salt = await bcrypt.genSalt(10);
 			const newPass = await bcrypt.hash(password, salt);
@@ -106,7 +106,6 @@ router.put(
 
 			await updPass.save();
 
-			console.log(newPass);
 			res.status(200).json('Account updated successfully');
 		} catch (err) {
 			console.error(err.message);

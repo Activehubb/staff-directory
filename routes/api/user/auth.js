@@ -6,6 +6,20 @@ const { check, validationResult } = require('express-validator');
 const dotenv = require('dotenv').config();
 const User = require('../../../models/user/User');
 const userAuth = require('../../../middleware/userAuth');
+const Profile = require('../../../models/user/Profile');
+
+// Get All User
+router.get('/users', async (req, res) => {
+	try {
+		const users = await User.find()
+
+		res.json(users)
+ 	} catch (err) {
+		console.error(err.message);
+		res.status(200).send('Server ERR')
+	}
+})
+
 
 // Login
 
@@ -124,6 +138,7 @@ router.delete('/:id', userAuth, async (req, res) => {
 		if (user.id === req.params.id) {
 			try {
 				await User.findByIdAndDelete(req.params.id);
+				await Profile.deleteMany({user:req.user.id})
 				res.status(200).json('Account deleted successfully');
 			} catch (err) {
 				console.error(err.message);
@@ -135,5 +150,6 @@ router.delete('/:id', userAuth, async (req, res) => {
 		res.status(401).send("Access denied account can't be deleted");
 	}
 });
+
 
 module.exports = router;

@@ -11,34 +11,20 @@ const ProfileSchema = new Schema(
 			type: Object,
 			fname: {
 				type: String,
-				required: true,
 			},
 			lname: {
 				type: String,
-				require: true,
 			},
 			qualification: {
 				type: [Array],
-				required: true,
 			},
 			phoneNumber: {
 				type: String,
 			},
 		},
 		category: {
-			center: {
-				type: String,
-			},
-			department: {
-				type: String
-			},
-			institute: {
-				type: String
-			},
-			unit: {
-				type: String
-			}
-		}
+			type: String,
+		},
 	},
 	{ timestamps: true }
 );
