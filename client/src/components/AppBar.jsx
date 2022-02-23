@@ -9,12 +9,22 @@ import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import MailIcon from '@mui/icons-material/Mail';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import MoreIcon from '@mui/icons-material/MoreVert';
+import MenuIcon from '@material-ui/icons/Menu';
+import SearchIcon from '@material-ui/icons/Search';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import MoreIcon from '@material-ui/icons/More'
+import MailIcon from '@material-ui/icons/Mail';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import { makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles({
+	Box: {
+		position: 'sticky',
+		top: '0',
+		zIndex: '100',
+		backgroundColor: '#0d3250',
+	},
+});
 
 const Search = styled('div')(({ theme }) => ({
 	position: 'relative',
@@ -50,6 +60,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 		paddingLeft: `calc(1em + ${theme.spacing(4)})`,
 		transition: theme.transitions.create('width'),
 		width: '100%',
+		flexGrow: '2',
 		[theme.breakpoints.up('md')]: {
 			width: '20ch',
 		},
@@ -147,15 +158,16 @@ export default function PrimarySearchAppBar() {
 					aria-haspopup='true'
 					color='inherit'
 				>
-					<AccountCircle />
+					<AccountCircleIcon />
 				</IconButton>
 				<p>Profile</p>
 			</MenuItem>
 		</Menu>
 	);
-
+	
+	const classes = useStyles();
 	return (
-		<Box sx={{ flexGrow: 1 }}>
+		<Box sx={{ flexGrow: 1 }} className={classes.Box}>
 			<AppBar position='static'>
 				<Toolbar>
 					<IconButton
@@ -173,9 +185,10 @@ export default function PrimarySearchAppBar() {
 						component='div'
 						sx={{ display: { xs: 'none', sm: 'block' } }}
 					>
-						MUI
+						Staff Directory
 					</Typography>
-					<Search>
+					<Box sx={{ flexGrow: 1 }} />
+					<Search sx={{ flexGrow: 2 }}>
 						<SearchIconWrapper>
 							<SearchIcon />
 						</SearchIconWrapper>
@@ -213,7 +226,7 @@ export default function PrimarySearchAppBar() {
 							onClick={handleProfileMenuOpen}
 							color='inherit'
 						>
-							<AccountCircle />
+							<AccountCircleIcon />
 						</IconButton>
 					</Box>
 					<Box sx={{ display: { xs: 'flex', md: 'none' } }}>
@@ -235,3 +248,5 @@ export default function PrimarySearchAppBar() {
 		</Box>
 	);
 }
+
+

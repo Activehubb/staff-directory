@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-	Avatar,
 	Card,
 	CardContent,
 	Container,
@@ -9,31 +8,31 @@ import {
 	Typography,
 	TextField,
 	CardActions,
+	Button,
+	Avatar,
 } from '@material-ui/core';
-import { green } from '@mui/material/colors';
-import { SendOutlined, VerifiedUserOutlined } from '@material-ui/icons';
+import { SendOutlined } from '@material-ui/icons';
 import { LoadingButton } from '@mui/lab';
+import { Link } from 'react-router-dom';
+import { Stack } from '@mui/material';
+import SignUpAppBar from '../components/SignUpAppBar';
 
 const useStyles = makeStyles({
 	box: {
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
-		height: '100vh',
+		height: '90vh',
 	},
 	box1: {
 		paddingTop: '1rem',
 	},
 	Avatar: {
-		backgroundColor: green[500],
-		textAlign: 'center',
 		margin: 'auto',
 	},
 	Typography: {
 		textAlign: 'center',
 		display: 'block',
-		fontWeight: '400',
-		color: 'rgba(0,0,0,.7)',
 	},
 	Btn: {
 		width: '100%',
@@ -43,9 +42,17 @@ const useStyles = makeStyles({
 		marginLeft: '.5rem',
 		marginRight: '.5rem',
 	},
+	cAction: {
+		display: 'block',
+	},
+	Btn_link: {
+		textDecoration: 'none',
+		color: 'inherit',
+		textTransform: 'capitalize'
+	}
 });
 
-const SignUp = () => {
+const Register = () => {
 	const [loading, setLoading] = useState(false);
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
@@ -67,20 +74,33 @@ const SignUp = () => {
 		setLoading(true);
 	};
 	const classes = useStyles();
+
+	// const onSubmit = () => {
+
+	// }
+
+	
+	
 	return (
-		<Box component='form' className={classes.box}>
+		<>
+		<SignUpAppBar/>
+		<Box component='form' className={classes.box} >
 			<Container maxWidth='sm'>
 				<Card component='form'>
 					<Box className={classes.box1}>
-						<Avatar aria-label='login' className={classes.Avatar}>
-							<VerifiedUserOutlined />
-						</Avatar>
+						<Stack direction='row'>
+							<Avatar
+								alt='oau logo'
+								src='/image/oaulogo.png'
+								className={classes.Avatar}
+							/>
+						</Stack>
 						<Typography
 							className={classes.Typography}
 							variant='h3'
 							color='textPrimary'
 						>
-							Login
+							Sign Up
 						</Typography>
 					</Box>
 
@@ -128,23 +148,33 @@ const SignUp = () => {
 							margin='normal'
 						/>
 					</CardContent>
-					<CardActions className={classes.Btn}>
+					<CardActions className={classes.cAction}>
 						<LoadingButton
 							onClick={handleLoading}
 							variant='contained'
-							color='secondary'
+							color='primary'
 							loading={loading}
 							loadingPosition='center'
 							endIcon={<SendOutlined />}
 							type='submit'
+							className={classes.Btn}
 						>
-							Login
+							Submit
 						</LoadingButton>
+						<Typography color='initial' className={classes.Typography}>
+							Already have account{' '}
+							<Link to='/login' className={classes.Btn_link}>
+								<Button variant='text' color='secondary'>
+									Log In
+								</Button>
+							</Link>
+						</Typography>
 					</CardActions>
 				</Card>
 			</Container>
 		</Box>
+		</>
 	);
 };
 
-export default SignUp;
+export default Register;

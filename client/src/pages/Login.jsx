@@ -9,39 +9,48 @@ import {
 	Typography,
 	TextField,
     CardActions,
+	Button,
 } from '@material-ui/core';
-import { green } from '@mui/material/colors';
-import { SendOutlined, VerifiedUserOutlined } from '@material-ui/icons';
+import { SendOutlined } from '@material-ui/icons';
 import { LoadingButton } from '@mui/lab';
+import {Link} from 'react-router-dom'
+import { Stack } from '@mui/material';
+import LoginAppBar from '../components/LoginAppBar';
+
 
 const useStyles = makeStyles({
 	box: {
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
-		height: '100vh',
+		height: '90vh',
 	},
 	box1: {
 		paddingTop: '1rem',
 	},
 	Avatar: {
-		backgroundColor: green[500],
 		textAlign: 'center',
 		margin: 'auto',
 	},
 	Typography: {
 		textAlign: 'center',
 		display: 'block',
-        fontWeight: '400',
-        color: 'rgba(0,0,0,.7)'
 	},
 	Btn: {
 		width: '100%',
 		textAlign: 'center',
+		display: 'block',
 		marginTop: '.5rem',
-        marginBottom: '1rem',
-        marginLeft: '.5rem',
-        marginRight: '.5rem'
+		marginBottom: '1rem',
+		margin: 'auto',
+	},
+	cAction: {
+		display: 'block',
+	},
+	Btn_link: {
+		textDecoration: 'none',
+		color: 'inherit',
+		textTransform: 'capitalize',
 	},
 });
 
@@ -59,14 +68,21 @@ const Login = () => {
 		setLoading(true);
 	};
 	const classes = useStyles();
+
 	return (
+		<>
+		<LoginAppBar />
 		<Box component='form' className={classes.box}>
 			<Container maxWidth='sm'>
 				<Card component='form'>
 					<Box className={classes.box1}>
-						<Avatar aria-label='login' className={classes.Avatar}>
-							<VerifiedUserOutlined />
-						</Avatar>
+						<Stack direction='row'>
+							<Avatar
+								alt='oau logo'
+								src='/image/oaulogo.png'
+								className={classes.Avatar}
+							/>
+						</Stack>
 						<Typography
 							className={classes.Typography}
 							variant='h3'
@@ -99,7 +115,7 @@ const Login = () => {
 							margin='normal'
 						/>
 					</CardContent>
-					<CardActions className={classes.Btn}>
+					<CardActions className={classes.cAction}>
 						<LoadingButton
 							onClick={handleLoading}
 							variant='contained'
@@ -108,13 +124,24 @@ const Login = () => {
 							loadingPosition='center'
 							endIcon={<SendOutlined />}
 							type='submit'
+							fullWidth
+							className={classes.Btn}
 						>
 							Login
 						</LoadingButton>
+						<Typography color='initial' className={classes.Typography}>
+							Don't have an account yet{' '}
+							<Link to='/register' className={classes.Btn_link}>
+								<Button variant='text' color='primary'>
+									Sign Up
+								</Button>
+							</Link>
+						</Typography>
 					</CardActions>
 				</Card>
 			</Container>
 		</Box>
+		</>
 	);
 };
 
