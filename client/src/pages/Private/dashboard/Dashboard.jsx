@@ -1,17 +1,23 @@
 import React, { Fragment } from 'react';
 import Category from '../../../components/category/Category';
 import Chart from '../../../components/chart/Chart';
+import SideBar from '../../../components/sidebar/SideBar';
 import UserList from '../../../components/userList/UserList';
 import './dashboard.css';
 
-export default function Dashboard() {
+const Dashboard = ({ status, profiles }) => {
 	return (
 		<Fragment>
-			<div className='dashboard'>
-				<Category />
-				<Chart />
-				<UserList />
+			<div className='flex'>
+				<SideBar />
+				<div className='dashboard'>
+					<Category />
+					<Chart />
+					<UserList status={status} profiles={profiles} />
+				</div>
 			</div>
 		</Fragment>
 	);
-}
+};
+
+export default Dashboard;

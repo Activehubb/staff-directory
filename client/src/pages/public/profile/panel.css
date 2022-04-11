@@ -1,0 +1,106 @@
+.sActive {
+	display: flex;
+}
+
+.dnone {
+	display: none;
+}
+.dblock {
+	display: block;
+}
+.flexBg {
+	display: flex;
+	/* flex: 1.5; */
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	background: url('https://images.pexels.com/photos/15286/pexels-photo.jpg?cs=srgb&dl=pexels-luis-del-r%C3%ADo-15286.jpg&fm=jpg');
+}
+.flexBg2 {
+	display: none;
+	flex: 1.5;
+	justify-content: center;
+	align-items: center;
+	background: url('https://images.pexels.com/photos/2258536/pexels-photo-2258536.jpeg?cs=srgb&dl=pexels-frank-cone-2258536.jpg&fm=jpg');
+}
+.flexBg3 {
+	display: none;
+	flex: 1.5;
+	justify-content: center;
+	align-items: center;
+	background: url('https://images.pexels.com/photos/1848731/pexels-photo-1848731.jpeg?cs=srgb&dl=pexels-rodolfo-quir%C3%B3s-1848731.jpg&fm=jpg');
+}
+.flexBg4 {
+	display: flex;
+	flex: 1.5;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+	background: url('https://images.pexels.com/photos/15286/pexels-photo.jpg?cs=srgb&dl=pexels-luis-del-r%C3%ADo-15286.jpg&fm=jpg');
+}
+
+.overlay {
+	background: rgba(0, 0, 0, 0.7);
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	text-align: center;
+	color: #f7f7f7;
+	font-size: 2rem;
+}
+.text {
+	color: #f7f7f7;
+	font-size: 2rem;
+	font-weight: '700';
+	font-family: 'Source Sans Pro';
+}
+.progress {
+	position: absolute;
+	top: 50;
+	left: 50;
+	transform: translate(-50% -50%);
+}
+
+.navBg {
+	background: url(../../../assets/image/DJI_0155.JPG) center center/cover;
+	height: 100%;
+	width: 100%;
+}
+
+.over {
+	background: rgba(13, 50, 80, 0.95);
+	height: 100%;
+	width: 100%;
+}
+
+.tab {
+	height: 2rem;
+	width: 2rem;
+	border-radius: 100px;
+	color: rgb(1, 25, 44);
+	border: 3px solid rgb(1, 25, 44);
+	background-color: #fff;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	box-shadow: '0px 0px 10px 0px rgba(50, 50, 50, 0.4)';
+	cursor: pointer;
+	margin-right: 2rem;
+}
+
+.tab.active {
+	background-color: rgb(7, 34, 56);
+	color: #fff;
+	font-weight: 900;
+	/* font-size: 2rem; */
+		border: 3px solid #fff;
+
+}
+
+.notAllow {
+	cursor: not-allowed;
+}

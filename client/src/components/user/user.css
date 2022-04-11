@@ -1,0 +1,141 @@
+.main {
+	display: flex;
+	flex: 4;
+}
+
+.bar {
+	flex: 1.5;
+}
+
+.subWrapper {
+	flex: 1.5;
+	padding: 1rem 2rem;
+}
+
+/* .mainText {
+    font-size: 1rem;
+    font-family: Nunito;
+    font-weight: 500;
+} */
+
+.title {
+	font-family: Nunito;
+	font-size: 2rem;
+	color: rgb(68, 68, 68);
+}
+
+.avatar {
+	border: 1px solid rgba(255, 255, 255, 0.05);
+	border-radius: 5px;
+	object-fit: cover;
+}
+
+.container {
+	padding: 1.2rem;
+}
+
+.body {
+	display: grid;
+	grid-template-columns: 1fr 2fr;
+	gap: 20px;
+}
+
+.maintext {
+	font-family: Nunito;
+	font-size: 2rem;
+	color: brown;
+	font-weight: 700;
+}
+
+.userstatus {
+	display: block;
+	padding: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	text-align: center;
+}
+.userstatus.Activated {
+	background: rgba(0, 128, 0, 0.1);
+	/* font-weight: 700; */
+	color: green;
+}
+.userstatus.Unactivate {
+	background: rgba(255, 0, 0, 0.2);
+	/* font-weight: 700; */
+	color: crimson;
+}
+
+.Activated {
+	background: rgba(0, 128, 0, 0.1);
+	font-weight: 700;
+	color: green;
+}
+
+.Unactivate {
+	background: rgba(255, 0, 0, 0.2);
+	font-weight: 700;
+	color: crimson;
+}
+
+.userName {
+	font-family: Nunito;
+	font-size: 2rem;
+	font-weight: 700;
+	color: coral;
+}
+
+.userPage {
+	background: rgb(13, 50, 80);
+}
+.top {
+	padding: 20px;
+	display: flex;
+	gap: 20px;
+}
+
+.card {
+	display: flex;
+	justify-content: space-between;
+	padding: 1rem 0;
+	width: 100%;
+	
+}
+
+.grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 10px;
+}
+.item1 {
+	grid-row: 1/1;
+}
+
+.p-2 {
+	padding: 1rem 0.8rem;
+}
+.m-2 {
+	margin: 2rem 0;
+}
+
+.detail {
+	font-size: 1.2rem;
+	font-weight: 500;
+	font-family: Source Sans Pro;
+	padding: 0.2rem 0;
+	color: gray;
+}
+
+.status {
+	font-family: 700;
+}
+
+.status.Activated {
+	background: rgba(0, 128, 0, 0.15);
+	color: green;
+}
+.status.Unactivate {
+	background: rgba(255, 0, 0, 0.15);
+	color: crimson;
+}
+
+.textColor{color: white;}

@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv').config();
 
-module.exports = (req, res, next) => {
+function verify(req, res, next) {
 	const authHeader = req.headers.token;
 
 	if (authHeader) {
@@ -13,6 +13,10 @@ module.exports = (req, res, next) => {
 			next();
 		});
 	} else {
-		res.status(401).json({ msg: 'Token does not exist' });
+		return res
+			.status(401)
+			.json({ msg: 'Token does not exist, You are not authorized' });
 	}
 };
+
+module.exports = verify

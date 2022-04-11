@@ -3,6 +3,9 @@ const Schema = mongoose.Schema;
 
 const UserSchema = new Schema(
 	{
+		profilePic: {
+			type: String,
+		},
 		username: {
 			type: String,
 			required: true,
@@ -14,6 +17,10 @@ const UserSchema = new Schema(
 		password: {
 			type: String,
 			required: true,
+		},
+		isAdmin: {
+			type: Boolean,
+			default: false,
 		},
 	},
 	{ timestamps: true }

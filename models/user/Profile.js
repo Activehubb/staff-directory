@@ -9,21 +9,59 @@ const ProfileSchema = new Schema(
 		},
 		bio: {
 			type: Object,
+			avatar: {
+				type: String,
+			},
 			fname: {
 				type: String,
 			},
 			lname: {
 				type: String,
 			},
+			email: {
+				type: String,
+			},
+			state: {
+				type: String,
+			},
 			qualification: {
-				type: [Array],
+				type: String,
+			},
+			rank: {
+				type: String,
 			},
 			phoneNumber: {
 				type: String,
 			},
+			desc: {
+				type: String,
+			},
+			research: {
+				type: [String],
+			},
+			gender: {
+				type: String,
+			},
+			residence: {
+				type: String,
+			},
 		},
-		category: {
+		faculty: {
 			type: String,
+		},
+		collegies: {
+			type: String,
+		},
+		center: {
+			type: String,
+		},
+
+		unit: {
+			type: String,
+		},
+		status: {
+			type: Boolean,
+			default: false,
 		},
 	},
 	{ timestamps: true }

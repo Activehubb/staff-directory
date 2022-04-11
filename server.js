@@ -1,25 +1,31 @@
 const express = require('express');
 const app = express();
-const DB = require('./config/db')
-const morgan = require('morgan')
+const DB = require('./config/db');
+const morgan = require('morgan');
+const cors = require('cors');
 
-
-app.use(express.json())
-app.use(morgan('combined'))
+app.use(express.json());
+app.use(morgan('combined'));
+app.use(
+	cors({
+		origin: '*',
+		methods: ['GET', 'POST', 'PUT', 'DELETE'],
+		credentials: true,
+	})
+);
 
 app.get('/', (req, res) => {
-	res.send('start')
-})
+	res.send('start');
+});
 
 // Admin routes
-app.use('/api/admin/admin', require('./routes/api/admin/admin'))
-app.use('/api/admin/auth', require('./routes/api/admin/auth'))
+app.use('/api/admin/admin', require('./routes/api/admin/admin'));
+app.use('/api/admin/auth', require('./routes/api/admin/auth'));
 
 // Center Routes
-app.use('/api/user/user', require('./routes/api/user/user'));
-app.use('/api/user/auth', require('./routes/api/user/auth'));
-app.use('/api/user/profile', require('./routes/api/user/profile'))
-
+app.use('/api/user', require('./routes/api/user'));
+app.use('/api/auth', require('./routes/api/auth'));
+app.use('/api/profile', require('./routes/api/profile'));
 
 const PORT = process.env.PORT || 4400;
 

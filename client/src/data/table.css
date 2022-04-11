@@ -1,0 +1,70 @@
+.cellwithimg {
+	display: flex;
+	align-items: center;
+}
+
+.cellimg {
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	object-fit: cover;
+	margin-right: 20px;
+}
+
+.cellwithstatus {
+	padding: 5px;
+	border-radius: 5px;
+}
+
+.cellwithcat {
+	padding: 5px;
+	border-radius: 5px;
+}
+
+.cellwithstatus.Activated {
+	background: rgba(0, 128, 0, 0.05);
+	color: green;
+}
+.cellwithstatus.Unactivated {
+	background: rgba(255, 0, 0, 0.05);
+	color: crimson;
+}
+.cellwithcat.Faculty {
+	background: rgba(42, 123, 222, 0.05);
+	color: #2a7ade;
+}
+.cellwithcat.College {
+	background: rgba(255, 217, 0, 0.05);
+	color: goldenrod;
+}
+.cellwithcat.Centers {
+	background: rgba(238, 116, 226, 0.075);
+	color: #ee74e1;
+}
+.cellwithcat.Units {
+	background: rgba(59, 176, 119, 0.075);
+	color: #3bb077;
+}
+
+.cellAction {
+	display: flex;
+	align-items: center;
+	gap: 15px;
+}
+
+.cellAction .viewAction {
+	padding: 5px 15px;
+	border: 1px solid rgba(59, 176, 119, 0.1);
+	border-radius: 5px;
+	color: #3bb077;
+	cursor: pointer;
+	text-decoration: none;
+}
+.cellAction .deleteAction {
+	padding: 5px 15px;
+	border: 1px solid rgba(255, 0, 0, 0.1);
+	border-radius: 5px;
+	color: crimson;
+	cursor: pointer;
+	text-decoration: none;
+}

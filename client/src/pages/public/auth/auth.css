@@ -1,0 +1,57 @@
+.radius {
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+}
+.reg {
+	background: url(../../../assets/image/DJI_0103.JPG) center center/cover;
+}
+
+.overlayyy {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	height: 100%;
+	width: 100%;
+	background: rgba(13, 50, 80, 0.95);
+}
+
+.mainText {
+	color: #fff;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	height: 100%;
+	width: 100%;
+	font-weight: 900;
+	font-size: 2.5rem;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	text-transform: uppercase;
+}
+.shadow {
+	box-shadow: 0 0.1rem 0.2rem 0.8rem rgba(0, 0, 0, 0.2);
+}
+
+/* .carousel {
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	height: 140px ;
+	width: 424px;
+} */
+
+/* .card {
+	position: relative;
+	width: 100%;
+} */
+
+/* .head {
+	position: absolute;
+	top: 0;
+	height: 100%;
+	width: 100%;
+	left: 0;
+	background: transparent;
+	color: rgb(82, 53, 53);
+	padding: 1rem 0;
+	margin-top: 20px;
+} */

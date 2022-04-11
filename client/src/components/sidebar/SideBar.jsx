@@ -20,15 +20,15 @@ const useStyles = makeStyles({
 		top: '64px',
 		boxShadow: '0px 0px 10px 0px rgba(50, 50, 50, 0.4)',
 		margin: 0,
-		flexGrow: 1,
+		zIndex: '11'
 	},
 });
 
 export default function SideBar() {
 	const classes = useStyles();
 	const data = [
-		{ icon: <HomeOutlined />, label: 'Home' },
-		{ icon: <TimelineOutlined />, label: 'Analytics' },
+		{ icon: <HomeOutlined />, label: 'Home', link: '' },
+		{ icon: <TimelineOutlined />, label: 'Analytics', analytics: 'analytics' },
 		{ icon: <PeopleOutlineRounded />, label: 'Users', link: 'users' },
 		{ icon: <VerifiedUserOutlined />, label: 'Activated Users' },
 		{ icon: <PersonAddDisabledOutlined />, label: 'Unactivated Users' },
@@ -40,7 +40,7 @@ export default function SideBar() {
 					<ListItemButton component='a' href='/dashboard' sx={{ my: 0 }}>
 						<ListItem>
 							<ListItemIcon sx={{ fontSize: 20 }}>
-								<Dashboard sx={{ color: '#fff' }} />
+								<Dashboard style={{ color: '#fff' }} />
 							</ListItemIcon>
 							<ListItemText
 								className={classes.Typo}
@@ -52,7 +52,11 @@ export default function SideBar() {
 					</ListItemButton>
 					<Divider />
 					{data.map((item) => (
-						<ListItemButton key={item.label} component='a' href={`/${item.link}`}>
+						<ListItemButton
+							key={item.label}
+							component='a'
+							href={item.link ? `/${item.link}` : '/'}
+						>
 							<ListItem>
 								<ListItemIcon sx={{ color: '#fff' }}>{item.icon}</ListItemIcon>
 								<ListItemText>{item.label}</ListItemText>

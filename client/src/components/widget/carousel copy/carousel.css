@@ -1,0 +1,32 @@
+.wrapper {
+	display: none;
+	position: relative;
+}
+
+.wrapper.active {
+	display: block;
+}
+
+.avatar {
+	background: center center/cover;
+	object-fit: cover;
+	height: 80vh;
+	width: 100%;
+}
+
+.overlayy {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background: rgba(13, 50, 80, 0.8);
+}
+
+.main {
+	position: relative;
+}
+
+.inactive {
+	display: none;
+}

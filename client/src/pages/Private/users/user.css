@@ -1,0 +1,13 @@
+.main {
+	display: flex;
+	flex: 4;
+}
+
+.bar {
+	flex: 1.5;
+}
+
+.user {
+	flex: 2.5;
+	margin: 1rem;
+}
