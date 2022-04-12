@@ -3,13 +3,17 @@ import React, { Fragment } from 'react';
 import ProfileWid from '../widget/profileWid/ProfileWid';
 
 export default function Profile({ profiles }) {
-	const useStyles = makeStyles({
+	const useStyles = makeStyles((theme) => ({
 		root: {
 			display: 'grid',
 			gridTemplateColumns: '1fr 1fr 1fr',
 			gap: '1rem',
+			[theme.breakpoints.down('md')]: {
+				display: 'block',
+				width: '100%',
+			},
 		},
-	});
+	}));
 
 	const classes = useStyles();
 	return (

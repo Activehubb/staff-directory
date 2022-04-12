@@ -135,7 +135,7 @@ router.get('/', verify, async (req, res) => {
 
 router.get('/profiles', async (req, res) => {
 	try {
-		const profile = await Profile.find();
+		const profile = await Profile.find().populate('user', ['profilePic', 'email', 'username']);
 
 		res.status(200).json(profile);
 	} catch (err) {

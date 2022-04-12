@@ -9,6 +9,9 @@ import {
 	getAllProfileFailure,
 	getAllProfileStart,
 	getAllProfileSuccess,
+	getCurrentProfileFailure,
+	getCurrentProfileStart,
+	getCurrentProfileSuccess,
 	getProfileFailure,
 	getProfileStart,
 	getProfileSuccess,
@@ -27,7 +30,7 @@ export const createProfile = async (profile, dispatch) => {
 		});
 		dispatch(createProfileSuccess(res.data));
 	} catch (error) {
-		dispatch(createProfileFailure(error.message));
+		dispatch(createProfileFailure(error));
 	}
 };
 
@@ -37,12 +40,12 @@ export const getProfiles = async (dispatch) => {
 		const res = await axios.get('/api/profile/profiles');
 		dispatch(getAllProfileSuccess(res.data));
 	} catch (error) {
-		dispatch(getAllProfileFailure(error.message));
+		dispatch(getAllProfileFailure(error));
 	}
 };
 
 export const getCurrentUserProfile = async (dispatch) => {
-	dispatch(getProfileStart());
+	dispatch(getCurrentProfileStart());
 	try {
 		const config = {
 			Headers: {
@@ -51,9 +54,9 @@ export const getCurrentUserProfile = async (dispatch) => {
 		};
 		const res = await axios.get(`/api/profile/`, config);
 
-		dispatch(getProfileSuccess(res.data));
+		dispatch(getCurrentProfileSuccess(res.data));
 	} catch (error) {
-		dispatch(getProfileFailure(error.message));
+		dispatch(getCurrentProfileFailure(error));
 	}
 };
 
@@ -64,14 +67,14 @@ export const getProfile = async (path,  dispatch) => {
 
 		dispatch(getProfileSuccess(res.data));
 	} catch (error) {
-		dispatch(getProfileFailure(error.message));
+		dispatch(getProfileFailure(error));
 	}
 };
 
 export const updateProfileStatus = async (status, path, dispatch) => {
 	dispatch(updateStatusStart());
 	try {
-		const res = await axios.post(`/api/profile/status/${path}`, status);
+		const res = await axios.put(`/api/profile/status/${path}`, status);
 		dispatch(updateStatusSuccess(res.data));
 	} catch (error) {
 		dispatch(updateStatusFailure());

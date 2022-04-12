@@ -228,7 +228,7 @@ export default function Profile() {
 		setOpenProfile(true);
 	};
 
-	const { profile, dispatch, error, isError } = useContext(ProfileContext);
+	const { isProfile, dispatch, error, isError } = useContext(ProfileContext);
 	const { user } = useContext(AuthContext);
 
 	const handleSubmit = (e) => {
@@ -243,6 +243,7 @@ export default function Profile() {
 						phoneNumber,
 						research,
 						rank,
+						state,
 						faculty,
 						qualification,
 						desc,
@@ -260,6 +261,8 @@ export default function Profile() {
 						phoneNumber,
 						research,
 						rank,
+						state,
+
 						college,
 						qualification,
 						desc,
@@ -278,6 +281,8 @@ export default function Profile() {
 						research,
 						rank,
 						center,
+						state,
+
 						qualification,
 						desc,
 						residence,
@@ -294,6 +299,8 @@ export default function Profile() {
 						phoneNumber,
 						research,
 						rank,
+						state,
+
 						unit,
 						qualification,
 						desc,
@@ -310,7 +317,7 @@ export default function Profile() {
 		}
 	};
 	const navigate = useNavigate();
-	if (profile) {
+	if (isProfile) {
 		navigate('/');
 	}
 
@@ -637,18 +644,7 @@ export default function Profile() {
 																							required
 																							fullWidth
 																						>
-																							{/* <MenuItem>
-																								{panel.formOne.facOption.map(
-																									(fac, idx) => (
-																										<ListItemText
-																											value={fac}
-																											
-																										>
-																											{fac}
-																										</ListItemText>
-																									)
-																								)}
-																							</MenuItem> */}
+																							
 																							{panel.formOne.facOption.map(
 																								(fac, idx) => (
 																									<MenuItem
@@ -947,17 +943,7 @@ export default function Profile() {
 																			</FormControl>
 																		</Box>
 
-																		<TextField
-																			id='state'
-																			label='State of residence'
-																			value={state}
-																			onChange={(e) => setState(e.target.value)}
-																			required
-																			variant='outlined'
-																			fullWidth
-																			className={classes.textField}
-																			placeholder='State of residence only'
-																		/>
+																	
 																		<TextField
 																			id='residence'
 																			label='Residence'

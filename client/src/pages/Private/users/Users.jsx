@@ -9,7 +9,7 @@ export default function Users({ status, profiles }) {
 		<div className='main'>
 			<SideBar className='bar' />
 			<div className='user'>
-				<UserData status={status} profiles={profiles} />
+				<UserData />
 			</div>
 		</div>
 	);

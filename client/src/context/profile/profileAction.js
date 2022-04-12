@@ -15,13 +15,26 @@ export const getProfileStart = () => ({
 	type: 'GET_PROFILE_START',
 });
 
-export const getProfileSuccess = (profile) => ({
+export const getProfileSuccess = (getProfile) => ({
 	type: 'GET_PROFILE_SUCCESS',
-	payload: profile,
+	payload: getProfile,
 });
 
 export const getProfileFailure = (isError) => ({
 	type: 'GET_PROFILE_FAILURE',
+	payload: isError,
+});
+export const getCurrentProfileStart = () => ({
+	type: 'GET_CURRENT_PROFILE_START',
+});
+
+export const getCurrentProfileSuccess = (getCurrentProfile) => ({
+	type: 'GET_CURRENT_PROFILE_SUCCESS',
+	payload: getCurrentProfile,
+});
+
+export const getCurrentProfileFailure = (isError) => ({
+	type: 'GET_CURRENT_PROFILE_FAILURE',
 	payload: isError,
 });
 

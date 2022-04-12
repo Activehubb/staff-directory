@@ -9,7 +9,7 @@ const useStyles = makeStyles({
 	},
 });
 
-export default function UserList({ status, profiles }) {
+export default function UserList({ profiles }) {
 	const classes = useStyles();
 	if (profiles === null) {
 		return <Loader />;
@@ -17,7 +17,7 @@ export default function UserList({ status, profiles }) {
 	return (
 		<div className={classes.divFlex}>
 			<div>
-				<Users profiles={profiles} status={status} />
+				<Users profiles={profiles}/>
 			</div>
 		</div>
 	);

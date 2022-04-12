@@ -57,7 +57,7 @@ export default function ProfileWid({ profile }) {
 						<Box className={classes.flex}>
 							<Box>
 								<Avatar
-									src={profile.bio.avatar}
+									src={profile.user.profilePic}
 									alt='avatar'
 									style={{ width: 72, height: 72 }}
 								/>
@@ -90,7 +90,7 @@ export default function ProfileWid({ profile }) {
 										icon={<Email />}
 									/>
 									<Chip
-										label={profile.bio.location}
+										label={profile.state}
 										icon={<LocationOnOutlined />}
 									/>
 								</Stack>
@@ -111,7 +111,7 @@ export default function ProfileWid({ profile }) {
 								<CardMedia
 									component='img'
 									height='140'
-									src={profile.bio.avatar}
+									src={profile.user.profilePic}
 									alt='Avatar'
 								/>
 								<CardContent>

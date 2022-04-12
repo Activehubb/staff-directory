@@ -6,15 +6,11 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
-import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-// import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/More';
-import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import { Avatar, Chip, Tooltip } from '@material-ui/core';
 import { useLocation } from 'react-router-dom';
 import { Button, Container, Stack } from '@mui/material';
@@ -24,7 +20,7 @@ import { ArrowDropDown } from '@material-ui/icons';
 import { getCurrentUserProfile } from '../../context/profile/profileApiCall';
 import { ProfileContext } from '../../context/profile/profileContext';
 import Loader from '../../utils/Loader';
-// import { ArrowDropDown } from '@material-ui/icons';
+import { Link } from 'react-router-dom';
 
 const Search = styled('div')(({ theme }) => ({
 	position: 'relative',
@@ -68,7 +64,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const PrimarySearchAppBar = ({ HandleQuery, avatar }) => {
-	const { dispatch, profile } = React.useContext(ProfileContext);
+	const { dispatch, profile, isProfile } = React.useContext(ProfileContext);
 	// React.useEffect(() => {
 	// 	getCurrentUserProfile(dispatch);
 	// }, [dispatch]);
@@ -163,7 +159,7 @@ const PrimarySearchAppBar = ({ HandleQuery, avatar }) => {
 					position: 'sticky',
 					top: 0,
 					left: 0,
-					zIndex: '10',
+					zIndex: '1000',
 					color: '#fff',
 				}}
 			>
@@ -229,7 +225,13 @@ const PrimarySearchAppBar = ({ HandleQuery, avatar }) => {
 							</Button>
 						) : (
 							<>
-								<Search style={path.includes('create') ? { display: 'none' } : {display: 'block'}}>
+								<Search
+									style={
+										path.includes('create')
+											? { display: 'none' }
+											: { display: 'block' }
+									}
+								>
 									<SearchIconWrapper>
 										<SearchIcon />
 									</SearchIconWrapper>
@@ -250,22 +252,37 @@ const PrimarySearchAppBar = ({ HandleQuery, avatar }) => {
 												alignItems: { md: 'center' },
 											}}
 										>
+											{!isProfile && (
+												<Link
+													to='/create/profile'
+													style={{
+														textDecoration: 'none',
+														color: 'white',
+														padding: '0 10px',
+													}}
+												>
+													Create Profile
+												</Link>
+											)}
 											<Stack direction='row'>
 												<Chip
 													avatar={<Avatar alt='avatar' src={user.profilePic} />}
 													label={user.username}
 												/>
 											</Stack>
+
 											<IconButton
 												size='large'
 												edge='end'
 												aria-label='account of current user'
 												aria-controls={menuId}
 												aria-haspopup='true'
-												onClick={handleProfileMenuOpen}
+												// onClick={handleProfileMenuOpen}
 												color='inherit'
 											>
-												<AccountCircleIcon />
+												<Link to='/profile' style={{textDecoration: 'none', color: 'white'}}>
+													<AccountCircleIcon />
+												</Link>
 											</IconButton>
 										</Box>
 										<Box sx={{ display: { xs: 'flex', md: 'none' } }}>

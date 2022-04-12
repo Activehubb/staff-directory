@@ -32,7 +32,7 @@ export default function Users({ profiles, status }) {
 					<>
 						<div className='cellwithimg'>
 							<Avatar
-								src={params.row.bio.avatar}
+								src={params.row.user.profilePic}
 								alt='avatar'
 								className='cellimg'
 							/>
@@ -54,12 +54,14 @@ export default function Users({ profiles, status }) {
 			field: 'status',
 			headerName: 'Status',
 			width: 100,
-			renderCell: () => {
+			renderCell: (params) => {
 				return (
 					<div
-						className={`cellwithstatus ${status ? 'Activated' : 'Unactivated'}`}
+						className={`cellwithstatus ${
+							params.row.status ? 'Activated' : 'Unactivated'
+						}`}
 					>
-						{status ? 'Activated' : 'Unactivated'}
+						{params.row.status ? 'Activated' : 'Unactivated'}
 					</div>
 				);
 			},
@@ -108,20 +110,12 @@ export default function Users({ profiles, status }) {
 		{
 			field: 'action',
 			headerName: 'Action',
-			width: 180,
+			width: 100,
 			renderCell: (params) => {
 				return (
 					<div className='cellAction'>
-						<Link to={`/users`} className='viewAction'>
+						<Link to={`/users/${params.row._id}`} className='viewAction'>
 							View
-						</Link>
-						<Link
-							Link
-							to={`/users/${params.row.id}`}
-							div
-							className='deleteAction'
-						>
-							Delete
 						</Link>
 					</div>
 				);

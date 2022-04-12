@@ -4,6 +4,10 @@ import { createContext, useEffect, useReducer } from 'react';
 const INITIAL_STATE = {
 	profile: JSON.parse(localStorage.getItem('profile')) || null,
 	profiles: null,
+	getProfile: null,
+	getCurrentProfile: null,
+	isProfile: false,
+	status: null,
 	isFetching: false,
 	isError: null,
 	error: false,
@@ -23,6 +27,10 @@ const ProfileContextProvider = ({ children }) => {
 			value={{
 				profile: state.profile,
 				profiles: state.profiles,
+				getProfile: state.getProfile,
+				getCurrentProfile: state.getCurrentProfile,
+				isProfile: state.isProfile,
+				status: state.status,
 				isFetching: state.isFetching,
 				isError: state.isError,
 				error: state.error,

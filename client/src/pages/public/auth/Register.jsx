@@ -75,7 +75,7 @@ const useStyles = makeStyles({
 });
 
 const Register = ({ handleAvatar, userAvatar }) => {
-	const { user, dispatch } = useContext(AuthContext);
+	const { dispatch, isAuthenticated } = useContext(AuthContext);
 	const [loading, setLoading] = useState(false);
 	const [load, setLoad] = useState(0);
 	const [progress, setProgress] = useState(0);
@@ -198,10 +198,9 @@ const Register = ({ handleAvatar, userAvatar }) => {
 	};
 
 	const navigate = useNavigate();
-	console.log(progErr);
 
-	if (user) {
-		navigate('profile');
+	if (isAuthenticated) {
+		navigate('/create/profile');
 	}
 
 	return (
@@ -304,7 +303,6 @@ const Register = ({ handleAvatar, userAvatar }) => {
 																	control={
 																		<Switch
 																			checked={isAdmin}
-																			defaultChecked
 																			onChange={handleIsAdmin}
 																		/>
 																	}
@@ -356,18 +354,19 @@ const Register = ({ handleAvatar, userAvatar }) => {
 													) : (
 														''
 													)}
-
-													<Button
-														style={{
-															width: '100%',
-															height: '32px',
-															padding: '5px 0',
-															background: 'rgba(13, 50, 80, .05)',
-														}}
-														component={'a'}
-													>
-														{progErr}
-													</Button>
+													{progErr && (
+														<Button
+															style={{
+																width: '100%',
+																height: '32px',
+																padding: '5px 0',
+																background: 'rgba(13, 50, 80, .05)',
+															}}
+															component={'a'}
+														>
+															{progErr}
+														</Button>
+													)}
 												</CardContent>
 											</Box>
 

@@ -4,16 +4,9 @@ import '../../data/table.css';
 import { Link } from 'react-router-dom';
 import { Avatar } from '@material-ui/core';
 import Loader from '../../utils/Loader';
-import UserDelete from '../user/UserDelete';
 
-export default function DataTable({ status, profiles }) {
-	const [open, setOpen] = React.useState(false);
-	const handleOpen = () => {
-		setOpen(true);
-	};
-	const handleClose = () => {
-		setOpen(false);
-	};
+export default function DataTable({ profiles }) {
+	
 	const actionColumns = [
 		{
 			field: 'User',
@@ -24,7 +17,7 @@ export default function DataTable({ status, profiles }) {
 					<>
 						<div className='cellwithimg'>
 							<Avatar
-								src={params.row.bio.avatar}
+								src={params.row.user.profilePic}
 								alt='avatar'
 								className='cellimg'
 							/>
@@ -50,7 +43,9 @@ export default function DataTable({ status, profiles }) {
 			renderCell: (params) => {
 				return (
 					<div
-						className={`cellwithstatus ${status ? 'Activated' : 'Unactivated'}`}
+						className={`cellwithstatus ${
+							params.row.status ? 'Activated' : 'Unactivated'
+						}`}
 					>
 						{params.row.status ? 'Activated' : 'Unactivated'}
 					</div>
@@ -100,21 +95,12 @@ export default function DataTable({ status, profiles }) {
 		{
 			field: 'action',
 			headerName: 'Action',
-			width: 170,
+			width: 100,
 			renderCell: (params) => {
 				return (
 					<div className='cellAction'>
 						<Link to={`/users/${params.row._id}`} className='viewAction'>
 							View
-						</Link>
-						<Link
-							Link
-							to={`/users/${params.row.id}`}
-							div
-							className='deleteAction'
-							handleOpen={handleOpen}
-						>
-							Delete
 						</Link>
 					</div>
 				);
@@ -127,7 +113,7 @@ export default function DataTable({ status, profiles }) {
 	}
 	return (
 		<>
-			<UserDelete open={open} handleClose={handleClose} profiles={profiles}/>
+			
 			<div style={{ height: 530, width: '100%' }}>
 				<DataGrid
 					rows={profiles}

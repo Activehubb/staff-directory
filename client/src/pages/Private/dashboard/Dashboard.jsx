@@ -5,7 +5,7 @@ import SideBar from '../../../components/sidebar/SideBar';
 import UserList from '../../../components/userList/UserList';
 import './dashboard.css';
 
-const Dashboard = ({ status, profiles }) => {
+const Dashboard = ({ profiles }) => {
 	return (
 		<Fragment>
 			<div className='flex'>
@@ -13,7 +13,7 @@ const Dashboard = ({ status, profiles }) => {
 				<div className='dashboard'>
 					<Category />
 					<Chart />
-					<UserList status={status} profiles={profiles} />
+					<UserList profiles={profiles} />
 				</div>
 			</div>
 		</Fragment>

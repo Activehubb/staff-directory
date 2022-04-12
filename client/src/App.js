@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import { Navigate, Route, Routes} from 'react-router-dom';
 import { Fragment, useContext, useEffect, useState } from 'react';
 import Login from './pages/public/auth/Login';
 import Register from './pages/public/auth/Register';
@@ -13,35 +13,23 @@ import Users from './pages/Private/users/Users';
 import { AuthContext } from './context/auth/AuthContext';
 import Query from './components/query/Query';
 import { ProfileContext } from './context/profile/profileContext';
-import {
-	getProfiles,
-	updateProfileStatus,
-} from './context/profile/profileApiCall';
+import { getProfiles } from './context/profile/profileApiCall';
 
 function App() {
-	const { user } = useContext(AuthContext);
+	const { user, isAuthenticated } = useContext(AuthContext);
 	const { profiles, dispatch } = useContext(ProfileContext);
-	const location = useLocation();
-	const path = location.pathname.split('/')[1];
 
 	const [query, setQuery] = useState('');
 	const HandleQuery = (e) => setQuery(e.target.value);
-	const [status, setStatus] = useState(true);
 	const [userAvatar, setUserAvatar] = useState('');
 	const handleAvatar = (e) => {
 		setUserAvatar(e.target.files[0]);
-	};
-	const handleUpdateProfileStatus = (e) => {
-		e.preventDefault();
-		updateProfileStatus(status, path, dispatch);
-	};
-	const handleStatus = (event) => {
-		setStatus(event.target.checked);
 	};
 
 	useEffect(() => {
 		getProfiles(dispatch);
 	}, [dispatch]);
+
 
 	return (
 		<Fragment>
@@ -57,7 +45,7 @@ function App() {
 						)
 					}
 				/>
-				{!user ? (
+				{!user && !isAuthenticated ? (
 					<>
 						<Route path='/signin' element={<Login />} />
 						<Route
@@ -73,29 +61,17 @@ function App() {
 					</>
 				) : (
 					<>
-					<Route path='/create/profile' element={<Profile />} />
-						<Route
-							path='/users/:id'
-							element={
-								<SingleUser
-									status={status}
-									handleStatus={handleStatus}
-									handleUpdateProfileStatus={handleUpdateProfileStatus}
-								/>
-							}
-						/>
-						<Route path='/user/:id' element={<User status={status} />} />
+						<Route path='/create/profile' element={<Profile />} />
+						<Route path='/users/:id' element={<SingleUser />} />
+						<Route path='/profile' element={<User />} />
 						<Route
 							path='/dashboard'
-							element={<Dashboard status={status} profiles={profiles} />}
+							element={<Dashboard profiles={profiles} />}
 						/>
-						<Route
-							path='/users'
-							element={<Users status={status} profiles={profiles} />}
-						/>
+						<Route path='/users' element={<Users profiles={profiles} />} />
 					</>
 				)}
-				<Route path='*' element={<Navigate to={user ? '/' : 'signin'} />} />
+				<Route path='*' element={<Navigate to={isAuthenticated ? '/' : 'signin'} />} />
 			</Routes>
 		</Fragment>
 	);
