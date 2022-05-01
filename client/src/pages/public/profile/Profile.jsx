@@ -1,7 +1,14 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { Fragment, useState } from 'react';
 import Container from '@mui/material/Container';
-import { Alert, Box, DialogActions, MenuItem, Select } from '@mui/material';
+import {
+	Alert,
+	Box,
+	DialogActions,
+	MenuItem,
+	Select,
+	Snackbar,
+} from '@mui/material';
 import {
 	makeStyles,
 	TextField,
@@ -20,7 +27,6 @@ import {
 	DialogTitle,
 	RadioGroup,
 	FormControlLabel,
-	ListItemText,
 } from '@material-ui/core';
 import { CloudUpload } from '@material-ui/icons';
 import './panel.css';
@@ -32,6 +38,8 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../context/auth/AuthContext';
 
 export default function Profile() {
+	const { isProfile, dispatch, error, isError } = useContext(ProfileContext);
+	const { user } = useContext(AuthContext);
 	const [fname, setFirstName] = useState('');
 	const [lname, setLastName] = useState('');
 	const [email, setEmail] = useState('');
@@ -41,7 +49,6 @@ export default function Profile() {
 	const [gender, setGender] = useState('');
 	const [qualification, setQual] = useState('');
 	const [residence, setResidence] = useState('');
-	const [state, setState] = useState('');
 	const [rank, setRank] = useState('');
 	const [faculty, setFaculty] = useState('');
 	const [college, setCollege] = useState('');
@@ -53,6 +60,7 @@ export default function Profile() {
 	const [coll, setColl] = useState(false);
 	const [centers, setCenters] = useState(false);
 	const [units, setUnits] = useState(false);
+	const [isErr, setErr] = useState(error);
 
 	const rankOption = [
 		'Senior Staff',
@@ -228,9 +236,6 @@ export default function Profile() {
 		setOpenProfile(true);
 	};
 
-	const { isProfile, dispatch, error, isError } = useContext(ProfileContext);
-	const { user } = useContext(AuthContext);
-
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		if (!error) {
@@ -243,7 +248,7 @@ export default function Profile() {
 						phoneNumber,
 						research,
 						rank,
-						state,
+
 						faculty,
 						qualification,
 						desc,
@@ -261,7 +266,6 @@ export default function Profile() {
 						phoneNumber,
 						research,
 						rank,
-						state,
 
 						college,
 						qualification,
@@ -281,7 +285,6 @@ export default function Profile() {
 						research,
 						rank,
 						center,
-						state,
 
 						qualification,
 						desc,
@@ -299,7 +302,6 @@ export default function Profile() {
 						phoneNumber,
 						research,
 						rank,
-						state,
 
 						unit,
 						qualification,
@@ -316,9 +318,12 @@ export default function Profile() {
 			setOpen(true);
 		}
 	};
+
+	console.log(error, isError);
+
 	const navigate = useNavigate();
 	if (isProfile) {
-		navigate('/');
+		navigate('/profile');
 	}
 
 	return (
@@ -428,6 +433,22 @@ export default function Profile() {
 										))}
 									</div>
 								</Box>
+								{isErr &&
+									isError.errors.map((data) => (
+										<Snackbar
+											open={isErr}
+											autoHideDuration={6000}
+											onClose={() => setErr(false)}
+										>
+											<Alert
+												onClose={() => setErr(false)}
+												severity='success'
+												sx={{ width: '100%' }}
+											>
+												{data.msg}
+											</Alert>
+										</Snackbar>
+									))}
 								<Card>
 									<form onSubmit={handleSubmit}>
 										<div className={classes.align}>
@@ -487,7 +508,7 @@ export default function Profile() {
 																		<TextField
 																			id='email'
 																			label='Email'
-																			value={email}
+																			value={user.email}
 																			onChange={(e) => setEmail(e.target.value)}
 																			required
 																			variant='outlined'
@@ -644,7 +665,6 @@ export default function Profile() {
 																							required
 																							fullWidth
 																						>
-																							
 																							{panel.formOne.facOption.map(
 																								(fac, idx) => (
 																									<MenuItem
@@ -943,7 +963,6 @@ export default function Profile() {
 																			</FormControl>
 																		</Box>
 
-																	
 																		<TextField
 																			id='residence'
 																			label='Residence'

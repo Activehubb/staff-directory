@@ -2,7 +2,7 @@ import ProfileReducer from './profileReducer';
 import { createContext, useEffect, useReducer } from 'react';
 
 const INITIAL_STATE = {
-	profile: JSON.parse(localStorage.getItem('profile')) || null,
+	profile: null,
 	profiles: null,
 	getProfile: null,
 	getCurrentProfile: null,
@@ -17,10 +17,6 @@ export const ProfileContext = createContext(INITIAL_STATE);
 
 const ProfileContextProvider = ({ children }) => {
 	const [state, dispatch] = useReducer(ProfileReducer, INITIAL_STATE);
-
-	useEffect(() => {
-		localStorage.setItem('profile', JSON.stringify(state.profile))
-	}, [state.profile])
 
 	return (
 		<ProfileContext.Provider

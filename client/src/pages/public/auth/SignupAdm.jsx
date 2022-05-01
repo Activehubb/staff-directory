@@ -18,7 +18,7 @@ import {
 import Alert from '@mui/material/Alert';
 import { CloudUpload, SupervisorAccount } from '@material-ui/icons';
 import { LoadingButton } from '@mui/lab';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Snackbar, Stack } from '@mui/material';
 import { AuthContext } from '../../../context/auth/AuthContext';
 import validator from 'validator';
@@ -143,9 +143,6 @@ const Register = ({ handleAvatar, userAvatar }) => {
 		setIsAdmin(event.target.checked);
 	};
 
-	const location = useLocation();
-	const path = location.pathname;
-
 	const classes = useStyles();
 
 	const handleSubmit = (e) => {
@@ -173,20 +170,12 @@ const Register = ({ handleAvatar, userAvatar }) => {
 				setAlertState(true);
 				setAlertType('error');
 			} else {
-				signup({ username, email, password, profilePic }, dispatch);
-				// setAlert('Account successfully created');
-				// setAlertState(true);
-				// setAlertType('success');
-				setLoading(true);
-			}
-		} else if (validator.isEmail(email) && isAdmin) {
-			if (!email.includes('@oauife.edu.ng')) {
-				setAlert("Enter a valid email with the '@oauife.edu.ng'");
-				setAlertState(true);
-				setAlertType('error');
-			} else {
 				signup({ username, email, password, profilePic, isAdmin }, dispatch);
+				setAlert('Account successfully created');
+				setAlertState(true);
+				setAlertType('success');
 				setLoading(true);
+				setLoad(0);
 			}
 		}
 		setTimeout(() => {
@@ -209,9 +198,12 @@ const Register = ({ handleAvatar, userAvatar }) => {
 							<Container maxWidth='sm'>
 								{error &&
 									error.data.errors.map((data) => (
-										<Box sx={{ margin: '1rem 0' }}>
+										<Box sx={{ margin: '1rem 0' }} >
 											<Snackbar open={error} autoHideDuration={6000}>
-												<Alert severity={'error'} sx={{ width: '100%' }}>
+												<Alert
+													severity={'error'}
+													sx={{ width: '100%' }}
+												>
 													{data.msg}
 												</Alert>
 											</Snackbar>
@@ -285,6 +277,38 @@ const Register = ({ handleAvatar, userAvatar }) => {
 													</CardContent>
 												</Box>
 												<CardContent>
+													<Stack
+														direction='row'
+														alignItems='center'
+														justifyContent='space-between'
+														sx={{ px: 2, py: 1 }}
+														style={{
+															background: 'rgba(13, 50, 80, .05)',
+															margin: '0 0 .5rem 0',
+															borderRadius: '5px',
+														}}
+													>
+														<Box>
+															<Chip
+																label={isAdmin ? 'Admin' : 'User'}
+																className={`status ${
+																	isAdmin ? 'Activated' : 'Unactivate'
+																}`}
+															/>
+														</Box>
+														<FormGroup>
+															<FormControlLabel
+																control={
+																	<Switch
+																		checked={isAdmin}
+																		onChange={handleIsAdmin}
+																		value={isAdmin}
+																	/>
+																}
+															/>
+														</FormGroup>
+													</Stack>
+
 													<label htmlFor='file'>
 														<div>
 															<Button

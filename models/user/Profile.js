@@ -6,6 +6,7 @@ const ProfileSchema = new Schema(
 		user: {
 			type: Schema.Types.ObjectId,
 			ref: 'user',
+			unique: true,
 		},
 		bio: {
 			type: Object,

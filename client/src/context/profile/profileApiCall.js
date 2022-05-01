@@ -1,27 +1,20 @@
 import axios from 'axios';
 import {
 	createProfileFailure,
-	createProfileStart,
 	createProfileSuccess,
 	deleteProfileFailure,
-	deleteProfileStart,
 	deleteProfileSuccess,
 	getAllProfileFailure,
-	getAllProfileStart,
 	getAllProfileSuccess,
 	getCurrentProfileFailure,
-	getCurrentProfileStart,
 	getCurrentProfileSuccess,
 	getProfileFailure,
-	getProfileStart,
 	getProfileSuccess,
 	updateStatusFailure,
-	updateStatusStart,
 	updateStatusSuccess,
 } from './profileAction';
 
 export const createProfile = async (profile, dispatch) => {
-	dispatch(createProfileStart());
 	try {
 		const res = await axios.post('/api/profile/create', profile, {
 			headers: {
@@ -30,64 +23,57 @@ export const createProfile = async (profile, dispatch) => {
 		});
 		dispatch(createProfileSuccess(res.data));
 	} catch (error) {
-		dispatch(createProfileFailure(error));
+		dispatch(createProfileFailure(error.response.data));
 	}
 };
 
 export const getProfiles = async (dispatch) => {
-	dispatch(getAllProfileStart());
 	try {
 		const res = await axios.get('/api/profile/profiles');
 		dispatch(getAllProfileSuccess(res.data));
 	} catch (error) {
-		dispatch(getAllProfileFailure(error));
+		dispatch(getAllProfileFailure(error.response.data));
 	}
 };
 
 export const getCurrentUserProfile = async (dispatch) => {
-	dispatch(getCurrentProfileStart());
 	try {
-		const config = {
-			Headers: {
+		const res = await axios.get(`/api/profile/`, {
+			headers: {
 				token: `Bearer ${JSON.parse(localStorage.getItem('user')).userToken}`,
 			},
-		};
-		const res = await axios.get(`/api/profile/`, config);
+		});
 
 		dispatch(getCurrentProfileSuccess(res.data));
 	} catch (error) {
-		dispatch(getCurrentProfileFailure(error));
+		dispatch(getCurrentProfileFailure(error.response.data));
 	}
 };
 
-export const getProfile = async (path,  dispatch) => {
-	dispatch(getProfileStart());
+export const getProfile = async (path, dispatch) => {
 	try {
 		const res = await axios.get(`/api/profile/user/${path}`);
 
 		dispatch(getProfileSuccess(res.data));
 	} catch (error) {
-		dispatch(getProfileFailure(error));
+		dispatch(getProfileFailure(error.response.data));
 	}
 };
 
 export const updateProfileStatus = async (status, path, dispatch) => {
-	dispatch(updateStatusStart());
 	try {
 		const res = await axios.put(`/api/profile/status/${path}`, status);
 		dispatch(updateStatusSuccess(res.data));
 	} catch (error) {
-		dispatch(updateStatusFailure());
+		dispatch(updateStatusFailure(error.response.data));
 	}
 };
 
 export const deletProfile = async (path, dispatch) => {
-	dispatch(deleteProfileStart())
 	try {
-		const res = await axios.delete(`/api/profile/delete/${path}`)
-		dispatch(deleteProfileSuccess(res.data))
+		const res = await axios.delete(`/api/profile/delete/${path}`);
+		dispatch(deleteProfileSuccess(res.data));
 	} catch (error) {
-		dispatch(deleteProfileFailure())
+		dispatch(deleteProfileFailure(error.response.data));
 	}
-
-}
+};

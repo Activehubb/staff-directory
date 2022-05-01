@@ -3,6 +3,7 @@ const router = express.Router();
 const Profile = require('../../models/user/Profile');
 const User = require('../../models/user/User');
 const verify = require('../../middleware/userAuth');
+const mongoose = require('mongoose');
 
 router.post('/create', verify, async (req, res) => {
 	const {
@@ -49,6 +50,12 @@ router.post('/create', verify, async (req, res) => {
 	if (unit) profileFields.unit = unit;
 
 	try {
+		const userId = await Profile.findOne({ user: req.user.id });
+		if (userId) {
+			return res
+				.status(403)
+				.json('Access denied you can only create your profile once...');
+		}
 		const profile = new Profile(profileFields);
 
 		await profile.save();
@@ -135,7 +142,11 @@ router.get('/', verify, async (req, res) => {
 
 router.get('/profiles', async (req, res) => {
 	try {
-		const profile = await Profile.find().populate('user', ['profilePic', 'email', 'username']);
+		const profile = await Profile.find().populate('user', [
+			'profilePic',
+			'email',
+			'username',
+		]);
 
 		res.status(200).json(profile);
 	} catch (err) {
@@ -147,6 +158,7 @@ router.get('/profiles', async (req, res) => {
 
 router.get('/user/:id', async (req, res) => {
 	try {
+		if (!mongoose.Types.ObjectId.isValid(id)) return false;
 		const profile = await Profile.findById(req.params.id).populate('user', [
 			'email',
 			'username',

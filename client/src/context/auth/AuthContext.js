@@ -8,6 +8,7 @@ const INITIAL_STATE = {
 	error: false,
 	isDeleted: false,
 	isUpdated: false,
+	logout: false
 };
 
 export const AuthContext = createContext(INITIAL_STATE);

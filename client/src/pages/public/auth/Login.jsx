@@ -20,6 +20,7 @@ import { Snackbar, FormControl, FormHelperText } from '@mui/material';
 import { AuthContext } from '../../../context/auth/AuthContext';
 import validator from 'validator';
 import { emailSignin, usernameSignin } from '../../../context/auth/apiCall';
+import Alerts from '../../../components/alert/Alert';
 import './auth.css';
 
 const useStyles = makeStyles({
@@ -62,7 +63,7 @@ const useStyles = makeStyles({
 });
 
 const Login = () => {
-	const { dispatch, isAuthenticated } = useContext(AuthContext);
+	const { dispatch, isAuthenticated, error } = useContext(AuthContext);
 	const [loading, setLoading] = useState(false);
 	const [username, setName] = useState('');
 	const [email, setEmail] = useState('');
@@ -71,6 +72,8 @@ const Login = () => {
 	const [alertType, setAlertType] = useState('');
 	const [alertState, setAlertState] = useState(false);
 	const [logState, setLogState] = useState(false);
+	const navigate = useNavigate();
+
 	const handleName = (e) => {
 		setName(e.target.value);
 	};
@@ -88,6 +91,7 @@ const Login = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+
 		if (
 			!validator.isStrongPassword(password, {
 				minLength: 8,
@@ -99,7 +103,7 @@ const Login = () => {
 		) {
 			setAlert('Strong password is required');
 			setAlertState(true);
-			setAlertType('error');
+			setAlertType('info');
 		} else if (logState === true && validator.isEmail(email)) {
 			if (email.includes('@oauife.edu.ng')) {
 				emailSignin({ email, password }, dispatch);
@@ -110,22 +114,16 @@ const Login = () => {
 			} else {
 				setAlert('Log in with "@oauife.edu.ng"');
 				setAlertState(true);
-				setAlertType('error');
+				setAlertType('info');
 			}
 		} else if (logState === false) {
 			usernameSignin({ username, password }, dispatch);
-			setAlert('You are logged in successfully');
-			setAlertState(true);
-			setAlertType('success');
 			setLoading(true);
 		}
 		setTimeout(() => {
 			setAlertState(false);
-			setLoading(false);
-		}, 10000);
+		}, 5000);
 	};
-
-	const navigate = useNavigate();
 
 	if (isAuthenticated) {
 		navigate('/user');
@@ -138,6 +136,20 @@ const Login = () => {
 					<Container maxWidth='lg'>
 						<Box component={'div'} className={classes.wrapper}>
 							<Container maxWidth='sm'>
+								{error &&
+									error.data.errors.map((data) => (
+										<Box sx={{ margin: '1rem 0' }} >
+											<Snackbar open={error} autoHideDuration={6000}>
+												<Alert
+													severity={'error'}
+													sx={{ width: '100%' }}
+												>
+													{data.msg}
+												</Alert>
+											</Snackbar>
+										</Box>
+									))}
+
 								<Card>
 									<Box className={classes.mbox}>
 										<Card component='div'>

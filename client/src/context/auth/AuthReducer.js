@@ -1,35 +1,29 @@
 const AuthReducer = (state, action) => {
 	switch (action.type) {
-		case 'SIGNUP_START':
-		case 'SIGNIN_START':
-			return {
-				user: null,
-				isFetching: true,
-				isAuthenticated: false,
-				error: false,
-				isAdmin: false,
-			};
 		case 'SIGNUP_SUCCESS':
 		case 'SIGNIN_SUCCESS':
 			return {
+				...state,
 				user: action.payload,
 				isAuthenticated: true,
-				isFetching: false,
-				error: false,
-				isAdmin: action.payload,
 			};
 		case 'SIGNUP_FAILURE':
 		case 'SIGNIN_FAILURE':
 			return {
-				user: null,
-				isAuthenticated: false,
-				isFetching: false,
+				...state,
 				error: action.payload,
-				isAdmin: null,
+			};
+		case 'LOGOUT':
+			localStorage.clear();
+			return {
+				...state,
+				user: false,
+				isAuthenticated: false,
+				error: false,
 			};
 		default:
 			return { ...state };
 	}
 };
 
-export default AuthReducer
+export default AuthReducer;

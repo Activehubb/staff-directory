@@ -19,9 +19,12 @@ import { Link } from 'react-router-dom';
 export default function ProfileWid({ profile }) {
 	const [isHovered, setHovered] = useState(false);
 
-	const useStyles = makeStyles({
+	const useStyles = makeStyles((theme) => ({
 		rt: {
 			position: 'relative',
+			[theme.breakpoints.down('md')]: {
+				marginBottom: '1rem',
+			},
 		},
 		flex: {
 			display: 'flex',
@@ -38,7 +41,7 @@ export default function ProfileWid({ profile }) {
 			lineClamp: 3,
 			WebkitBoxOrient: 'vertical',
 		},
-	});
+	}));
 
 	const classes = useStyles();
 	return (
@@ -90,7 +93,7 @@ export default function ProfileWid({ profile }) {
 										icon={<Email />}
 									/>
 									<Chip
-										label={profile.state}
+										label={profile.bio.residence.slice(0, 11)}
 										icon={<LocationOnOutlined />}
 									/>
 								</Stack>

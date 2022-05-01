@@ -4,8 +4,7 @@ import {
 	signinSuccess,
 	signupFailure,
 	signupSuccess,
-	signupStart,
-	signinStart,
+	logout
 } from './AuthAction';
 
 export const signup = async (user, dispatch) => {
@@ -14,22 +13,22 @@ export const signup = async (user, dispatch) => {
 			'content-type': 'application/json',
 		},
 	};
-	dispatch(signupStart())
 	try {
 		const res = await axios.post('/api/user/signup', user, config);
 		dispatch(signupSuccess(res.data));
 	} catch (error) {
-		dispatch(signupFailure(error.message));
+		dispatch(signupFailure(error.response));
 	}
 };
 
 export const usernameSignin = async (user, dispatch) => {
-	dispatch(signinStart())
 	try {
 		const res = await axios.post('/api/auth/username/signin', user);
 		dispatch(signinSuccess(res.data));
 	} catch (error) {
-		dispatch(signinFailure(error.message));
+		dispatch(
+			signinFailure(error.response)
+		);
 	}
 };
 
@@ -38,6 +37,10 @@ export const emailSignin = async (user, dispatch) => {
 		const res = await axios.post('/api/auth/email/signin', user);
 		dispatch(signinSuccess(res.data));
 	} catch (error) {
-		dispatch(signinFailure(error.message));
+		dispatch(signinFailure(error.response));
 	}
 };
+
+export const userLogout = (dispatch) => {
+	dispatch(logout())
+}

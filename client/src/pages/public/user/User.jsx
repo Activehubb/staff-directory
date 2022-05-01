@@ -2,7 +2,6 @@ import React, { useEffect, useContext } from 'react';
 import {
 	Avatar,
 	Box,
-	Button,
 	Card,
 	Chip,
 	Container,
@@ -12,12 +11,11 @@ import {
 	Paper,
 	Typography,
 } from '@material-ui/core';
-import { Stack, IconButton, Alert, AlertTitle } from '@mui/material';
+import { Stack, IconButton } from '@mui/material';
 import { Edit, LocationOn } from '@material-ui/icons';
 import { getCurrentUserProfile } from '../../../context/profile/profileApiCall';
 import { ProfileContext } from '../../../context/profile/profileContext';
 import Loader from '../../../utils/Loader';
-import { Link } from 'react-router-dom';
 
 export default function User() {
 	const { getCurrentProfile, dispatch, error, isError } =
@@ -27,36 +25,12 @@ export default function User() {
 		getCurrentUserProfile(dispatch);
 	}, [dispatch]);
 
-	if (error) {
-		return (
-			<Container maxWidth={'sm'}>
-				<Card
-					elevation={3}
-					style={{
-						display: 'flex',
-						justifyContent: 'center',
-						alignItems: 'center',
-						height: '100vh',
-						width: '100%',
-					}}
-				>
-					<Alert severity='error'>
-						<AlertTitle>Unauthorized</AlertTitle>
-						You are not Authenticated —{' '}
-						<Button>
-							<Link to='/signin' style={{textDecoration: 'none'}}>Sign In</Link>
-						</Button>
-					</Alert>
-				</Card>
-			</Container>
-		);
-	} else if (getCurrentProfile === null) {
+	if (getCurrentProfile === null) {
 		return <Loader />;
 	}
 
 	console.log(getCurrentProfile, error, isError);
 
-	let profile = getCurrentProfile;
 	return (
 		<>
 			<Container maxWidth={'md'}>
@@ -64,10 +38,10 @@ export default function User() {
 					style={{
 						background: 'rgb(0, 30, 60)',
 						border: '1px solid rgb(15, 80, 133)',
-						margin: '1rem 0',
+						margin: '1rem 2rem',
 					}}
 				>
-					<Box style={{ display: 'flex', padding: '5px' }}>
+					<Box style={{ display: 'flex', padding: '5px 10px' }}>
 						<ListItemText
 							className='textColor'
 							secondary={
@@ -77,7 +51,7 @@ export default function User() {
 									variant='body2'
 									color='text.primary'
 								>
-									{profile._id && `ID: ${profile._id}`}
+									{getCurrentProfile._id && `ID: ${getCurrentProfile._id}`}
 								</Typography>
 							}
 						/>
@@ -90,8 +64,10 @@ export default function User() {
 									variant='body2'
 									color='text.primary'
 								>
-									{profile.createdAt &&
-										`Created At: ${new Date(profile.createdAt).toDateString()}`}
+									{getCurrentProfile.createdAt &&
+										`Created At: ${new Date(
+											getCurrentProfile.createdAt
+										).toDateString()}`}
 								</Typography>
 							}
 						/>
@@ -104,7 +80,8 @@ export default function User() {
 									variant='body2'
 									color='text.primary'
 								>
-									{profile.user.email && `Email: ${profile.user.email}`}
+									{getCurrentProfile.user.email &&
+										`Email: ${getCurrentProfile.user.email}`}
 								</Typography>
 							}
 						/>
@@ -130,7 +107,7 @@ export default function User() {
 												}}
 											>
 												<Avatar
-													src={profile.user.profilePic}
+													src={getCurrentProfile.user.profilePic}
 													alt='avatar'
 													variant={'rounded'}
 													className='avatar'
@@ -141,13 +118,15 @@ export default function User() {
 														<Typography
 															style={{ fontWeight: '700', color: '#fff' }}
 														>
-															{profile.bio.fname + ' ' + profile.bio.lname}
+															{getCurrentProfile.bio.fname +
+																' ' +
+																getCurrentProfile.bio.lname}
 														</Typography>
 														<Typography
 															variant='body2'
 															style={{ display: 'flex', color: '#fff' }}
 														>
-															<LocationOn /> {profile.bio.residence}
+															<LocationOn /> {getCurrentProfile.bio.residence}
 														</Typography>
 													</Stack>
 												</Box>
@@ -190,14 +169,14 @@ export default function User() {
 												variant='body2'
 												color='text.primary'
 											>
-												{profile.faculty
-													? `Faculty — ${profile.faculty}`
-													: profile.college
-													? `College — ${profile.college}`
-													: profile.center
-													? `Center — ${profile.center}`
-													: profile.unit
-													? `Unit — ${profile.unit}`
+												{getCurrentProfile.faculty
+													? `Faculty — ${getCurrentProfile.faculty}`
+													: getCurrentProfile.college
+													? `College — ${getCurrentProfile.college}`
+													: getCurrentProfile.center
+													? `Center — ${getCurrentProfile.center}`
+													: getCurrentProfile.unit
+													? `Unit — ${getCurrentProfile.unit}`
 													: ''}
 											</Typography>
 										}
@@ -214,7 +193,7 @@ export default function User() {
 												variant='body2'
 												color='text.primary'
 											>
-												{profile.bio.rank}
+												{getCurrentProfile.bio.rank}
 											</Typography>
 										}
 									/>
@@ -230,7 +209,7 @@ export default function User() {
 												variant='body2'
 												color='text.primary'
 											>
-												{profile.bio.qualification}
+												{getCurrentProfile.bio.qualification}
 											</Typography>
 										}
 									/>
@@ -246,7 +225,7 @@ export default function User() {
 												variant='body2'
 												color='text.primary'
 											>
-												{profile.bio.phoneNumber}
+												{getCurrentProfile.bio.phoneNumber}
 											</Typography>
 										}
 									/>
@@ -262,7 +241,7 @@ export default function User() {
 												variant='body2'
 												color='text.primary'
 											>
-												{profile.bio.gender}
+												{getCurrentProfile.bio.gender}
 											</Typography>
 										}
 									/>
@@ -288,14 +267,14 @@ export default function User() {
 												variant='body2'
 												color='text.primary'
 											>
-												{profile.bio.desc}
+												{getCurrentProfile.bio.desc}
 											</Typography>
 										}
 									/>
 								</ListItem>
 							</Card>
 						</Container>
-						{profile.bio.research && (
+						{getCurrentProfile.bio.research && (
 							<Container maxWidth={'md'} className=' m-2'>
 								<Paper
 									elevation={3}
@@ -305,7 +284,7 @@ export default function User() {
 										padding: '5px',
 									}}
 								>
-									{profile.bio.research.map((item, idx) => (
+									{getCurrentProfile.bio.research.map((item, idx) => (
 										<Chip
 											label={item}
 											key={idx}

@@ -6,6 +6,7 @@ export default function Profile({ profiles }) {
 	const useStyles = makeStyles((theme) => ({
 		root: {
 			display: 'grid',
+
 			gridTemplateColumns: '1fr 1fr 1fr',
 			gap: '1rem',
 			[theme.breakpoints.down('md')]: {
@@ -18,10 +19,7 @@ export default function Profile({ profiles }) {
 	const classes = useStyles();
 	return (
 		<Fragment>
-			<Box
-				className={classes.root}
-				sx={{ display: { sm: 'block', md: 'block' } }}
-			>
+			<Box className={classes.root}>
 				{profiles.map((profile, index) => (
 					<ProfileWid profile={profile} key={index} />
 				))}
