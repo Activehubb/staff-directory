@@ -10,9 +10,9 @@ const Admin = require('../../../models/admin/Admin');
 // Login
 
 router.post(
-	'/',
+	'/username',
 	[
-		check('email').isEmail().normalizeEmail(),
+		check('username', 'Username is required').not().isEmpty(),
 		check('password', 'Password should be at least 8 chars long').isLength({
 			min: 8,
 		}),
@@ -26,78 +26,87 @@ router.post(
 			});
 		}
 
-		const { username, email, password } = req.body;
-
 		try {
-			if (username) {
-				let admin = await Admin.findOne({
-					username,
+			let admin = await Admin.findOne({
+				username: req.body.username,
+			});
+
+			if (!admin) {
+				return res.status(400).json({
+					errors: [{ msg: 'Invalid Credentials' }],
 				});
-
-				if (!admin) {
-					return res.status(400).json({
-						errors: [{ msg: 'Invalid Credentials' }],
-					});
-				}
-
-				const validate = await bcrypt.compare(password, admin.password);
-
-				if (!validate) {
-					return res.status(400).json({
-						errors: [{ msg: 'Invalid Credentials' }],
-					});
-				}
-
-				const payload = {
-					admin: {
-						id: admin.id,
-					},
-				};
-
-				jwt.sign(
-					payload,
-					process.env.jwtToken,
-					{ expiresIn: 10800 },
-					(err, token) => {
-						if (err) throw err;
-						res.json({ token });
-					}
-				);
-			} else if (email) {
-				let admin = await Admin.findOne({
-					email,
-				});
-
-				if (!admin) {
-					return res.status(400).json({
-						errors: [{ msg: 'Invalid Credentials' }],
-					});
-				}
-
-				const validate = await bcrypt.compare(password, admin.password);
-
-				if (!validate) {
-					return res.status(400).json({
-						errors: [{ msg: 'Invalid Credentials' }],
-					});
-				}
-
-				const payload = {
-					admin: {
-						id: admin.id,
-					},
-				};
-
-				jwt.sign(
-					payload,
-					process.env.jwtToken,
-					{ expiresIn: 72000 },
-					(err, token) => {
-						if (err) throw err;
-						res.json({ token });
-					}
-				);
 			}
+
+			const validate = await bcrypt.compare(req.body.password, admin.password);
+
+			if (!validate) {
+				return res.status(400).json({
+					errors: [{ msg: 'Invalid Credentials' }],
+				});
+			}
+
+			const payload = {
+				id: admin.id,
+			};
+
+			const adminToken = jwt.sign(payload, process.env.jwtToken, {
+				expiresIn: 72000,
+			});
+
+			const { password, ...rest } = admin._doc;
+
+			res.status(200).json({ ...rest, adminToken });
+		} catch (err) {
+			res.status(500).send('Server error');
+			console.log(err.message);
+		}
+	}
+);
+
+router.post(
+	'/email',
+	[
+		check('email', 'Email is required with ext @oauife.edu.ng')
+			.isEmail()
+			.contains('@oauife.edu.ng')
+			.normalizeEmail()
+			.not()
+			.isEmpty(),
+		check('password', 'Password should be at least 8 chars long').isLength({
+			min: 8,
+		}),
+	],
+	async (req, res) => {
+		try {
+			let admin = await Admin.findOne({
+				email: req.body.email,
+			});
+
+			if (!admin) {
+				return res.status(400).json({
+					errors: [{ msg: 'Invalid Credentials' }],
+				});
+			}
+
+			const validate = await bcrypt.compare(req.body.password, admin.password);
+
+			if (!validate) {
+				return res.status(400).json({
+					errors: [{ msg: 'Invalid Credentials' }],
+				});
+			}
+
+			const payload = {
+				id: admin.id,
+			};
+
+			const adminToken = jwt.sign(payload, process.env.jwtToken, {
+				expiresIn: 72000,
+			});
+
+			const { password, ...rest } = admin._doc;
+
+			res.status(200).json({ ...rest, adminToken });
 		} catch (err) {
 			res.status(500).send('Server error');
 			console.log(err.message);
@@ -121,7 +130,7 @@ router.get('/', adminAuth, async (req, res) => {
 
 router.delete('/', adminAuth, async (req, res) => {
 	try {
-		await Admin.findByIdAndDelete(req.admin._id);
+		await Admin.findByIdAndDelete(req.admin.id);
 		res.status(200).json('Account deleted successfully');
 	} catch (err) {
 		console.error(err.message);

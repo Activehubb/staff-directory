@@ -17,6 +17,26 @@ export const signupFailure = (error) => ({
 	payload: error
 });
 
+// ADMIN
+
+export const signinSuccessAdmin = (admin) => ({
+	type: 'SIGNIN_SUCCESS_ADMIN',
+	payload: admin,
+});
+export const signinFailureAdmin = (error) => ({
+	type: 'SIGNIN_FAILURE_ADMIN',
+	payload: error,
+});
+
+export const signupSuccessAdmin = (admin) => ({
+	type: 'SIGNUP_SUCCESS_ADMIN',
+	payload: admin,
+});
+export const signupFailureAdmin = (error) => ({
+	type: 'SIGNUP_FAILURE_ADMIN',
+	payload: error,
+});
+
 export const logout = () => ({
 	type: 'LOGOUT',
 });

@@ -154,7 +154,7 @@ export default function ProfileWid({ profile }) {
 											}}
 										>
 											<More style={{ paddingRight: '2px' }} />
-											Read More
+											View Profile
 										</Link>
 									</Button>
 								</CardActions>

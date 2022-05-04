@@ -10,16 +10,12 @@ import {
 	CardActions,
 	Button,
 	Avatar,
-	Chip,
-	FormGroup,
-	FormControlLabel,
-	Switch,
 } from '@material-ui/core';
 import Alert from '@mui/material/Alert';
 import { CloudUpload, SupervisorAccount } from '@material-ui/icons';
 import { LoadingButton } from '@mui/lab';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Snackbar, Stack } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
+import { Snackbar,  } from '@mui/material';
 import { AuthContext } from '../../../context/auth/AuthContext';
 import validator from 'validator';
 import { signup } from '../../../context/auth/apiCall';
@@ -84,7 +80,6 @@ const Register = ({ handleAvatar, userAvatar }) => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [progErr, setProgErr] = useState('');
-	const [isAdmin, setIsAdmin] = useState(true);
 	const [confirmPass, setConfirmPass] = useState('');
 	const [alert, setAlert] = useState('');
 	const [alertType, setAlertType] = useState('');
@@ -139,13 +134,6 @@ const Register = ({ handleAvatar, userAvatar }) => {
 		setConfirmPass(e.target.value);
 	};
 
-	const handleIsAdmin = (event) => {
-		setIsAdmin(event.target.checked);
-	};
-
-	const location = useLocation();
-	const path = location.pathname;
-
 	const classes = useStyles();
 
 	const handleSubmit = (e) => {
@@ -177,15 +165,6 @@ const Register = ({ handleAvatar, userAvatar }) => {
 				// setAlert('Account successfully created');
 				// setAlertState(true);
 				// setAlertType('success');
-				setLoading(true);
-			}
-		} else if (validator.isEmail(email) && isAdmin) {
-			if (!email.includes('@oauife.edu.ng')) {
-				setAlert("Enter a valid email with the '@oauife.edu.ng'");
-				setAlertState(true);
-				setAlertType('error');
-			} else {
-				signup({ username, email, password, profilePic, isAdmin }, dispatch);
 				setLoading(true);
 			}
 		}

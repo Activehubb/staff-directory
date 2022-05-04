@@ -9,7 +9,7 @@ const dotenv = require('dotenv').config();
 // Register Account
 
 router.post(
-	'/',
+	'/signup',
 	[
 		check('username', 'Username is required').not().isEmpty(),
 		check('email', 'Email is required with ext @oauife.edu.ng')
@@ -31,7 +31,7 @@ router.post(
 			});
 		}
 
-		const { username, email, password } = req.body;
+		const { email } = req.body;
 
 		try {
 			let admin = await Admin.findOne({ email });
@@ -42,33 +42,28 @@ router.post(
 				});
 			}
 
-			admin = new Admin({
-				username,
-				email,
-				password,
-			});
-
 			const salt = await bcrypt.genSalt(10);
 
-			admin.password = await bcrypt.hash(password, salt);
+			admin = new Admin({
+				username: req.body.username,
+				email: req.body.email,
+				password: await bcrypt.hash(req.body.password, salt),
+				profilePic: req.body.profilePic,
+			});
 
-			await admin.save();
+			admin.password = await admin.save();
 
 			const payload = {
-				admin: {
-					id: admin.id,
-				},
+				id: admin.id,
 			};
 
-			jwt.sign(
-				payload,
-				process.env.jwtToken,
-				{ expiresIn: 10800 },
-				(err, token) => {
-					if (err) throw err;
-					res.json({ token });
-				}
-			);
+			const adminToken = jwt.sign(payload, process.env.jwtToken, {
+				expiresIn: 72000,
+			});
+
+			const { password, ...rest } = admin._doc;
+
+			res.status(200).json({ ...rest, adminToken });
 		} catch (err) {
 			console.error(err);
 			res.status(500).send('Server error');
@@ -97,7 +92,7 @@ router.put(
 		const { password } = req.body;
 
 		try {
-			const updPass = await Admin.findById(req.params.id)
+			const updPass = await Admin.findById(req.params.id);
 
 			const salt = await bcrypt.genSalt(10);
 			const newPass = await bcrypt.hash(password, salt);

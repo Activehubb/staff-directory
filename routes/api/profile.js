@@ -158,7 +158,6 @@ router.get('/profiles', async (req, res) => {
 
 router.get('/user/:id', async (req, res) => {
 	try {
-		if (!mongoose.Types.ObjectId.isValid(id)) return false;
 		const profile = await Profile.findById(req.params.id).populate('user', [
 			'email',
 			'username',

@@ -78,7 +78,7 @@ const Navbar = styled('div')(({ theme }) => ({
 }));
 
 const PrimarySearchAppBar = ({ HandleQuery, avatar }) => {
-	const { user, dispatch } = React.useContext(AuthContext);
+	const { user, dispatch, admin } = React.useContext(AuthContext);
 	const handleLogout = () => {
 		userLogout(dispatch);
 	};
@@ -255,6 +255,33 @@ const PrimarySearchAppBar = ({ HandleQuery, avatar }) => {
 							)}
 						</Box>
 						<Box className={classes.Box}>
+							{admin && (
+								<Box className={classes.Auth}>
+									{admin && (
+										<Stack direction='row'>
+											<Chip
+												avatar={<Avatar alt='avatar' src={admin.profilePic} />}
+												label={admin.username}
+											/>
+										</Stack>
+									)}
+
+									<Button
+										component={'a'}
+										href='/signin'
+										onClick={handleLogout}
+										style={{
+											padding: '.2rem 0',
+											marginLeft: '1rem',
+											color: '#fff',
+											textTransform: 'capitalize',
+										}}
+									>
+										Logout
+										<ExitToAppRounded style={{ paddingLeft: '.2rem' }} />
+									</Button>
+								</Box>
+							)}
 							{user && (
 								<Box className={classes.Auth}>
 									{path.includes('create') ? (
@@ -312,7 +339,6 @@ const PrimarySearchAppBar = ({ HandleQuery, avatar }) => {
 											/>
 										</Stack>
 									)}
-
 									<Button
 										component={'a'}
 										href='/signin'
@@ -329,7 +355,7 @@ const PrimarySearchAppBar = ({ HandleQuery, avatar }) => {
 									</Button>
 								</Box>
 							)}
-							{!user && (
+							{!user && !admin && (
 								<Box className={classes.Auth}>
 									{path.includes('signin') ? (
 										<Button

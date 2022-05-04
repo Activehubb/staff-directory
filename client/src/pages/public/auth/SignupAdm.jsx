@@ -22,7 +22,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Snackbar, Stack } from '@mui/material';
 import { AuthContext } from '../../../context/auth/AuthContext';
 import validator from 'validator';
-import { signup } from '../../../context/auth/apiCall';
+import { signupAdmin } from '../../../context/auth/apiCall';
 import storage from '../../../fireStorage';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import LinearProgress from '@mui/material/LinearProgress';
@@ -75,7 +75,7 @@ const useStyles = makeStyles({
 });
 
 const Register = ({ handleAvatar, userAvatar }) => {
-	const { dispatch, isAuthenticated, error } = useContext(AuthContext);
+	const { dispatch, admin, error } = useContext(AuthContext);
 	const [loading, setLoading] = useState(false);
 	const [load, setLoad] = useState(0);
 	const [progress, setProgress] = useState(0);
@@ -170,7 +170,7 @@ const Register = ({ handleAvatar, userAvatar }) => {
 				setAlertState(true);
 				setAlertType('error');
 			} else {
-				signup({ username, email, password, profilePic, isAdmin }, dispatch);
+				signupAdmin({ username, email, password, profilePic, isAdmin }, dispatch);
 				setAlert('Account successfully created');
 				setAlertState(true);
 				setAlertType('success');
@@ -185,8 +185,8 @@ const Register = ({ handleAvatar, userAvatar }) => {
 
 	const navigate = useNavigate();
 
-	if (isAuthenticated) {
-		navigate('/create/profile');
+	if (admin) {
+		navigate('/dashboard');
 	}
 
 	return (

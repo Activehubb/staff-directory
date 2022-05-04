@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { Fragment, useContext, useEffect, useState } from 'react';
 import Login from './pages/public/auth/Login';
+import LoginAdm from './pages/public/auth/LoginAdm';
 import Register from './pages/public/auth/Register';
 import SignupAdm from './pages/public/auth/SignupAdm';
 import PrimarySearchAppBar from './components/appbar/AppBar';
@@ -17,7 +18,7 @@ import { ProfileContext } from './context/profile/profileContext';
 import { getProfiles } from './context/profile/profileApiCall';
 
 function App() {
-	const { user, isAuthenticated } = useContext(AuthContext);
+	const { user, admin, isAuthenticated } = useContext(AuthContext);
 	const { profiles, dispatch } = useContext(ProfileContext);
 
 	const [query, setQuery] = useState('');
@@ -30,11 +31,6 @@ function App() {
 	useEffect(() => {
 		getProfiles(dispatch);
 	}, [dispatch]);
-	// console.log(isAuthenticated, profiles);
-
-	// if (user.isAdmin === null) {
-	// 	return;
-	// }
 
 	return (
 		<Fragment>
@@ -64,6 +60,7 @@ function App() {
 						}
 					/>
 					<Route path='/signin' element={<Login />} />
+					<Route path='/signin/admin' element={<LoginAdm />} />
 				</>
 				{user && (
 					<>
@@ -72,9 +69,7 @@ function App() {
 						<Route path='/profile' element={<User />} />
 					</>
 				)}
-				{/* {user.isAdmin === null ? (
-					''
-				) : (
+				{admin && (
 					<>
 						<Route path='/create/profile' element={<Profile />} />
 						<Route path='/users/:id' element={<SingleUser />} />
@@ -85,7 +80,7 @@ function App() {
 						/>
 						<Route path='/users' element={<Users profiles={profiles} />} />
 					</>
-				)} */}
+				)}
 				<Route
 					path='*'
 					element={<Navigate to={isAuthenticated ? '/' : 'signin'} />}

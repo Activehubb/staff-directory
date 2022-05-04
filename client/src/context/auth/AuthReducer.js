@@ -13,13 +13,24 @@ const AuthReducer = (state, action) => {
 				...state,
 				error: action.payload,
 			};
+		case 'SIGNUP_SUCCESS_ADMIN':
+		case 'SIGNIN_SUCCESS_ADMIN':
+			return {
+				...state,
+				admin: action.payload,
+				isAuthenticated: true,
+				isAdmin: true,
+			};
+		case 'SIGNUP_FAILURE_ADMIN':
+		case 'SIGNIN_FAILURE_ADMIN':
+			return {
+				...state,
+				error: action.payload,
+			};
 		case 'LOGOUT':
 			localStorage.clear();
 			return {
 				...state,
-				user: false,
-				isAuthenticated: false,
-				error: false,
 			};
 		default:
 			return { ...state };

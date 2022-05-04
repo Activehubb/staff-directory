@@ -17,6 +17,13 @@ const AdminSchema = new Schema(
 			type: String,
 			required: true,
 		},
+		isAdmin: {
+			type: Boolean,
+			default: true,
+		},
+		profilePic: {
+			type: String,
+		},
 	},
 	{ timestamps: true }
 );

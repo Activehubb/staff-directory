@@ -15,9 +15,9 @@ const useStyles = makeStyles({
 	root: {
 		background: 'rgb(13, 50, 80)',
 		color: '#fff',
-		height: 'calc(100vh - 64px)',
+		height: 'calc(100vh - 56px)',
 		position: 'sticky',
-		top: '64px',
+		top: '56px',
 		boxShadow: '0px 0px 10px 0px rgba(50, 50, 50, 0.4)',
 		margin: 0,
 		zIndex: '1100'

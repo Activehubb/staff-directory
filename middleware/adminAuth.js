@@ -1,20 +1,22 @@
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv').config();
 
-module.exports = (req, res, next) => {
-	const token = req.header('x-auth-token');
+function verify(req, res, next) {
+	const authHeader = req.headers.token;
 
-	if (!token) {
-		res.status(401).json({ msg: 'Tokens do not exist access denied' });
+	if (authHeader) {
+		const token = authHeader.split(' ')[1];
+
+		jwt.verify(token, process.env.jwtToken, (err, admin) => {
+			if (err) return res.status(403).json('Token is not valid');
+			req.admin = admin;
+			next();
+		});
+	} else {
+		return res
+			.status(401)
+			.json({ msg: 'Token does not exist, You are not authorized' });
 	}
+}
 
-	try {
-		const decoded = jwt.verify(token, process.env.jwtToken);
-
-		req.admin = decoded.admin;
-		next();
-	} catch (err) {
-		res.status(401).json({ msg: 'Invalid token access denied' });
-		console.error(`jwt err: ${err}`);
-	}
-};
+module.exports = verify;

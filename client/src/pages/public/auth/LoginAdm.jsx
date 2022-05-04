@@ -19,7 +19,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Snackbar, FormControl, FormHelperText } from '@mui/material';
 import { AuthContext } from '../../../context/auth/AuthContext';
 import validator from 'validator';
-import { emailSignin, usernameSignin } from '../../../context/auth/apiCall';
+import { emailSigninAdmin, usernameSigninAdmin } from '../../../context/auth/apiCall';
 import './auth.css';
 
 const useStyles = makeStyles({
@@ -62,7 +62,7 @@ const useStyles = makeStyles({
 });
 
 const Login = () => {
-	const { dispatch, isAuthenticated, error } = useContext(AuthContext);
+	const { dispatch, admin, error } = useContext(AuthContext);
 	const [loading, setLoading] = useState(false);
 	const [username, setName] = useState('');
 	const [email, setEmail] = useState('');
@@ -105,7 +105,7 @@ const Login = () => {
 			setAlertType('info');
 		} else if (logState === true && validator.isEmail(email)) {
 			if (email.includes('@oauife.edu.ng')) {
-				emailSignin({ email, password }, dispatch);
+				emailSigninAdmin({ email, password }, dispatch);
 				setAlert('You are logged in successfully');
 				setAlertState(true);
 				setAlertType('success');
@@ -116,7 +116,7 @@ const Login = () => {
 				setAlertType('info');
 			}
 		} else if (logState === false) {
-			usernameSignin({ username, password }, dispatch);
+			usernameSigninAdmin({ username, password }, dispatch);
 			setLoading(true);
 		}
 		setTimeout(() => {
@@ -124,8 +124,8 @@ const Login = () => {
 		}, 5000);
 	};
 
-	if (isAuthenticated) {
-		navigate('/user');
+	if (admin) {
+		navigate('/dashboard');
 	}
 
 	return (

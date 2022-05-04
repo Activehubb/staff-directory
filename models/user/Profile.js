@@ -10,9 +10,6 @@ const ProfileSchema = new Schema(
 		},
 		bio: {
 			type: Object,
-			avatar: {
-				type: String,
-			},
 			fname: {
 				type: String,
 			},
@@ -20,9 +17,6 @@ const ProfileSchema = new Schema(
 				type: String,
 			},
 			email: {
-				type: String,
-			},
-			state: {
 				type: String,
 			},
 			qualification: {
