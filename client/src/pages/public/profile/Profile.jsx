@@ -27,6 +27,7 @@ import {
 	DialogTitle,
 	RadioGroup,
 	FormControlLabel,
+	FormGroup,
 } from '@material-ui/core';
 import { CloudUpload } from '@material-ui/icons';
 import './panel.css';
@@ -50,10 +51,13 @@ export default function Profile() {
 	const [qualification, setQual] = useState('');
 	const [residence, setResidence] = useState('');
 	const [rank, setRank] = useState('');
+	const [department, setDepartment] = useState('');
 	const [faculty, setFaculty] = useState('');
+	const [facultyValue, setFacultyValue] = useState('');
 	const [college, setCollege] = useState('');
 	const [center, setCenter] = useState('');
 	const [unit, setUnit] = useState('');
+	const [entry, setEntry] = useState('');
 
 	const [load, setLoad] = useState(false);
 	const [fac, setFac] = useState(false);
@@ -88,6 +92,10 @@ export default function Profile() {
 		{ step: '3', title: 'Description Info' },
 	];
 
+	const handleRadioChange = (event) => {
+		setEntry(event.target.value);
+	};
+
 	const [activeNav, setActiveNav] = useState(0);
 
 	const handleNext = () => {
@@ -115,15 +123,131 @@ export default function Profile() {
 					'Pharmacy',
 					'Sciences',
 					'Law',
-					'Social Sciences',
 					'Technology',
+					'Social Sciences',
+				],
+				dept: [
+					[
+						'International relations',
+						'Local government and developmental studies',
+						'Management and Accounting',
+						'Public Administration',
+					],
+					[
+						'Agricultural Economics',
+						'Agricultural Extension and Rural development',
+						'Animal Sciences',
+						'Crop production and protection',
+						'Family, Nutrition and Consumer Sciences',
+						'Plant Sciences',
+						'Soil Sciences',
+					],
+					[
+						'Linguistics and African Language',
+						'Dramatic  Arts',
+						'English',
+						'History',
+						'Music',
+						'Philosophy',
+						'Religious Studies',
+					],
+					[
+						'Adult Education and Lifelong Learning',
+						'Arts and Social Sciences Education',
+						'Educational Foundation and Counselling',
+						'Educational Management',
+						'Sciences and Technology Education',
+						'Physical and Health Education',
+					],
+					[
+						'Achitecture',
+						'Building',
+						'Estate Management',
+						'Fine and Applied Arts',
+						'Quantity Surveying',
+						'Urban and Regional planning',
+					],
+					[
+						'Anatomy and Cell Biology',
+						'Chemical Pathology',
+						'Haematology and Immunology',
+						'Medical Microbiology and Parasitology',
+						'Medical Rehabilitation',
+						'Medical Biochemistry',
+						'Medical Pharmacology and Therapeutics',
+						'Nursing Sciences',
+						'Physiological Sciences',
+					],
+					[
+						'Community Health and Nutrition',
+						'Dermatology and Venerology',
+						'Medicine',
+						'Mental Health',
+						'Obstetrics Gynaecology and Permatology',
+						'Opthalmology',
+						'Orthopaedics and Traumatology',
+						'Paediatrics and Child Health',
+						'Radiology',
+						'Surgery',
+					],
+					[
+						'Child Dental Health',
+						'Oral and Maxillofacial',
+						'Surgery and Oral  Pathology',
+						'Preventive and community Dentistry',
+						'Restorative Dentistry',
+					],
+					[
+						'Clinical Pharmacy and Pharmacy Administration',
+						'Drug Research and Production Unit',
+						'Pharmaceutical Chemistry',
+						'Pharmaceutics',
+						'Pharmacognosy',
+						'Pharmacology',
+					],
+
+					[
+						'Biochemistry',
+						'Botany',
+						'Chemistry',
+						'Geology',
+						'Mathematics',
+						'Microbiology',
+						'Physics',
+						'Zoology',
+					],
+					[
+						'Business Law ',
+						'International Law',
+						'Jurisprudence and Private Law',
+						'Public Law',
+					],
+
+					[
+						'Chemical Engieneering',
+						'Civil Engineering',
+						'Computer Science and Engineering',
+						'Electronic and Electrical Engineering',
+						'Food Science and Technology',
+						'Mechanical Engineering',
+						'Materials Science and Engineering',
+						'Agricultural and Environmental Engineering',
+					],
+					[
+						'Demography and Social Statistics',
+						'Economics',
+						'Geography',
+						'Political Science',
+						'Psychology',
+						'Sociology and Arthropology',
+					],
 				],
 				collLabel: 'College',
 				collOption: ['Health Sciences', 'Postgraduate'],
 				unitLabel: 'Unit',
 				unitOption: ['Units'],
 				centerLabel: 'Center',
-				centerOption: ['Center', 'Dentistry', 'Dentistry', 'Dentistry'],
+				centerOption: ['Center'],
 			},
 			Bio: {
 				mText: 'Experience',
@@ -248,8 +372,9 @@ export default function Profile() {
 						phoneNumber,
 						research,
 						rank,
-
+						entry,
 						faculty,
+						department,
 						qualification,
 						desc,
 						residence,
@@ -314,14 +439,36 @@ export default function Profile() {
 			}
 			setLoad(true);
 		} else {
-			console.log(isError);
+			setLoad(false);
 			setOpen(true);
 		}
 	};
 
-	console.log(error, isError);
+	console.log(isError, error);
 
 	const navigate = useNavigate();
+
+	if (user === null) {
+		return (
+			<Alert
+				variant='outlined'
+				severity='warning'
+				action={
+					<Button
+						variant='outlined'
+						color='info'
+						size='small'
+						onClick={handleClickOpen}
+					>
+						Create Profile
+					</Button>
+				}
+			>
+				This page is for users only to create profile
+			</Alert>
+		);
+	}
+
 	if (isProfile) {
 		navigate('/profile');
 	}
@@ -371,8 +518,8 @@ export default function Profile() {
 							diectory, Let people know who you are
 							<br />
 							<Typography gutterBottom>
-								Note: Make selection base on your DIRECTORY, you are not allow
-								to select more than one field
+								Note: Make selection base on your entry, you are not allow to
+								select more than one field
 								<p>All fields are required to create profile</p>
 							</Typography>
 						</DialogContentText>
@@ -433,22 +580,21 @@ export default function Profile() {
 										))}
 									</div>
 								</Box>
-								{isErr &&
-									isError.errors.map((data) => (
-										<Snackbar
-											open={isErr}
-											autoHideDuration={6000}
-											onClose={() => setErr(false)}
+								{isError && (
+									<Snackbar
+										open={error}
+										autoHideDuration={6000}
+										onClose={handleClose}
+									>
+										<Alert
+											onClose={handleClose}
+											severity='error'
+											sx={{ width: '100%' }}
 										>
-											<Alert
-												onClose={() => setErr(false)}
-												severity='success'
-												sx={{ width: '100%' }}
-											>
-												{data.msg}
-											</Alert>
-										</Snackbar>
-									))}
+											{isError.data}
+										</Alert>
+									</Snackbar>
+								)}
 								<Card>
 									<form onSubmit={handleSubmit}>
 										<div className={classes.align}>
@@ -563,258 +709,352 @@ export default function Profile() {
 																	Directory
 																</Typography>
 															</div>
-															<Box component={'div'} className={classes.bg}>
-																{panels.map((panel) => (
-																	<>
-																		<Box
+
+															<div
+																className={classes.bg}
+																style={{
+																	margin: '1rem 0',
+																}}
+															>
+																<FormControl component='fieldset'>
+																	<FormLabel component='legend'>
+																		Make Selection base on your entry
+																	</FormLabel>
+																	<FormGroup>
+																		<RadioGroup
+																			aria-labelledby='entry'
+																			name='quiz'
+																			value={entry}
+																			onChange={handleRadioChange}
 																			style={{
 																				display: 'flex',
 																				justifyContent: 'space-between',
-																				alignItems: 'center',
-																				flex: '1',
 																			}}
 																		>
-																			<FormControl
-																				style={
-																					coll || centers || units === true
-																						? { display: 'none' }
-																						: {
-																								flex: '1',
-																								marginRight: '1rem',
-																						  }
-																				}
+																			<FormControlLabel
+																				value='Teaching Staff'
+																				control={<Radio />}
+																				label='Teaching Staff'
+																			/>
+																			<FormControlLabel
+																				value='Non-teaching Staff'
+																				control={<Radio />}
+																				label='Non-teaching Staff'
+																			/>
+																		</RadioGroup>
+																	</FormGroup>
+																	<FormHelperText></FormHelperText>
+																</FormControl>
+															</div>
+
+															{entry && (
+																<Box component={'div'} className={classes.bg}>
+																	{panels.map((panel) => (
+																		<>
+																			<Box
+																				style={{
+																					display: 'flex',
+																					justifyContent: 'space-between',
+																					alignItems: 'center',
+																					flex: '1',
+																				}}
 																			>
-																				<FormHelperText>
-																					<Button
-																						variant='text'
-																						color='default'
-																						onClick={() => setFac(!fac)}
-																					>
-																						Faculty
-																					</Button>
-																				</FormHelperText>
-																			</FormControl>
-																			<FormControl
-																				style={
-																					fac || centers || units === true
-																						? { display: 'none' }
-																						: { flex: '1' }
-																				}
-																			>
-																				<FormHelperText>
-																					<Button
-																						variant='text'
-																						color='default'
-																						onClick={() => setColl(!coll)}
-																					>
-																						College
-																					</Button>
-																				</FormHelperText>
-																			</FormControl>
-																			<FormControl
-																				style={
-																					fac || coll || units === true
-																						? { display: 'none' }
-																						: { flex: '1', margin: '0 1rem' }
-																				}
-																			>
-																				<FormHelperText>
-																					<Button
-																						variant='text'
-																						color='default'
-																						onClick={() => setCenters(!centers)}
-																					>
-																						Center
-																					</Button>
-																				</FormHelperText>
-																			</FormControl>
-																			<FormControl
-																				style={
-																					fac || coll || centers === true
-																						? { display: 'none' }
-																						: { flex: '1' }
-																				}
-																			>
-																				<FormHelperText>
-																					<Button
-																						variant='text'
-																						color='default'
-																						onClick={() => setUnits(!units)}
-																					>
-																						Unit
-																					</Button>
-																				</FormHelperText>
-																			</FormControl>
-																		</Box>
-																		<div>
-																			<Box>
-																				{fac && (
-																					<>
-																						<FormLabel
-																							style={{ padding: '.5rem 0' }}
+																				<FormControl
+																					style={
+																						coll || centers || units === true
+																							? { display: 'none' }
+																							: {
+																									flex: '1',
+																									marginRight: '1rem',
+																							  }
+																					}
+																				>
+																					<FormHelperText>
+																						<Button
+																							variant='text'
+																							color='default'
+																							onClick={() => setFac(!fac)}
 																						>
 																							Faculty
-																						</FormLabel>
-																						<Select
-																							id='faculty'
-																							label='Faculty'
-																							value={faculty}
-																							onChange={(e) =>
-																								setFaculty(e.target.value)
-																							}
-																							required
-																							fullWidth
-																						>
-																							{panel.formOne.facOption.map(
-																								(fac, idx) => (
-																									<MenuItem
-																										style={{
-																											display: 'block',
-																										}}
-																										value={fac}
-																										key={idx}
-																									>
-																										{fac}
-																									</MenuItem>
-																								)
-																							)}
-																						</Select>
-
-																						<FormHelperText>
-																							Please make selection base on your
-																							entries categories
-																						</FormHelperText>
-																					</>
-																				)}
-																			</Box>
-																			<Box>
-																				{coll && (
-																					<>
-																						<FormLabel
-																							style={{ padding: '.5rem 0' }}
+																						</Button>
+																					</FormHelperText>
+																				</FormControl>
+																				<FormControl
+																					style={
+																						fac || centers || units === true
+																							? { display: 'none' }
+																							: { flex: '1' }
+																					}
+																				>
+																					<FormHelperText>
+																						<Button
+																							variant='text'
+																							color='default'
+																							onClick={() => setColl(!coll)}
 																						>
 																							College
-																						</FormLabel>
-																						<Select
-																							labelId='college'
-																							label='College'
-																							value={college}
-																							onChange={(e) =>
-																								setCollege(e.target.value)
+																						</Button>
+																					</FormHelperText>
+																				</FormControl>
+																				<FormControl
+																					style={
+																						fac || coll || units === true
+																							? { display: 'none' }
+																							: { flex: '1', margin: '0 1rem' }
+																					}
+																				>
+																					<FormHelperText>
+																						<Button
+																							variant='text'
+																							color='default'
+																							onClick={() =>
+																								setCenters(!centers)
 																							}
-																							required
-																							fullWidth
 																						>
-																							{panel.formOne.collOption.map(
-																								(coll, idx) => (
-																									<MenuItem
-																										style={{
-																											display: 'block',
-																										}}
-																										value={coll}
-																										key={idx}
-																									>
-																										{coll}
-																									</MenuItem>
-																								)
-																							)}
-																						</Select>
-
-																						<FormHelperText>
-																							Please make selection base on your
-																							entries categories
-																						</FormHelperText>
-																					</>
-																				)}
-																			</Box>
-																		</div>
-																		<div
-																			style={{
-																				flex: '4',
-																			}}
-																		>
-																			<Box>
-																				{centers && (
-																					<>
-																						<FormLabel
-																							style={{ padding: '.5rem 0' }}
-																						>
-																							Centers
-																						</FormLabel>
-																						<Select
-																							id='center'
-																							value={center}
-																							onChange={(e) =>
-																								setCenter(e.target.value)
-																							}
-																							fullWidth
-																							required
-																						>
-																							{panel.formOne.centerOption.map(
-																								(center, idx) => (
-																									<MenuItem
-																										style={{
-																											display: 'block',
-																										}}
-																										value={center}
-																										key={idx}
-																									>
-																										{center}
-																									</MenuItem>
-																								)
-																							)}
-																						</Select>
-
-																						<FormHelperText>
-																							Please make selection base on your
-																							entries categories
-																						</FormHelperText>
-																					</>
-																				)}
-																			</Box>
-																			<Box>
-																				{units && (
-																					<>
-																						<FormLabel
-																							style={{ padding: '.5rem 0' }}
+																							Center
+																						</Button>
+																					</FormHelperText>
+																				</FormControl>
+																				<FormControl
+																					style={
+																						fac || coll || centers === true
+																							? { display: 'none' }
+																							: { flex: '1' }
+																					}
+																				>
+																					<FormHelperText>
+																						<Button
+																							variant='text'
+																							color='default'
+																							onClick={() => setUnits(!units)}
 																						>
 																							Unit
-																						</FormLabel>
-																						<Select
-																							id='unit'
-																							value={unit}
-																							onChange={(e) =>
-																								setUnit(e.target.value)
-																							}
-																							fullWidth
-																							required
-																						>
-																							{panel.formOne.unitOption.map(
-																								(unit, idx) => (
-																									<MenuItem
-																										style={{
-																											display: 'block',
-																										}}
-																										value={unit}
-																										key={idx}
-																									>
-																										{unit}
-																									</MenuItem>
-																								)
-																							)}
-																						</Select>
-
-																						<FormHelperText>
-																							Please make selection base on your
-																							entries categories
-																						</FormHelperText>
-																					</>
-																				)}
+																						</Button>
+																					</FormHelperText>
+																				</FormControl>
 																			</Box>
-																		</div>
-																	</>
-																))}
-															</Box>
+																			<div>
+																				<Box>
+																					{fac && (
+																						<>
+																							<FormLabel
+																								style={{ padding: '.5rem 0' }}
+																							>
+																								Faculty
+																							</FormLabel>
+																							<Select
+																								id='faculty'
+																								label='Faculty'
+																								value={faculty}
+																								onChange={(e) =>
+																									setFaculty(e.target.value)
+																								}
+																								// disabled={
+																								// 	faculty === '' ? false : true
+																								// }
+																								required
+																								fullWidth
+																							>
+																								{panel.formOne.facOption.map(
+																									(fac, idx) => (
+																										<MenuItem
+																											style={{
+																												display: 'block',
+																											}}
+																											value={fac}
+																											key={idx}
+																											onClick={() =>
+																												setFacultyValue(idx)
+																											}
+																										>
+																											{fac}
+																										</MenuItem>
+																									)
+																								)}
+																							</Select>
+
+																							<FormHelperText>
+																								Please make selection base on
+																								your entries categories
+																							</FormHelperText>
+
+																							<FormLabel
+																								style={{ padding: '.5rem 0' }}
+																							>
+																								Department
+																							</FormLabel>
+																							<Select
+																								id='department'
+																								label='Department'
+																								value={department}
+																								onChange={(e) =>
+																									setDepartment(e.target.value)
+																								}
+																								// disabled={
+																								// 	department === ''
+																								// 		? false
+																								// 		: true
+																								// }
+																								required
+																								fullWidth
+																							>
+																								{panel.formOne.dept.map(
+																									(depts, idx) =>
+																										idx === facultyValue
+																											? depts.map(
+																													(dept, idx) => (
+																														<MenuItem
+																															style={{
+																																display:
+																																	'block',
+																															}}
+																															value={dept}
+																															key={idx}
+																														>
+																															{dept}
+																														</MenuItem>
+																													)
+																											  )
+																											: ''
+																								)}
+																							</Select>
+
+																							<FormHelperText>
+																								Please make selection base on
+																								your entries categories
+																							</FormHelperText>
+																						</>
+																					)}
+																				</Box>
+																				<Box>
+																					{coll && (
+																						<>
+																							<FormLabel
+																								style={{ padding: '.5rem 0' }}
+																							>
+																								College
+																							</FormLabel>
+																							<Select
+																								labelId='college'
+																								label='College'
+																								value={college}
+																								onChange={(e) =>
+																									setCollege(e.target.value)
+																								}
+																								required
+																								fullWidth
+																							>
+																								{panel.formOne.collOption.map(
+																									(coll, idx) => (
+																										<MenuItem
+																											style={{
+																												display: 'block',
+																											}}
+																											value={coll}
+																											key={idx}
+																										>
+																											{coll}
+																										</MenuItem>
+																									)
+																								)}
+																							</Select>
+
+																							<FormHelperText>
+																								Please make selection base on
+																								your entries categories
+																							</FormHelperText>
+																						</>
+																					)}
+																				</Box>
+																			</div>
+																			<div
+																				style={{
+																					flex: '4',
+																				}}
+																			>
+																				<Box>
+																					{centers && (
+																						<>
+																							<FormLabel
+																								style={{ padding: '.5rem 0' }}
+																							>
+																								Centers
+																							</FormLabel>
+																							<Select
+																								id='center'
+																								value={center}
+																								onChange={(e) =>
+																									setCenter(e.target.value)
+																								}
+																								fullWidth
+																								required
+																							>
+																								{panel.formOne.centerOption.map(
+																									(center, idx) => (
+																										<MenuItem
+																											style={{
+																												display: 'block',
+																											}}
+																											value={center}
+																											key={idx}
+																										>
+																											{center}
+																										</MenuItem>
+																									)
+																								)}
+																							</Select>
+
+																							<FormHelperText>
+																								Please make selection base on
+																								your entries categories
+																							</FormHelperText>
+																						</>
+																					)}
+																				</Box>
+																				<Box>
+																					{units && (
+																						<>
+																							<FormLabel
+																								style={{ padding: '.5rem 0' }}
+																							>
+																								Unit
+																							</FormLabel>
+																							<Select
+																								id='unit'
+																								value={unit}
+																								onChange={(e) =>
+																									setUnit(e.target.value)
+																								}
+																								fullWidth
+																								required
+																							>
+																								{panel.formOne.unitOption.map(
+																									(unit, idx) => (
+																										<MenuItem
+																											style={{
+																												display: 'block',
+																											}}
+																											value={unit}
+																											key={idx}
+																										>
+																											{unit}
+																										</MenuItem>
+																									)
+																								)}
+																							</Select>
+
+																							<FormHelperText>
+																								Please make selection base on
+																								your entries categories
+																							</FormHelperText>
+																						</>
+																					)}
+																				</Box>
+																			</div>
+																		</>
+																	))}
+																</Box>
+															)}
 														</>
 													) : activeNav === 2 ? (
 														<>

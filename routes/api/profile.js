@@ -3,7 +3,6 @@ const router = express.Router();
 const Profile = require('../../models/user/Profile');
 const User = require('../../models/user/User');
 const verify = require('../../middleware/userAuth');
-const mongoose = require('mongoose');
 
 router.post('/create', verify, async (req, res) => {
 	const {
@@ -13,14 +12,18 @@ router.post('/create', verify, async (req, res) => {
 		qualification,
 		phoneNumber,
 		rank,
-		state,
-		email,
 		desc,
 		research,
-		faculty,
-		unit,
-		center,
-		college,
+		tsFaculty,
+		tsDepartment,
+		ntsDepartment,
+		ntsFaculty,
+		tsUnit,
+		ntsUnit,
+		tsCenter,
+		ntsCenter,
+		tsCollege,
+		ntsCollege,
 		gender,
 		residence,
 	} = req.body;
@@ -29,6 +32,8 @@ router.post('/create', verify, async (req, res) => {
 
 	profileFields.bio = {};
 
+	profileFields.directory = {};
+
 	profileFields.user = req.user.id;
 
 	if (fname) profileFields.bio.fname = fname;
@@ -36,18 +41,20 @@ router.post('/create', verify, async (req, res) => {
 	if (lname) profileFields.bio.lname = lname;
 	if (rank) profileFields.bio.rank = rank;
 	if (desc) profileFields.bio.desc = desc;
-	if (email) profileFields.bio.email = email;
-	if (state) profileFields.bio.state = state;
 	if (gender) profileFields.bio.gender = gender;
 	if (residence) profileFields.bio.residence = residence;
 	if (research)
 		profileFields.bio.research = research.split(',').map((res) => res.trim());
 	if (qualification) profileFields.bio.qualification = qualification;
 	if (phoneNumber) profileFields.bio.phoneNumber = phoneNumber;
-	if (faculty) profileFields.faculty = faculty;
-	if (college) profileFields.college = college;
-	if (center) profileFields.center = center;
-	if (unit) profileFields.unit = unit;
+
+	if (entry) profileFields.directory.entry = entry;
+	if (Department) profileFields.directory.Department = Department;
+	if (Faculty) profileFields.directory.Faculty = Faculty;
+	if (College) profileFields.directory.College = College;
+	if (Center) profileFields.directory.Center = Center;
+	if (Unit) profileFields.directory.Unit = Unit;
+
 
 	try {
 		const userId = await Profile.findOne({ user: req.user.id });
@@ -112,7 +119,7 @@ router.put('/status/:id', async (req, res) => {
 			req.params.id,
 			{ $set: req.body },
 			{ new: true }
-		);
+		).populate('user', ['profilePic', 'email', 'username']);
 
 		res.status(200).json(status);
 	} catch (error) {

@@ -51,7 +51,7 @@ export default function User() {
 
 	const handleUpdateProfileStatus = (e) => {
 		e.preventDefault();
-		updateProfileStatus(status, path, dispatch);
+		updateProfileStatus({ status }, path, dispatch);
 	};
 	console.log(status);
 	if (profile === null) {

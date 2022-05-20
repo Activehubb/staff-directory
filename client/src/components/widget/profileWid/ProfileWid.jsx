@@ -89,13 +89,15 @@ export default function ProfileWid({ profile }) {
 								<Stack direction='row' spacing={1}>
 									<Chip
 										variant='outlined'
-										label={profile.bio.email}
+										label={profile.user.email}
 										icon={<Email />}
 									/>
-									<Chip
-										label={profile.bio.residence.slice(0, 11)}
-										icon={<LocationOnOutlined />}
-									/>
+									{profile.bio.residence && (
+										<Chip
+											label={profile.bio.residence.slice(0, 11)}
+											icon={<LocationOnOutlined />}
+										/>
+									)}
 								</Stack>
 							</CardContent>
 						</Box>

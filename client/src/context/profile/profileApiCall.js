@@ -23,7 +23,7 @@ export const createProfile = async (profile, dispatch) => {
 		});
 		dispatch(createProfileSuccess(res.data));
 	} catch (error) {
-		dispatch(createProfileFailure(error.response.data));
+		dispatch(createProfileFailure(error.response));
 	}
 };
 
@@ -32,7 +32,7 @@ export const getProfiles = async (dispatch) => {
 		const res = await axios.get('/api/profile/profiles');
 		dispatch(getAllProfileSuccess(res.data));
 	} catch (error) {
-		dispatch(getAllProfileFailure(error.response.data));
+		dispatch(getAllProfileFailure(error.response));
 	}
 };
 
@@ -46,7 +46,7 @@ export const getCurrentUserProfile = async (dispatch) => {
 
 		dispatch(getCurrentProfileSuccess(res.data));
 	} catch (error) {
-		dispatch(getCurrentProfileFailure(error.response.data));
+		dispatch(getCurrentProfileFailure(error.response));
 	}
 };
 
@@ -56,7 +56,7 @@ export const getProfile = async (path, dispatch) => {
 
 		dispatch(getProfileSuccess(res.data));
 	} catch (error) {
-		dispatch(getProfileFailure(error.response.data));
+		dispatch(getProfileFailure(error.response));
 	}
 };
 

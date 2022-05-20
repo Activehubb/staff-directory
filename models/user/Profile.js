@@ -16,9 +16,7 @@ const ProfileSchema = new Schema(
 			lname: {
 				type: String,
 			},
-			email: {
-				type: String,
-			},
+
 			qualification: {
 				type: String,
 			},
@@ -41,19 +39,26 @@ const ProfileSchema = new Schema(
 				type: String,
 			},
 		},
-		faculty: {
-			type: String,
+		directory: {
+			entry:{type: String},
+			Faculty: {
+				type: String,
+			},
+			Department: {
+				type: String,
+			},
+			College: {
+				type: String,
+			},
+			Center: {
+				type: String,
+			},
+			Unit: {
+				type: String,
+			},
 		},
-		collegies: {
-			type: String,
-		},
-		center: {
-			type: String,
-		},
+		
 
-		unit: {
-			type: String,
-		},
 		status: {
 			type: Boolean,
 			default: false,
