@@ -18,7 +18,7 @@ export const createProfile = async (profile, dispatch) => {
 	try {
 		const res = await axios.post('/api/profile/create', profile, {
 			headers: {
-				token: `Bearer ${JSON.parse(localStorage.getItem('user')).userToken}`,
+				token: `Bearer ${JSON.parse(sessionStorage.getItem('user')).userToken}`,
 			},
 		});
 		dispatch(createProfileSuccess(res.data));
@@ -40,7 +40,7 @@ export const getCurrentUserProfile = async (dispatch) => {
 	try {
 		const res = await axios.get(`/api/profile/`, {
 			headers: {
-				token: `Bearer ${JSON.parse(localStorage.getItem('user')).userToken}`,
+				token: `Bearer ${JSON.parse(sessionStorage.getItem('user')).userToken}`,
 			},
 		});
 

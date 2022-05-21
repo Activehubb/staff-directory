@@ -388,7 +388,7 @@ const PrimarySearchAppBar = ({ HandleQuery, avatar }) => {
 										<Box>
 											<Button
 												LinkComponent={'a'}
-												href='/signup'
+												href={!user || !admin ? '/signin' : '/users/profiles'}
 												style={{
 													color: '#fff',
 													textTransform: 'capitalize',

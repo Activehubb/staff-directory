@@ -8,6 +8,7 @@ import {
 	MenuItem,
 	Select,
 	Snackbar,
+	Stack,
 } from '@mui/material';
 import {
 	makeStyles,
@@ -29,7 +30,7 @@ import {
 	FormControlLabel,
 	FormGroup,
 } from '@material-ui/core';
-import { CloudUpload } from '@material-ui/icons';
+import { CloudUpload, LockOutlined } from '@material-ui/icons';
 import './panel.css';
 import { LoadingButton } from '@mui/lab';
 import { createProfile } from '../../../context/profile/profileApiCall';
@@ -362,86 +363,84 @@ export default function Profile() {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		if (!error) {
-			if (faculty) {
-				createProfile(
-					{
-						fname,
-						lname,
-						email,
-						phoneNumber,
-						research,
-						rank,
-						entry,
-						faculty,
-						department,
-						qualification,
-						desc,
-						residence,
-						gender,
-					},
-					dispatch
-				);
-			} else if (college) {
-				createProfile(
-					{
-						fname,
-						lname,
-						email,
-						phoneNumber,
-						research,
-						rank,
-
-						college,
-						qualification,
-						desc,
-						residence,
-						gender,
-					},
-					dispatch
-				);
-			} else if (center) {
-				createProfile(
-					{
-						fname,
-						lname,
-						email,
-						phoneNumber,
-						research,
-						rank,
-						center,
-
-						qualification,
-						desc,
-						residence,
-						gender,
-					},
-					dispatch
-				);
-			} else if (unit) {
-				createProfile(
-					{
-						fname,
-						lname,
-						email,
-						phoneNumber,
-						research,
-						rank,
-
-						unit,
-						qualification,
-						desc,
-						residence,
-						gender,
-					},
-					dispatch
-				);
-			}
-			setLoad(true);
-		} else {
+		if (faculty) {
+			createProfile(
+				{
+					fname,
+					lname,
+					email,
+					phoneNumber,
+					research,
+					rank,
+					entry,
+					faculty,
+					department,
+					qualification,
+					desc,
+					residence,
+					gender,
+				},
+				dispatch
+			);
+		} else if (college) {
+			createProfile(
+				{
+					fname,
+					lname,
+					email,
+					phoneNumber,
+					research,
+					rank,
+					entry,
+					college,
+					qualification,
+					desc,
+					residence,
+					gender,
+				},
+				dispatch
+			);
+		} else if (center) {
+			createProfile(
+				{
+					fname,
+					lname,
+					email,
+					phoneNumber,
+					research,
+					rank,
+					center,
+					entry,
+					qualification,
+					desc,
+					residence,
+					gender,
+				},
+				dispatch
+			);
+		} else if (unit) {
+			createProfile(
+				{
+					fname,
+					lname,
+					email,
+					phoneNumber,
+					research,
+					rank,
+					entry,
+					unit,
+					qualification,
+					desc,
+					residence,
+					gender,
+				},
+				dispatch
+			);
+		} else if (error) {
 			setLoad(false);
 			setOpen(true);
 		}
+		setLoad(true);
 	};
 
 	console.log(isError, error);
@@ -723,7 +722,7 @@ export default function Profile() {
 																	<FormGroup>
 																		<RadioGroup
 																			aria-labelledby='entry'
-																			name='quiz'
+																			name='entry'
 																			value={entry}
 																			onChange={handleRadioChange}
 																			style={{

@@ -5,6 +5,7 @@ import LoginAdm from './pages/public/auth/LoginAdm';
 import Register from './pages/public/auth/Register';
 import SignupAdm from './pages/public/auth/SignupAdm';
 import PrimarySearchAppBar from './components/appbar/AppBar';
+import NewMember from './components/newMember/NewMember';
 import './app.css';
 import Dashboard from './pages/Private/dashboard/Dashboard';
 import Profile from './pages/public/profile/Profile';
@@ -44,6 +45,16 @@ function App() {
 								<Query query={query} profiles={profiles} />
 							) : (
 								<Home profiles={profiles} />
+							)
+						}
+					/>
+					<Route
+						path='/users/profiles'
+						element={
+							query ? (
+								<Query query={query} profiles={profiles} />
+							) : (
+								<NewMember profiles={profiles} />
 							)
 						}
 					/>
