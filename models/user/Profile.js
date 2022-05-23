@@ -40,24 +40,23 @@ const ProfileSchema = new Schema(
 			},
 		},
 		directory: {
-			entry:{type: String},
-			Faculty: {
+			entry: { type: String },
+			faculty: {
 				type: String,
 			},
-			Department: {
+			department: {
 				type: String,
 			},
-			College: {
+			college: {
 				type: String,
 			},
-			Center: {
+			center: {
 				type: String,
 			},
-			Unit: {
+			unit: {
 				type: String,
 			},
 		},
-		
 
 		status: {
 			type: Boolean,

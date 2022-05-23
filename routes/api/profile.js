@@ -14,16 +14,12 @@ router.post('/create', verify, async (req, res) => {
 		rank,
 		desc,
 		research,
-		tsFaculty,
-		tsDepartment,
-		ntsDepartment,
-		ntsFaculty,
-		tsUnit,
-		ntsUnit,
-		tsCenter,
-		ntsCenter,
-		tsCollege,
-		ntsCollege,
+		entry,
+		department,
+		faculty,
+		unit,
+		college,
+		center,
 		gender,
 		residence,
 	} = req.body;
@@ -49,12 +45,11 @@ router.post('/create', verify, async (req, res) => {
 	if (phoneNumber) profileFields.bio.phoneNumber = phoneNumber;
 
 	if (entry) profileFields.directory.entry = entry;
-	if (Department) profileFields.directory.Department = Department;
-	if (Faculty) profileFields.directory.Faculty = Faculty;
-	if (College) profileFields.directory.College = College;
-	if (Center) profileFields.directory.Center = Center;
-	if (Unit) profileFields.directory.Unit = Unit;
-
+	if (department) profileFields.directory.department = department;
+	if (faculty) profileFields.directory.faculty = faculty;
+	if (college) profileFields.directory.college = college;
+	if (center) profileFields.directory.center = center;
+	if (unit) profileFields.directory.unit = unit;
 
 	try {
 		const userId = await Profile.findOne({ user: req.user.id });

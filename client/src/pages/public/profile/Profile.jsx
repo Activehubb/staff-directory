@@ -443,7 +443,7 @@ export default function Profile() {
 		setLoad(true);
 	};
 
-	console.log(isError, error);
+	console.log(isError, error, entry);
 
 	const navigate = useNavigate();
 
@@ -848,9 +848,7 @@ export default function Profile() {
 																								onChange={(e) =>
 																									setFaculty(e.target.value)
 																								}
-																								// disabled={
-																								// 	faculty === '' ? false : true
-																								// }
+																							
 																								required
 																								fullWidth
 																							>
@@ -862,9 +860,10 @@ export default function Profile() {
 																											}}
 																											value={fac}
 																											key={idx}
-																											onClick={() =>
-																												setFacultyValue(idx)
-																											}
+																											onClick={() => {
+																												setFacultyValue(idx);
+																												setDepartment('');
+																											}}
 																										>
 																											{fac}
 																										</MenuItem>
