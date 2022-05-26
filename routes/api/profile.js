@@ -33,6 +33,7 @@ router.post('/create', verify, async (req, res) => {
 	profileFields.user = req.user.id;
 
 	if (fname) profileFields.bio.fname = fname;
+	if (middleName) profileFields.bio.middleName = middleName;
 	if (avatar) profileFields.bio.avatar = avatar;
 	if (lname) profileFields.bio.lname = lname;
 	if (rank) profileFields.bio.rank = rank;

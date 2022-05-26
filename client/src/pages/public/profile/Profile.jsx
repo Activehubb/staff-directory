@@ -3,13 +3,14 @@ import React, { Fragment, useState } from 'react';
 import Container from '@mui/material/Container';
 import {
 	Alert,
+	Autocomplete,
 	Box,
 	DialogActions,
 	MenuItem,
 	Select,
 	Snackbar,
-	Stack,
 } from '@mui/material';
+
 import {
 	makeStyles,
 	TextField,
@@ -29,8 +30,13 @@ import {
 	RadioGroup,
 	FormControlLabel,
 	FormGroup,
+	Checkbox,
 } from '@material-ui/core';
-import { CloudUpload, LockOutlined } from '@material-ui/icons';
+import {
+	CheckBox,
+	CheckBoxOutlineBlank,
+	CloudUpload,
+} from '@material-ui/icons';
 import './panel.css';
 import { LoadingButton } from '@mui/lab';
 import { createProfile } from '../../../context/profile/profileApiCall';
@@ -38,53 +44,57 @@ import { ProfileContext } from '../../../context/profile/profileContext';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../context/auth/AuthContext';
+import { wordCounter } from '../../../components/widget/wordCounter';
+// import wordCounter from 'word-counting';
 
+const icon = <CheckBoxOutlineBlank fontSize='small' />;
+const checkedIcon = <CheckBox fontSize='small' />;
 export default function Profile() {
 	const { isProfile, dispatch, error, isError } = useContext(ProfileContext);
 	const { user } = useContext(AuthContext);
 	const [fname, setFirstName] = useState('');
+	const [middleName, setMiddleName] = useState('');
 	const [lname, setLastName] = useState('');
 	const [email, setEmail] = useState('');
 	const [phoneNumber, setPhone] = useState('');
 	const [research, setResearch] = useState('');
 	const [desc, setDesc] = useState('');
 	const [gender, setGender] = useState('');
-	const [qualification, setQual] = useState('');
+	const [qualification, setQual] = useState([]);
 	const [residence, setResidence] = useState('');
-	const [rank, setRank] = useState('');
+	const [rank, setRank] = useState([]);
 	const [department, setDepartment] = useState('');
 	const [faculty, setFaculty] = useState('');
 	const [facultyValue, setFacultyValue] = useState('');
 	const [college, setCollege] = useState('');
 	const [center, setCenter] = useState('');
+	const [institute, setInstitute] = useState('');
 	const [unit, setUnit] = useState('');
 	const [entry, setEntry] = useState('');
+	const [state, setState] = useState({
+		wordCount: 0,
+		charCount: 0,
+	});
 
 	const [load, setLoad] = useState(false);
-	const [fac, setFac] = useState(false);
-	const [coll, setColl] = useState(false);
-	const [centers, setCenters] = useState(false);
-	const [units, setUnits] = useState(false);
-	const [isErr, setErr] = useState(error);
+	const [directory, setDirectory] = useState('');
 
 	const rankOption = [
-		'Senior Staff',
-		'Director',
-		'Junior Staff',
-		'Receptionist',
-		'Vice-Chancellor',
-		'Academics',
-		'Officer',
-		'Other',
-	];
-	const qual = [
-		'M.Sc',
-		'B.Sc',
-		'Doctorate',
 		'Professor',
-		'PhD',
-		'M.Art',
-		'Other',
+		'Reader',
+		'Lecturer One',
+		'Lecturer Two',
+		'Senior Research Fellow',
+		'Junior Research Fellow',
+		'Graduate Assitant',
+	];
+	const qual = ['M.Sc', 'B.Sc', 'Professor', 'Ph.D.', 'M.Art'];
+	const quall = [
+		{ title: 'M.Sc' },
+		{ title: 'B.Sc' },
+		{ title: 'Professor' },
+		{ title: 'Ph.D.' },
+		{ title: 'M.Art' },
 	];
 	const gend = ['Male', 'Female', 'Other'];
 	const tab = [
@@ -95,6 +105,16 @@ export default function Profile() {
 
 	const handleRadioChange = (event) => {
 		setEntry(event.target.value);
+		setDirectory('');
+	};
+	const handleDirectory = (event) => {
+		setDirectory(event.target.value);
+		setFaculty('');
+		setDepartment('');
+		setCenter('');
+		setUnit('');
+		setCollege('');
+		setInstitute('');
 	};
 
 	const [activeNav, setActiveNav] = useState(0);
@@ -443,7 +463,12 @@ export default function Profile() {
 		setLoad(true);
 	};
 
-	console.log(isError, error, entry);
+	// const result = qualification.map((x) => x)
+
+	// const wordLimit = wordCounter(desc).wordsCount.toEqual(150);
+
+	// console.log(isError, error,entry,  directory, faculty, college, center, unit);
+	// console.log(result);
 
 	const navigate = useNavigate();
 
@@ -512,9 +537,9 @@ export default function Profile() {
 						{`Welcome ${user.username}`}
 					</DialogTitle>
 					<DialogContent>
-						<DialogContentText>
+						<DialogContentText style={{ color: '#333' }}>
 							Take your time to set up your profile page as this will be your
-							diectory, Let people know who you are
+							directory, Let people know who you are
 							<br />
 							<Typography gutterBottom>
 								Note: Make selection base on your entry, you are not allow to
@@ -638,6 +663,19 @@ export default function Profile() {
 																			placeholder='Surname'
 																		/>
 																		<TextField
+																			id='middleName'
+																			label={'Middle Name'}
+																			value={middleName}
+																			onChange={(e) =>
+																				setMiddleName(e.target.value)
+																			}
+																			required
+																			variant='outlined'
+																			fullWidth
+																			className={classes.textField}
+																			placeholder='Surname'
+																		/>
+																		<TextField
 																			id='lastName'
 																			label='Last name'
 																			value={lname}
@@ -717,7 +755,8 @@ export default function Profile() {
 															>
 																<FormControl component='fieldset'>
 																	<FormLabel component='legend'>
-																		Make Selection base on your entry
+																		Are you a Teaching Staff or Non-Teaching
+																		Staff{' '}
 																	</FormLabel>
 																	<FormGroup>
 																		<RadioGroup
@@ -750,91 +789,51 @@ export default function Profile() {
 																<Box component={'div'} className={classes.bg}>
 																	{panels.map((panel) => (
 																		<>
-																			<Box
-																				style={{
-																					display: 'flex',
-																					justifyContent: 'space-between',
-																					alignItems: 'center',
-																					flex: '1',
-																				}}
-																			>
-																				<FormControl
-																					style={
-																						coll || centers || units === true
-																							? { display: 'none' }
-																							: {
-																									flex: '1',
-																									marginRight: '1rem',
-																							  }
-																					}
-																				>
-																					<FormHelperText>
-																						<Button
-																							variant='text'
-																							color='default'
-																							onClick={() => setFac(!fac)}
-																						>
-																							Faculty
-																						</Button>
-																					</FormHelperText>
-																				</FormControl>
-																				<FormControl
-																					style={
-																						fac || centers || units === true
-																							? { display: 'none' }
-																							: { flex: '1' }
-																					}
-																				>
-																					<FormHelperText>
-																						<Button
-																							variant='text'
-																							color='default'
-																							onClick={() => setColl(!coll)}
-																						>
-																							College
-																						</Button>
-																					</FormHelperText>
-																				</FormControl>
-																				<FormControl
-																					style={
-																						fac || coll || units === true
-																							? { display: 'none' }
-																							: { flex: '1', margin: '0 1rem' }
-																					}
-																				>
-																					<FormHelperText>
-																						<Button
-																							variant='text'
-																							color='default'
-																							onClick={() =>
-																								setCenters(!centers)
-																							}
-																						>
-																							Center
-																						</Button>
-																					</FormHelperText>
-																				</FormControl>
-																				<FormControl
-																					style={
-																						fac || coll || centers === true
-																							? { display: 'none' }
-																							: { flex: '1' }
-																					}
-																				>
-																					<FormHelperText>
-																						<Button
-																							variant='text'
-																							color='default'
-																							onClick={() => setUnits(!units)}
-																						>
-																							Unit
-																						</Button>
-																					</FormHelperText>
-																				</FormControl>
+																			<Box>
+																				<FormGroup>
+																					<RadioGroup
+																						aria-labelledby='entry'
+																						name='entry'
+																						value={directory}
+																						onChange={handleDirectory}
+																						style={{
+																							display: 'flex',
+																							justifyContent: 'space-between',
+																							flexWrap: 'wrap',
+																							flexDirection: 'row',
+																						}}
+																					>
+																						<FormControlLabel
+																							value='Faculty'
+																							control={<Radio />}
+																							label='Faculty'
+																						/>
+																						<FormControlLabel
+																							value='College'
+																							control={<Radio />}
+																							label='College'
+																						/>
+																						<FormControlLabel
+																							value='Center'
+																							control={<Radio />}
+																							label='Center'
+																						/>
+																						<FormControlLabel
+																							value='Unit'
+																							control={<Radio />}
+																							label='Unit'
+																						/>
+																						<FormControlLabel
+																							value='Institute'
+																							control={<Radio />}
+																							label='Institute'
+																						/>
+																					</RadioGroup>
+																				</FormGroup>
 																			</Box>
 																			<div>
 																				<Box>
-																					{fac && (
+																					{directory === 'Faculty' && (
 																						<>
 																							<FormLabel
 																								style={{ padding: '.5rem 0' }}
@@ -848,7 +847,6 @@ export default function Profile() {
 																								onChange={(e) =>
 																									setFaculty(e.target.value)
 																								}
-																							
 																								required
 																								fullWidth
 																							>
@@ -888,11 +886,6 @@ export default function Profile() {
 																								onChange={(e) =>
 																									setDepartment(e.target.value)
 																								}
-																								// disabled={
-																								// 	department === ''
-																								// 		? false
-																								// 		: true
-																								// }
 																								required
 																								fullWidth
 																							>
@@ -925,7 +918,7 @@ export default function Profile() {
 																					)}
 																				</Box>
 																				<Box>
-																					{coll && (
+																					{directory === 'College' && (
 																						<>
 																							<FormLabel
 																								style={{ padding: '.5rem 0' }}
@@ -971,7 +964,7 @@ export default function Profile() {
 																				}}
 																			>
 																				<Box>
-																					{centers && (
+																					{directory === 'Center' && (
 																						<>
 																							<FormLabel
 																								style={{ padding: '.5rem 0' }}
@@ -1010,12 +1003,51 @@ export default function Profile() {
 																					)}
 																				</Box>
 																				<Box>
-																					{units && (
+																					{directory === 'Unit' && (
 																						<>
 																							<FormLabel
 																								style={{ padding: '.5rem 0' }}
 																							>
 																								Unit
+																							</FormLabel>
+																							<Select
+																								id='unit'
+																								value={unit}
+																								onChange={(e) =>
+																									setUnit(e.target.value)
+																								}
+																								fullWidth
+																								required
+																							>
+																								{panel.formOne.unitOption.map(
+																									(unit, idx) => (
+																										<MenuItem
+																											style={{
+																												display: 'block',
+																											}}
+																											value={unit}
+																											key={idx}
+																										>
+																											{unit}
+																										</MenuItem>
+																									)
+																								)}
+																							</Select>
+
+																							<FormHelperText>
+																								Please make selection base on
+																								your entries categories
+																							</FormHelperText>
+																						</>
+																					)}
+																				</Box>
+																				<Box>
+																					{directory === 'Institute' && (
+																						<>
+																							<FormLabel
+																								style={{ padding: '.5rem 0' }}
+																							>
+																								Institute
 																							</FormLabel>
 																							<Select
 																								id='unit'
@@ -1081,27 +1113,26 @@ export default function Profile() {
 																</div>
 																<>
 																	<Box component={'div'}>
-																		<FormControl fullWidth>
+																		<FormControl>
 																			<TextareaAutosize
 																				className={classes.TextareaAutosize}
-																				maxRows={6}
 																				variant='outlined'
 																				aria-label='biography'
 																				placeholder='Description'
 																				value={desc}
-																				color={'secondary'}
 																				multiline='true'
 																				onChange={(e) =>
 																					setDesc(e.target.value)
 																				}
-																				style={{
-																					height: 200,
-																				}}
 																				required
+																				disabled={wordCounter(desc) === 75 ? true : false}
 																			/>
 																			<FormHelperText>
-																				Write a concise description about who
-																				you are
+																				{wordCounter(desc) > 1
+																					? `You have less than ${
+																							75 - wordCounter(desc)
+																					  }`
+																					: 'Write a concise description about who you are, of about 75 word limit'}
 																			</FormHelperText>
 																		</FormControl>
 																	</Box>
@@ -1115,89 +1146,118 @@ export default function Profile() {
 																			style={{
 																				display: 'flex',
 																				justifyContent: 'space-between',
+																				flexDirection: 'column',
 																			}}
 																		>
-																			<FormControl>
-																				<FormLabel id='demo-controlled-radio-buttons-group'>
-																					<Typography
-																						components={'h5'}
-																						color='initial'
-																					>
-																						Gender
-																					</Typography>
-																				</FormLabel>
-																				<RadioGroup
-																					aria-labelledby='demo-controlled-radio-buttons-group'
-																					name='controlled-radio-buttons-group'
+																			<FormControl
+																				className={classes.textField}
+																			>
+																				<Autocomplete
 																					value={gender}
-																					onChange={(e) =>
-																						setGender(e.target.value)
-																					}
-																				>
-																					{gend.map((q, idx) => (
-																						<FormControlLabel
-																							key={idx}
-																							value={q}
-																							control={<Radio />}
-																							label={q}
+																					onChange={(event, newInputValue) => {
+																						setGender(newInputValue);
+																					}}
+																					options={gend}
+																					disableCloseOnSelect
+																					getOptionLabel={(option) => option}
+																					renderOption={(
+																						props,
+																						option,
+																						{ selected }
+																					) => (
+																						<li {...props}>
+																							<Checkbox
+																								icon={icon}
+																								checkedIcon={checkedIcon}
+																								style={{ marginRight: 8 }}
+																								checked={selected}
+																							/>
+																							{option}
+																						</li>
+																					)}
+																					fullWidth
+																					renderInput={(params) => (
+																						<TextField
+																							{...params}
+																							variant={'outlined'}
+																							label='Gender'
+																							placeholder='Click to select rank'
 																						/>
-																					))}
-																				</RadioGroup>
+																					)}
+																				/>
 																			</FormControl>
 																			<FormControl>
-																				<FormLabel id='demo-controlled-radio-buttons-group'>
-																					<Typography
-																						components={'h5'}
-																						color='initial'
-																					>
-																						Qualification
-																					</Typography>
-																				</FormLabel>
-																				<RadioGroup
-																					aria-labelledby='demo-controlled-radio-buttons-group'
-																					name='controlled-radio-buttons-group'
+																				<Autocomplete
 																					value={qualification}
-																					onChange={(e) =>
-																						setQual(e.target.value)
-																					}
-																				>
-																					{qual.map((q, idx) => (
-																						<FormControlLabel
-																							key={idx}
-																							value={q}
-																							control={<Radio />}
-																							label={q}
+																					onChange={(event, newInputValue) => {
+																						setQual(newInputValue);
+																					}}
+																					multiple
+																					options={qual}
+																					disableCloseOnSelect
+																					getOptionLabel={(option) => option}
+																					renderOption={(
+																						props,
+																						option,
+																						{ selected }
+																					) => (
+																						<li {...props}>
+																							<Checkbox
+																								icon={icon}
+																								checkedIcon={checkedIcon}
+																								style={{ marginRight: 8 }}
+																								checked={selected}
+																							/>
+																							{option}
+																						</li>
+																					)}
+																					fullWidth
+																					renderInput={(params) => (
+																						<TextField
+																							{...params}
+																							variant={'outlined'}
+																							label='Qualifications'
+																							placeholder='Click to select qualifications'
 																						/>
-																					))}
-																				</RadioGroup>
+																					)}
+																				/>
 																			</FormControl>
-
-																			<FormControl>
-																				<FormLabel id='demo-controlled-radio-buttons-group'>
-																					<Typography
-																						components={'h5'}
-																						color='initial'
-																					>
-																						Rank
-																					</Typography>
-																				</FormLabel>
-																				<RadioGroup
-																					aria-labelledby='demo-controlled-radio-buttons-group'
-																					name='controlled-radio-buttons-group'
+																			<FormControl
+																				className={classes.textField}
+																			>
+																				<Autocomplete
 																					value={rank}
-																					onChange={(e) =>
-																						setRank(e.target.value)
-																					}
-																				>
-																					{rankOption.map((q, idx) => (
-																						<FormControlLabel
-																							key={idx}
-																							value={q}
-																							control={<Radio />}
-																							label={q}
+																					onChange={(event, newInputValue) => {
+																						setRank(newInputValue);
+																					}}
+																					options={rankOption}
+																					disableCloseOnSelect
+																					getOptionLabel={(option) => option}
+																					renderOption={(
+																						props,
+																						option,
+																						{ selected }
+																					) => (
+																						<li {...props}>
+																							<Checkbox
+																								icon={icon}
+																								checkedIcon={checkedIcon}
+																								style={{ marginRight: 8 }}
+																								checked={selected}
+																							/>
+																							{option}
+																						</li>
+																					)}
+																					fullWidth
+																					renderInput={(params) => (
+																						<TextField
+																							{...params}
+																							variant={'outlined'}
+																							label='Rank'
+																							placeholder='Click to select rank'
 																						/>
-																					))}
-																				</RadioGroup>
+																					)}
+																				/>
 																			</FormControl>
 																		</Box>
 
@@ -1211,7 +1271,6 @@ export default function Profile() {
 																			required
 																			variant='outlined'
 																			fullWidth
-																			className={classes.textField}
 																			placeholder='Full details of place of residence'
 																		/>
 																		<TextField

@@ -16,7 +16,9 @@ const ProfileSchema = new Schema(
 			lname: {
 				type: String,
 			},
-
+			middleName: {
+				type: String
+			},
 			qualification: {
 				type: String,
 			},
