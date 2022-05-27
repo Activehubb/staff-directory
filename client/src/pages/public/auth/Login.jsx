@@ -121,11 +121,12 @@ const Login = () => {
 		}
 		setTimeout(() => {
 			setAlertState(false);
-		}, 5000);
+			setLoading(false);
+		}, 4000);
 	};
 
 	if (isAuthenticated) {
-		navigate('/user');
+		navigate('/profile');
 	}
 
 	return (
@@ -135,19 +136,25 @@ const Login = () => {
 					<Container maxWidth='lg'>
 						<Box component={'div'} className={classes.wrapper}>
 							<Container maxWidth='sm'>
-								{error &&
+								{error.status === 400 ? (
 									error.data.errors.map((data) => (
-										<Box sx={{ margin: '1rem 0' }} >
+										<Box sx={{ margin: '1rem 0' }}>
 											<Snackbar open={error} autoHideDuration={6000}>
-												<Alert
-													severity={'error'}
-													sx={{ width: '100%' }}
-												>
+												<Alert severity={'error'} sx={{ width: '100%' }}>
 													{data.msg}
 												</Alert>
 											</Snackbar>
 										</Box>
-									))}
+									))
+								) : error.status === 500 && (
+									<Box sx={{ margin: '1rem 0' }}>
+										<Snackbar open={error} autoHideDuration={6000}>
+											<Alert severity={'error'} sx={{ width: '100%' }}>
+												{`${error.statusText} You have ${error.headers.connection} network connection`}
+											</Alert>
+										</Snackbar>
+									</Box>
+								) }
 
 								<Card>
 									<Box className={classes.mbox}>

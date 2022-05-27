@@ -1,5 +1,3 @@
-
-
 export const createProfileSuccess = (profile) => ({
 	type: 'CREATE_PROFILE_SUCCESS',
 	payload: profile,
@@ -10,7 +8,6 @@ export const createProfileFailure = (isError) => ({
 	payload: isError,
 });
 
-
 export const getProfileSuccess = (getProfile) => ({
 	type: 'GET_PROFILE_SUCCESS',
 	payload: getProfile,
@@ -18,6 +15,16 @@ export const getProfileSuccess = (getProfile) => ({
 
 export const getProfileFailure = (isError) => ({
 	type: 'GET_PROFILE_FAILURE',
+	payload: isError,
+});
+
+export const getUnactivatedProfileSuccess = (unactivateProfile) => ({
+	type: 'GET_UNACTIVATE_PROFILES_SUCCESS',
+	payload: unactivateProfile,
+});
+
+export const getUnactivatedProfileFailure = (isError) => ({
+	type: 'GET_UNACTIVATE_PROFILES_FAILURE',
 	payload: isError,
 });
 
@@ -50,9 +57,9 @@ export const updateStatusFailure = (isError) => ({
 	payload: isError,
 });
 
-export const deleteProfileSuccess = (status) => ({
+export const deleteProfileSuccess = (isDeleted) => ({
 	type: 'DELETE_PROFILE_SUCCESS',
-	payload: status,
+	payload: isDeleted,
 });
 export const deleteProfileFailure = (isError) => ({
 	type: 'DELETE_PROFILE_FAILURE',

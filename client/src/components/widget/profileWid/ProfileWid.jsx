@@ -69,18 +69,13 @@ export default function ProfileWid({ profile }) {
 								<Typography component='div' style={{ fontWeight: 700 }}>
 									{profile.bio.fname} {profile.bio.lname.charAt(0) + '.'}
 								</Typography>
-								{profile.faculty ? (
-									<Typography component='div'>
-										<Typography component='div'>{`Faculty of ${profile.faculty}`}</Typography>
-									</Typography>
-								) : profile.college ? (
-									<Typography component='div'>{`College of ${profile.college}`}</Typography>
-								) : profile.unit ? (
-									<Typography component='div'>{`From ${profile.unit}`}</Typography>
-								) : profile.center ? (
-									<Typography component='div'>{`From ${profile.center}`}</Typography>
-								) : (
-									''
+								{profile.dir && (
+									<Box component='div'>
+										<Typography component=''>{`${profile.dir.directory} of ${profile.dir.mainEntry}`}</Typography>
+										{profile.dir.subEntry && (
+											<Typography component=''>{`${profile.dir.subEntry}`}</Typography>
+										)}
+									</Box>
 								)}
 							</Box>
 						</Box>
@@ -92,12 +87,12 @@ export default function ProfileWid({ profile }) {
 										label={profile.user.email}
 										icon={<Email />}
 									/>
-									{profile.bio.residence && (
+									{/* {profile.bio.residence && (
 										<Chip
-											label={profile.bio.residence.slice(0, 11)}
+											label={profile.bio.residence}
 											icon={<LocationOnOutlined />}
 										/>
-									)}
+									)} */}
 								</Stack>
 							</CardContent>
 						</Box>
@@ -148,7 +143,7 @@ export default function ProfileWid({ profile }) {
 								<CardActions>
 									<Button size='medium' variant='outlined'>
 										<Link
-											to={`/user/${profile._id}`}
+											to={`/users/${profile._id}`}
 											style={{
 												textDecoration: 'none',
 												display: 'flex',

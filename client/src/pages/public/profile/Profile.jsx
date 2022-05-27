@@ -45,10 +45,10 @@ import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../context/auth/AuthContext';
 import { wordCounter } from '../../../components/widget/wordCounter';
-// import wordCounter from 'word-counting';
 
 const icon = <CheckBoxOutlineBlank fontSize='small' />;
 const checkedIcon = <CheckBox fontSize='small' />;
+
 export default function Profile() {
 	const { isProfile, dispatch, error, isError } = useContext(ProfileContext);
 	const { user } = useContext(AuthContext);
@@ -63,21 +63,13 @@ export default function Profile() {
 	const [qualification, setQual] = useState([]);
 	const [residence, setResidence] = useState('');
 	const [rank, setRank] = useState([]);
-	const [department, setDepartment] = useState('');
-	const [faculty, setFaculty] = useState('');
 	const [facultyValue, setFacultyValue] = useState('');
-	const [college, setCollege] = useState('');
-	const [center, setCenter] = useState('');
-	const [institute, setInstitute] = useState('');
-	const [unit, setUnit] = useState('');
+	const [subEntry, setSubEntry] = useState('');
+	const [mainEntry, setMainEntry] = useState('');
 	const [entry, setEntry] = useState('');
-	const [state, setState] = useState({
-		wordCount: 0,
-		charCount: 0,
-	});
+	const [directory, setDirectory] = useState('');
 
 	const [load, setLoad] = useState(false);
-	const [directory, setDirectory] = useState('');
 
 	const rankOption = [
 		'Professor',
@@ -89,13 +81,7 @@ export default function Profile() {
 		'Graduate Assitant',
 	];
 	const qual = ['M.Sc', 'B.Sc', 'Professor', 'Ph.D.', 'M.Art'];
-	const quall = [
-		{ title: 'M.Sc' },
-		{ title: 'B.Sc' },
-		{ title: 'Professor' },
-		{ title: 'Ph.D.' },
-		{ title: 'M.Art' },
-	];
+
 	const gend = ['Male', 'Female', 'Other'];
 	const tab = [
 		{ step: '1', title: 'Personal Info' },
@@ -109,12 +95,15 @@ export default function Profile() {
 	};
 	const handleDirectory = (event) => {
 		setDirectory(event.target.value);
-		setFaculty('');
-		setDepartment('');
-		setCenter('');
-		setUnit('');
-		setCollege('');
-		setInstitute('');
+		setSubEntry('');
+		setMainEntry('');
+	};
+
+	const handleMainEntry = (event) => {
+		setMainEntry(event.target.value);
+	};
+	const handleSubEntry = (event) => {
+		setSubEntry(event.target.value);
 	};
 
 	const [activeNav, setActiveNav] = useState(0);
@@ -266,9 +255,31 @@ export default function Profile() {
 				collLabel: 'College',
 				collOption: ['Health Sciences', 'Postgraduate'],
 				unitLabel: 'Unit',
-				unitOption: ['Units'],
+				unitOption: ['INTECU', 'COR', 'IPPTO', 'TETFUND', 'DSA'],
+				instituteOption: [
+					'A.G. Leventis Natural History Museum (NHM)',
+					'African Institute for Science Policy and Innovation (AISPI)',
+					'Atmospheric Research And Information Analysis Lab (ARIAL)',
+					'Aviation Training Institute',
+					'Cooperative Information Network (COPINE / CICTED)',
+					'Drug Research & Production Unit (DRPU)',
+					'Institute for Entrepreneurship and Development Studies (IFEDS)',
+					'Institute of Cultural Studies',
+					'Institute of Public Health (IPH, OAU)',
+					'Institute of Ecology and Environmental Studies (IEES)',
+					'Population and Reproductive Health Programme/OAUIFE-GATES Institute JHU Partnership Project',
+				],
 				centerLabel: 'Center',
-				centerOption: ['Center'],
+				centerOption: [
+					'Centre for Energy Research and Development (CERD)',
+					'Center for Gender Studies (CGS)',
+					'Central Science Laboratory (CSL)',
+					'Centre for Space Research (CSR)',
+					'Centre for Space Science and Technology Education in Africa (ARCSSTE)',
+					'National Centre for Technology Management (NACETEM)',
+					'Regional Centre for Training in Aerospace Surveys (RECTAS)',
+					'Space Applications And Environmental Science Laboratory (SPAEL),',
+				],
 			},
 			Bio: {
 				mText: 'Experience',
@@ -278,7 +289,7 @@ export default function Profile() {
 				mText: 'Qualifications',
 				rankOption: ['M.A', 'M.Sc', 'MBA'],
 				field: 'Field of Study',
-				research: 'Research Publications',
+				research: 'Areas of specialization',
 			},
 		},
 	];
@@ -383,92 +394,32 @@ export default function Profile() {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		if (faculty) {
-			createProfile(
-				{
-					fname,
-					lname,
-					email,
-					phoneNumber,
-					research,
-					rank,
-					entry,
-					faculty,
-					department,
-					qualification,
-					desc,
-					residence,
-					gender,
-				},
-				dispatch
-			);
-		} else if (college) {
-			createProfile(
-				{
-					fname,
-					lname,
-					email,
-					phoneNumber,
-					research,
-					rank,
-					entry,
-					college,
-					qualification,
-					desc,
-					residence,
-					gender,
-				},
-				dispatch
-			);
-		} else if (center) {
-			createProfile(
-				{
-					fname,
-					lname,
-					email,
-					phoneNumber,
-					research,
-					rank,
-					center,
-					entry,
-					qualification,
-					desc,
-					residence,
-					gender,
-				},
-				dispatch
-			);
-		} else if (unit) {
-			createProfile(
-				{
-					fname,
-					lname,
-					email,
-					phoneNumber,
-					research,
-					rank,
-					entry,
-					unit,
-					qualification,
-					desc,
-					residence,
-					gender,
-				},
-				dispatch
-			);
-		} else if (error) {
+		createProfile(
+			{
+				fname,
+				lname,
+				email,
+				middleName,
+				phoneNumber,
+				research,
+				rank,
+				entry,
+				directory,
+				mainEntry,
+				subEntry,
+				qualification,
+				desc,
+				residence,
+				gender,
+			},
+			dispatch
+		);
+		setLoad(true);
+		if (error) {
 			setLoad(false);
 			setOpen(true);
 		}
-		setLoad(true);
 	};
-
-	// const result = qualification.map((x) => x)
-
-	// const wordLimit = wordCounter(desc).wordsCount.toEqual(150);
-
-	// console.log(isError, error,entry,  directory, faculty, college, center, unit);
-	// console.log(result);
 
 	const navigate = useNavigate();
 
@@ -538,12 +489,10 @@ export default function Profile() {
 					</DialogTitle>
 					<DialogContent>
 						<DialogContentText style={{ color: '#333' }}>
-							Take your time to set up your profile page as this will be your
-							directory, Let people know who you are
+							Click on "Create Profile" to set up your profile on the OAU staff
+							directory. Ensure to fill in correct information only.
 							<br />
 							<Typography gutterBottom>
-								Note: Make selection base on your entry, you are not allow to
-								select more than one field
 								<p>All fields are required to create profile</p>
 							</Typography>
 						</DialogContentText>
@@ -843,10 +792,8 @@ export default function Profile() {
 																							<Select
 																								id='faculty'
 																								label='Faculty'
-																								value={faculty}
-																								onChange={(e) =>
-																									setFaculty(e.target.value)
-																								}
+																								value={mainEntry}
+																								onChange={handleMainEntry}
 																								required
 																								fullWidth
 																							>
@@ -860,7 +807,7 @@ export default function Profile() {
 																											key={idx}
 																											onClick={() => {
 																												setFacultyValue(idx);
-																												setDepartment('');
+																												setSubEntry('');
 																											}}
 																										>
 																											{fac}
@@ -882,10 +829,8 @@ export default function Profile() {
 																							<Select
 																								id='department'
 																								label='Department'
-																								value={department}
-																								onChange={(e) =>
-																									setDepartment(e.target.value)
-																								}
+																								value={subEntry}
+																								onChange={handleSubEntry}
 																								required
 																								fullWidth
 																							>
@@ -928,10 +873,8 @@ export default function Profile() {
 																							<Select
 																								labelId='college'
 																								label='College'
-																								value={college}
-																								onChange={(e) =>
-																									setCollege(e.target.value)
-																								}
+																								value={mainEntry}
+																								onChange={handleMainEntry}
 																								required
 																								fullWidth
 																							>
@@ -973,10 +916,8 @@ export default function Profile() {
 																							</FormLabel>
 																							<Select
 																								id='center'
-																								value={center}
-																								onChange={(e) =>
-																									setCenter(e.target.value)
-																								}
+																								value={mainEntry}
+																								onChange={handleMainEntry}
 																								fullWidth
 																								required
 																							>
@@ -1012,10 +953,8 @@ export default function Profile() {
 																							</FormLabel>
 																							<Select
 																								id='unit'
-																								value={unit}
-																								onChange={(e) =>
-																									setUnit(e.target.value)
-																								}
+																								value={mainEntry}
+																								onChange={handleMainEntry}
 																								fullWidth
 																								required
 																							>
@@ -1050,15 +989,13 @@ export default function Profile() {
 																								Institute
 																							</FormLabel>
 																							<Select
-																								id='unit'
-																								value={unit}
-																								onChange={(e) =>
-																									setUnit(e.target.value)
-																								}
+																								id='institute'
+																								value={mainEntry}
+																								onChange={handleMainEntry}
 																								fullWidth
 																								required
 																							>
-																								{panel.formOne.unitOption.map(
+																								{panel.formOne.instituteOption.map(
 																									(unit, idx) => (
 																										<MenuItem
 																											style={{
@@ -1125,10 +1062,14 @@ export default function Profile() {
 																					setDesc(e.target.value)
 																				}
 																				required
-																				disabled={wordCounter(desc) === 75 ? true : false}
+																				disabled={
+																					wordCounter(desc) === 75
+																						? true
+																						: false
+																				}
 																			/>
 																			<FormHelperText>
-																				{wordCounter(desc) > 1
+																				{wordCounter(desc) > 0
 																					? `You have less than ${
 																							75 - wordCounter(desc)
 																					  }`
@@ -1262,8 +1203,7 @@ export default function Profile() {
 																		</Box>
 
 																		<TextField
-																			id='residence'
-																			label='Residence'
+																			label='Office Address'
 																			value={residence}
 																			onChange={(e) =>
 																				setResidence(e.target.value)
@@ -1271,7 +1211,7 @@ export default function Profile() {
 																			required
 																			variant='outlined'
 																			fullWidth
-																			placeholder='Full details of place of residence'
+																			placeholder='Full details of your office address'
 																		/>
 																		<TextField
 																			id='research'

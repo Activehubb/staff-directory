@@ -162,15 +162,13 @@ const Register = ({ handleAvatar, userAvatar }) => {
 				setAlertType('error');
 			} else {
 				signup({ username, email, password, profilePic }, dispatch);
-				// setAlert('Account successfully created');
-				// setAlertState(true);
-				// setAlertType('success');
 				setLoading(true);
 			}
 		}
 		setTimeout(() => {
 			setAlertState(false);
-		}, 5000);
+			setLoading(false);
+		}, 4000);
 	};
 
 	const navigate = useNavigate();
@@ -186,7 +184,7 @@ const Register = ({ handleAvatar, userAvatar }) => {
 					<Container maxWidth='lg'>
 						<Box>
 							<Container maxWidth='sm'>
-								{error &&
+								{error.status === 400 ? (
 									error.data.errors.map((data) => (
 										<Box sx={{ margin: '1rem 0' }}>
 											<Snackbar open={error} autoHideDuration={6000}>
@@ -195,7 +193,16 @@ const Register = ({ handleAvatar, userAvatar }) => {
 												</Alert>
 											</Snackbar>
 										</Box>
-									))}
+									))
+								) : error.status === 500 && (
+									<Box sx={{ margin: '1rem 0' }}>
+										<Snackbar open={error} autoHideDuration={6000}>
+											<Alert severity={'error'} sx={{ width: '100%' }}>
+												{`${error.statusText} You have ${error.headers.connection} network connection`}
+											</Alert>
+										</Snackbar>
+									</Box>
+								)}
 								<Card component={'div'} style={{ position: 'relative' }}>
 									<Box className={classes.mbox}>
 										<Card component='div'>

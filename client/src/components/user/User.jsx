@@ -26,10 +26,12 @@ import { ProfileContext } from '../../context/profile/profileContext';
 import Loader from '../../utils/Loader';
 import './user.css';
 import UserDelete from './UserDelete';
+import { AuthContext } from '../../context/auth/AuthContext';
 
 export default function User() {
 	const location = useLocation();
 	const path = location.pathname.split('/')[2];
+	const { admin } = useContext(AuthContext);
 	const { profile, dispatch } = useContext(ProfileContext);
 
 	const [open, setOpen] = useState(false);
@@ -61,56 +63,60 @@ export default function User() {
 	return (
 		<>
 			<Container maxWidth={'md'}>
-				<Card
-					style={{
-						background: 'rgb(0, 30, 60)',
-						border: '1px solid rgb(15, 80, 133)',
-						margin: '1rem 0',
-					}}
-				>
-					<Box style={{ display: 'flex', padding: '5px' }}>
-						<ListItemText
-							className='textColor'
-							secondary={
-								<Typography
-									sx={{ display: 'inline' }}
-									component='span'
-									variant='body2'
-									color='text.primary'
-								>
-									{profile._id && `ID: ${profile._id}`}
-								</Typography>
-							}
-						/>
-						<ListItemText
-							className='textColor'
-							secondary={
-								<Typography
-									sx={{ display: 'inline' }}
-									component='span'
-									variant='body2'
-									color='text.primary'
-								>
-									{profile.createdAt &&
-										`Created At: ${new Date(profile.createdAt).toDateString()}`}
-								</Typography>
-							}
-						/>
-						<ListItemText
-							className='textColor'
-							secondary={
-								<Typography
-									sx={{ display: 'inline' }}
-									component='span'
-									variant='body2'
-									color='text.primary'
-								>
-									{profile.user.email && `Email: ${profile.user.email}`}
-								</Typography>
-							}
-						/>
-					</Box>
-				</Card>
+				{admin && (
+					<Card
+						style={{
+							background: 'rgb(0, 30, 60)',
+							border: '1px solid rgb(15, 80, 133)',
+							margin: '1rem 0',
+						}}
+					>
+						<Box style={{ display: 'flex', padding: '5px' }}>
+							<ListItemText
+								className='textColor'
+								secondary={
+									<Typography
+										sx={{ display: 'inline' }}
+										component='span'
+										variant='body2'
+										color='text.primary'
+									>
+										{profile._id && `ID: ${profile._id}`}
+									</Typography>
+								}
+							/>
+							<ListItemText
+								className='textColor'
+								secondary={
+									<Typography
+										sx={{ display: 'inline' }}
+										component='span'
+										variant='body2'
+										color='text.primary'
+									>
+										{profile.createdAt &&
+											`Created At: ${new Date(
+												profile.createdAt
+											).toDateString()}`}
+									</Typography>
+								}
+							/>
+							<ListItemText
+								className='textColor'
+								secondary={
+									<Typography
+										sx={{ display: 'inline' }}
+										component='span'
+										variant='body2'
+										color='text.primary'
+									>
+										{profile.user.email && `Email: ${profile.user.email}`}
+									</Typography>
+								}
+							/>
+						</Box>
+					</Card>
+				)}
 				<Card style={{ background: 'rgb(13, 50, 80)' }}>
 					<Box
 						className={`userstatus ${
@@ -163,68 +169,73 @@ export default function User() {
 														</Stack>
 													</Box>
 												</Box>
-												<Box>
-													<IconButton aria-label='' onClick>
-														<Edit
-															sx={{ fontSize: 14 }}
-															style={{
-																border: '1px solid rgb(13, 50, 80)',
-																borderRadius: '5px',
-																color: '#f7f7f7',
-																padding: '5px',
-																margin: '10px 5px',
-																cursor: 'pointer',
-															}}
-														/>
-													</IconButton>
-													<IconButton>
-														<Delete onClick={handleOpen}
-															sx={{ fontSize: 14 }}
-															style={{
-																border: '1px solid rgb(13, 50, 80)',
-																borderRadius: '5px',
-																color: '#f7f7f7',
-																padding: '5px',
-																cursor: 'pointer',
-															}}
-														/>
-													</IconButton>
-												</Box>
+												{admin && (
+													<Box>
+														<IconButton aria-label='' onClick>
+															<Edit
+																sx={{ fontSize: 14 }}
+																style={{
+																	border: '1px solid rgb(13, 50, 80)',
+																	borderRadius: '5px',
+																	color: '#f7f7f7',
+																	padding: '5px',
+																	margin: '10px 5px',
+																	cursor: 'pointer',
+																}}
+															/>
+														</IconButton>
+														<IconButton>
+															<Delete
+																onClick={handleOpen}
+																sx={{ fontSize: 14 }}
+																style={{
+																	border: '1px solid rgb(13, 50, 80)',
+																	borderRadius: '5px',
+																	color: '#f7f7f7',
+																	padding: '5px',
+																	cursor: 'pointer',
+																}}
+															/>
+														</IconButton>
+													</Box>
+												)}
 											</Box>
 										</Box>
 										<Divider style={{ background: 'rgb(13, 50, 80)' }} />
-										<Stack
-											direction='row'
-											alignItems='center'
-											justifyContent='space-between'
-											sx={{ px: 2, py: 1 }}
-											style={{ background: 'rgb(0, 26, 53)' }}
-										>
-											<Box>
-												<Chip
-													label={status ? 'Activated' : 'Unactivate'}
-													className={`status ${
-														status ? 'Activated' : 'Unactivate'
-													}`}
-												/>
-											</Box>
-											<FormGroup>
-												<FormControlLabel
-													control={
-														<Switch
-															checked={status}
-															onChange={handleStatus}
-															value={status}
-														/>
-													}
-												/>
-											</FormGroup>
-										</Stack>
+										{admin && (
+											<Stack
+												direction='row'
+												alignItems='center'
+												justifyContent='space-between'
+												sx={{ px: 2, py: 1 }}
+												style={{ background: 'rgb(0, 26, 53)' }}
+											>
+												<Box>
+													<Chip
+														label={status ? 'Activated' : 'Unactivate'}
+														className={`status ${
+															status ? 'Activated' : 'Unactivate'
+														}`}
+													/>
+												</Box>
+												<FormGroup>
+													<FormControlLabel
+														control={
+															<Switch
+																checked={status}
+																onChange={handleStatus}
+																value={status}
+															/>
+														}
+													/>
+												</FormGroup>
+											</Stack>
+										)}
 									</Card>
 								</Container>
 							</Box>
 
-							{status && (
+							{admin && status && (
 								<Container maxWidth={'md'}>
 									<CardContent
 										style={{
@@ -272,27 +283,57 @@ export default function User() {
 							>
 								<ListItem alignItems='flex-start' className='p-2 textColor'>
 									<ListItemText
-										primary='Directory'
+										primary='Entry'
 										secondary={
 											<Typography
-												sx={{ display: 'inline' }}
+												style={{
+													display: 'inline',
+													textTransform: 'capitalize',
+												}}
 												component='span'
-												variant='body2'
-												color='text.primary'
 											>
-												{profile.faculty
-													? `Faculty — ${profile.faculty}`
-													: profile.college
-													? `College — ${profile.college}`
-													: profile.center
-													? `Center — ${profile.center}`
-													: profile.unit
-													? `Unit — ${profile.unit}`
-													: ''}
+												{profile.dir && profile.dir.entry}
 											</Typography>
 										}
 									/>
 								</ListItem>
+								<Divider style={{ background: 'rgb(13, 50, 80)' }} />
+								<ListItem alignItems='flex-start' className='p-2 textColor'>
+									<ListItemText
+										primary='Directory'
+										secondary={
+											<Typography sx={{ display: 'inline' }} component='span'>
+												{profile.dir && profile.dir.directory}
+											</Typography>
+										}
+									/>
+								</ListItem>
+								<Divider style={{ background: 'rgb(13, 50, 80)' }} />
+								{profile.dir.mainEntry && (
+									<ListItem alignItems='flex-start' className='p-2 textColor'>
+										<ListItemText
+											primary='Category'
+											secondary={
+												<Typography sx={{ display: 'inline' }} component='span'>
+													{profile.dir.mainEntry}
+												</Typography>
+											}
+										/>
+									</ListItem>
+								)}
+								<Divider style={{ background: 'rgb(13, 50, 80)' }} />
+								{profile.dir.subEntry && (
+									<ListItem alignItems='flex-start' className='p-2 textColor'>
+										<ListItemText
+											primary='Sub Category'
+											secondary={
+												<Typography sx={{ display: 'inline' }} component='span'>
+													{profile.dir.subEntry}
+												</Typography>
+											}
+										/>
+									</ListItem>
+								)}
 								<Divider style={{ background: 'rgb(13, 50, 80)' }} />
 								<ListItem alignItems='flex-start' className='p-2 textColor'>
 									<ListItemText
@@ -310,22 +351,7 @@ export default function User() {
 									/>
 								</ListItem>
 								<Divider style={{ background: 'rgb(13, 50, 80)' }} />
-								<ListItem alignItems='flex-start' className='p-2 textColor'>
-									<ListItemText
-										primary='Rank'
-										secondary={
-											<Typography
-												sx={{ display: 'inline' }}
-												component='span'
-												variant='body2'
-												color='text.primary'
-											>
-												{profile.bio.qualification}
-											</Typography>
-										}
-									/>
-								</ListItem>
-								<Divider style={{ background: 'rgb(13, 50, 80)' }} />
+
 								<ListItem alignItems='flex-start' className='p-2 textColor'>
 									<ListItemText
 										primary='Contact'
@@ -334,7 +360,6 @@ export default function User() {
 												sx={{ display: 'inline' }}
 												component='span'
 												variant='body2'
-												color='text.primary'
 											>
 												{profile.bio.phoneNumber}
 											</Typography>
@@ -346,12 +371,7 @@ export default function User() {
 									<ListItemText
 										primary='Gender'
 										secondary={
-											<Typography
-												sx={{ display: 'inline' }}
-												component='span'
-												variant='body2'
-												color='text.primary'
-											>
+											<Typography sx={{ display: 'inline' }} component='span'>
 												{profile.bio.gender}
 											</Typography>
 										}
@@ -372,12 +392,7 @@ export default function User() {
 									<ListItemText
 										primary='Description'
 										secondary={
-											<Typography
-												sx={{ display: 'inline' }}
-												component='span'
-												variant='body2'
-												color='text.primary'
-											>
+											<Typography sx={{ display: 'inline' }} component='span'>
 												{profile.bio.desc}
 											</Typography>
 										}
@@ -385,8 +400,34 @@ export default function User() {
 								</ListItem>
 							</Card>
 						</Container>
+						{profile.bio.qualification && (
+							<Container maxWidth={'md'} className=' m-2'>
+								<Typography className='p-2 textColor' component='span'>
+									Qualifications
+								</Typography>
+								<Paper
+									elevation={3}
+									style={{
+										background: 'rgb(0, 30, 60)',
+										border: '1px solid rgb(15, 80, 133)',
+										padding: '5px',
+									}}
+								>
+									{profile.bio.qualification.map((item, idx) => (
+										<Chip
+											label={item}
+											key={idx}
+											style={{ margin: ' 0 10px' }}
+										/>
+									))}
+								</Paper>
+							</Container>
+						)}
 						{profile.bio.research && (
 							<Container maxWidth={'md'} className=' m-2'>
+								<Typography className='p-2 textColor' component='span'>
+									Areas of Specialization
+								</Typography>
 								<Paper
 									elevation={3}
 									style={{

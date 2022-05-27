@@ -31,7 +31,11 @@ export default function SideBar() {
 		{ icon: <TimelineOutlined />, label: 'Analytics', analytics: 'analytics' },
 		{ icon: <PeopleOutlineRounded />, label: 'Users', link: 'users' },
 		{ icon: <VerifiedUserOutlined />, label: 'Activated Users' },
-		{ icon: <PersonAddDisabledOutlined />, label: 'Unactivated Users' },
+		{
+			icon: <PersonAddDisabledOutlined />,
+			label: 'Unactivated Users',
+			link: 'users/unactivate',
+		},
 	];
 	return (
 		<div>

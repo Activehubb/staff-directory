@@ -12,7 +12,8 @@ import Profile from './pages/public/profile/Profile';
 import Home from './pages/public/home/Home';
 import User from './pages/public/user/User';
 import SingleUser from './pages/Private/user/User';
-import Users from './pages/Private/users/Users';
+import ActivatedUser from './pages/Private/users/Activated';
+import UnactivatedUser from './pages/Private/users/Unactivated';
 import { AuthContext } from './context/auth/AuthContext';
 import Query from './components/query/Query';
 import { ProfileContext } from './context/profile/profileContext';
@@ -89,7 +90,14 @@ function App() {
 							path='/dashboard'
 							element={<Dashboard profiles={profiles} />}
 						/>
-						<Route path='/users' element={<Users profiles={profiles} />} />
+						<Route
+							path='/users'
+							element={<ActivatedUser profiles={profiles} />}
+						/>
+						<Route
+							path='/users/unactivate'
+							element={<UnactivatedUser/>}
+						/>
 					</>
 				)}
 				<Route

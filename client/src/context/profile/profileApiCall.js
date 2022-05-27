@@ -10,6 +10,8 @@ import {
 	getCurrentProfileSuccess,
 	getProfileFailure,
 	getProfileSuccess,
+	getUnactivatedProfileFailure,
+	getUnactivatedProfileSuccess,
 	updateStatusFailure,
 	updateStatusSuccess,
 } from './profileAction';
@@ -30,15 +32,23 @@ export const createProfile = async (profile, dispatch) => {
 export const getProfiles = async (dispatch) => {
 	try {
 		const res = await axios.get('/api/profile/profiles');
-		dispatch(getAllProfileSuccess(res.data));
+		dispatch(getAllProfileSuccess(res.data.profile));
 	} catch (error) {
 		dispatch(getAllProfileFailure(error.response));
+	}
+};
+export const getUnactivatedProfiles = async (dispatch) => {
+	try {
+		const res = await axios.get('/api/profile/profiles/unactivate');
+		dispatch(getUnactivatedProfileSuccess(res.data.profile));
+	} catch (error) {
+		dispatch(getUnactivatedProfileFailure(error.response));
 	}
 };
 
 export const getCurrentUserProfile = async (dispatch) => {
 	try {
-		const res = await axios.get(`/api/profile/`, {
+		const res = await axios.get(`/api/profile`, {
 			headers: {
 				token: `Bearer ${JSON.parse(sessionStorage.getItem('user')).userToken}`,
 			},
@@ -69,7 +79,7 @@ export const updateProfileStatus = async (status, path, dispatch) => {
 	}
 };
 
-export const deletProfile = async (path, dispatch) => {
+export const deleteProfile = async (path, dispatch) => {
 	try {
 		const res = await axios.delete(`/api/profile/delete/${path}`);
 		dispatch(deleteProfileSuccess(res.data));
