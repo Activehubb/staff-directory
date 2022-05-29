@@ -1,13 +1,16 @@
 const AuthReducer = (state, action) => {
 	switch (action.type) {
 		case 'SIGNUP_SUCCESS':
+		case 'ALL_USERS_SUCCESS':
 		case 'SIGNIN_SUCCESS':
 			return {
 				...state,
+				users: action.payload,
 				user: action.payload,
 				isAuthenticated: true,
 			};
 		case 'SIGNUP_FAILURE':
+		case 'ALL_USERS_FAILURE':
 		case 'SIGNIN_FAILURE':
 			return {
 				...state,
@@ -19,7 +22,6 @@ const AuthReducer = (state, action) => {
 				...state,
 				admin: action.payload,
 				isAuthenticated: true,
-				isAdmin: true,
 			};
 		case 'SIGNUP_FAILURE_ADMIN':
 		case 'SIGNIN_FAILURE_ADMIN':

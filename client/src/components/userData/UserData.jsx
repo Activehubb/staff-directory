@@ -99,7 +99,7 @@ export default function DataTable({ profiles }) {
 			renderCell: (params) => {
 				return (
 					<div className='cellAction'>
-						<Link to={`/users/${params.row._id}`} className='viewAction'>
+						<Link to={`/admin/user/${params.row._id}`} className='viewAction'>
 							View
 						</Link>
 					</div>

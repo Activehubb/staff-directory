@@ -27,7 +27,7 @@ import { AuthContext } from '../../../context/auth/AuthContext';
 import Loader from '../../../utils/Loader';
 
 export default function User() {
-	const { getCurrentProfile, dispatch, error, isError } =
+	const { getCurrentProfile, dispatch, error, isError, profile } =
 		useContext(ProfileContext);
 
 	const { admin } = useContext(AuthContext);
@@ -41,13 +41,29 @@ export default function User() {
 	const theme = useTheme();
 	const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
-	if (getCurrentProfile === null) {
+	if (getCurrentProfile === null && isError === null && profile === null) {
 		return <Loader />;
-	}
+	} 
 
 	return (
 		<>
 			<Container maxWidth={'md'}>
+				{profile.success === true && (
+					<Dialog
+						fullScreen={fullScreen}
+						open={getCurrentProfile.success}
+						style={{ color: '#333' }}
+					>
+						<DialogContent>
+							<DialogContentText>{`${getCurrentProfile.msg}`}</DialogContentText>
+						</DialogContent>
+						<DialogActions>
+							<Button component={'a'} href={'/'}>
+								See more Profile
+							</Button>
+						</DialogActions>
+					</Dialog>
+				)}
 				{!isError ? (
 					<>
 						{admin && (
@@ -155,7 +171,10 @@ export default function User() {
 														</Box>
 													</Box>
 													<Box>
-														<IconButton aria-label=''>
+														<IconButton
+															component={'a'}
+															href={`/update/profile/${getCurrentProfile._id}`}
+														>
 															<Edit
 																sx={{ fontSize: 14 }}
 																style={{
@@ -328,7 +347,7 @@ export default function User() {
 					>
 						<DialogTitle>{`Your access is ${isError.statusText}`}</DialogTitle>
 						<DialogContent>
-							<DialogContentText>{`${isError.data} through the next 24hrs your profile will be activated`}</DialogContentText>
+							<DialogContentText>{`${isError.data.msg} through the next 24hrs your profile will be activated`}</DialogContentText>
 						</DialogContent>
 						<DialogActions>
 							<Button component={'a'} href={'/'}>

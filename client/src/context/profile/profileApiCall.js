@@ -8,10 +8,14 @@ import {
 	getAllProfileSuccess,
 	getCurrentProfileFailure,
 	getCurrentProfileSuccess,
+	getProfileByAdminFailure,
+	getProfileByAdminSuccess,
 	getProfileFailure,
 	getProfileSuccess,
 	getUnactivatedProfileFailure,
 	getUnactivatedProfileSuccess,
+	updateProfileFailure,
+	updateProfileSuccess,
 	updateStatusFailure,
 	updateStatusSuccess,
 } from './profileAction';
@@ -37,6 +41,7 @@ export const getProfiles = async (dispatch) => {
 		dispatch(getAllProfileFailure(error.response));
 	}
 };
+
 export const getUnactivatedProfiles = async (dispatch) => {
 	try {
 		const res = await axios.get('/api/profile/profiles/unactivate');
@@ -70,12 +75,31 @@ export const getProfile = async (path, dispatch) => {
 	}
 };
 
+export const getProfileByAdmin = async (path, dispatch) => {
+	try {
+		const res = await axios.get(`/api/profile/admin/${path}`);
+
+		dispatch(getProfileByAdminSuccess(res.data));
+	} catch (error) {
+		dispatch(getProfileByAdminFailure(error.response));
+	}
+};
+
+export const updateProfile = async (profile, path, dispatch) => {
+	try {
+		const res = await axios.put(`/api/profile/${path}`, profile);
+		dispatch(updateProfileSuccess(res.data));
+	} catch (error) {
+		dispatch(updateProfileFailure(error.response));
+	}
+};
+
 export const updateProfileStatus = async (status, path, dispatch) => {
 	try {
 		const res = await axios.put(`/api/profile/status/${path}`, status);
 		dispatch(updateStatusSuccess(res.data));
 	} catch (error) {
-		dispatch(updateStatusFailure(error.response.data));
+		dispatch(updateStatusFailure(error.response));
 	}
 };
 
@@ -84,6 +108,6 @@ export const deleteProfile = async (path, dispatch) => {
 		const res = await axios.delete(`/api/profile/delete/${path}`);
 		dispatch(deleteProfileSuccess(res.data));
 	} catch (error) {
-		dispatch(deleteProfileFailure(error.response.data));
+		dispatch(deleteProfileFailure(error.response));
 	}
 };

@@ -9,6 +9,8 @@ import {
 	signupFailureAdmin,
 	signinSuccessAdmin,
 	signinFailureAdmin,
+	getAllUserSuccess,
+	getAllUserFailure,
 } from './AuthAction';
 
 // USER
@@ -38,6 +40,16 @@ export const emailSignin = async (user, dispatch) => {
 		dispatch(signinFailure(error.response));
 	}
 };
+
+export const users = async (dispatch) => {
+	try {
+		const res = await axios.get('/api/user')
+
+		dispatch(getAllUserSuccess(res.data))
+	} catch (error) {
+		dispatch(getAllUserFailure(error.response))
+	}
+}
 
 // USER END
 

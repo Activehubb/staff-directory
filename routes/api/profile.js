@@ -182,10 +182,12 @@ router.get('/', verify, async (req, res) => {
 		);
 
 		if (!profile.status) {
-			return res.status(403).json('This profile is being review');
+			return res
+				.status(403)
+				.json({ success: false, msg: 'This profile is being review' });
 		}
 
-		res.status(200).json(profile);
+		res.status(200).json({ profile });
 	} catch (err) {
 		console.error(err.message);
 		res.status(500).json('Server Error');
@@ -246,6 +248,21 @@ router.get('/user/:id', async (req, res) => {
 				msg: 'This profile is being review',
 			});
 		}
+
+		res.status(200).json(profile);
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).json('Server Error');
+	}
+});
+
+router.get('/admin/:id', async (req, res) => {
+	try {
+		const profile = await Profile.findById(req.params.id).populate('user', [
+			'email',
+			'username',
+			'profilePic',
+		]);
 
 		res.status(200).json(profile);
 	} catch (err) {

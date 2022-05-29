@@ -18,7 +18,7 @@ import './appbar.css';
 import { ExitToAppRounded } from '@material-ui/icons';
 import { ProfileContext } from '../../context/profile/profileContext';
 import { Link } from 'react-router-dom';
-import { logout, userLogout } from '../../context/auth/apiCall';
+import { userLogout } from '../../context/auth/apiCall';
 
 const Search = styled('div')(({ theme }) => ({
 	position: 'relative',

@@ -26,13 +26,11 @@ import { ProfileContext } from '../../context/profile/profileContext';
 import Loader from '../../utils/Loader';
 import './user.css';
 import UserDelete from './UserDelete';
-import { AuthContext } from '../../context/auth/AuthContext';
 
 export default function User() {
 	const location = useLocation();
-	const path = location.pathname.split('/')[2];
-	const { admin } = useContext(AuthContext);
-	const { profile, dispatch } = useContext(ProfileContext);
+	const path = location.pathname.split('/')[3];
+	const { getProfileByAdmin, dispatch } = useContext(ProfileContext);
 	const [status, setStatus] = useState(true);
 	const [open, setOpen] = useState(false);
 
@@ -52,11 +50,11 @@ export default function User() {
 		getProfile(path, dispatch);
 	}, [dispatch, path]);
 
-	if (profile === null) {
+	if (getProfileByAdmin === null) {
 		return <Loader />;
 	}
 
-	console.log(profile);
+	console.log(getProfileByAdmin);
 
 	const handleUpdateProfileStatus = (e) => {
 		e.preventDefault();
@@ -66,66 +64,66 @@ export default function User() {
 	return (
 		<>
 			<Container maxWidth={'md'}>
-				
-					<Card
-						style={{
-							background: 'rgb(0, 30, 60)',
-							border: '1px solid rgb(15, 80, 133)',
-							margin: '1rem 0',
-						}}
-					>
-						<Box style={{ display: 'flex', padding: '5px' }}>
-							<ListItemText
-								className='textColor'
-								secondary={
-									<Typography
-										sx={{ display: 'inline' }}
-										component='span'
-										variant='body2'
-										color='text.primary'
-									>
-										{profile._id && `ID: ${profile._id}`}
-									</Typography>
-								}
-							/>
-							<ListItemText
-								className='textColor'
-								secondary={
-									<Typography
-										sx={{ display: 'inline' }}
-										component='span'
-										variant='body2'
-										color='text.primary'
-									>
-										{profile.createdAt &&
-											`Created At: ${new Date(
-												profile.createdAt
-											).toDateString()}`}
-									</Typography>
-								}
-							/>
-							<ListItemText
-								className='textColor'
-								secondary={
-									<Typography
-										sx={{ display: 'inline' }}
-										component='span'
-										variant='body2'
-										color='text.primary'
-									>
-										{profile.user.email && `Email: ${profile.user.email}`}
-									</Typography>
-								}
-							/>
-						</Box>
-					</Card>
+				<Card
+					style={{
+						background: 'rgb(0, 30, 60)',
+						border: '1px solid rgb(15, 80, 133)',
+						margin: '1rem 0',
+					}}
+				>
+					<Box style={{ display: 'flex', padding: '5px' }}>
+						<ListItemText
+							className='textColor'
+							secondary={
+								<Typography
+									sx={{ display: 'inline' }}
+									component='span'
+									variant='body2'
+									color='text.primary'
+								>
+									{getProfileByAdmin._id && `ID: ${getProfileByAdmin._id}`}
+								</Typography>
+							}
+						/>
+						<ListItemText
+							className='textColor'
+							secondary={
+								<Typography
+									sx={{ display: 'inline' }}
+									component='span'
+									variant='body2'
+									color='text.primary'
+								>
+									{getProfileByAdmin.createdAt &&
+										`Created At: ${new Date(
+											getProfileByAdmin.createdAt
+										).toDateString()}`}
+								</Typography>
+							}
+						/>
+						<ListItemText
+							className='textColor'
+							secondary={
+								<Typography
+									sx={{ display: 'inline' }}
+									component='span'
+									variant='body2'
+									color='text.primary'
+								>
+									{getProfileByAdmin.user.email &&
+										`Email: ${getProfileByAdmin.user.email}`}
+								</Typography>
+							}
+						/>
+					</Box>
+				</Card>
 				<Card style={{ background: 'rgb(13, 50, 80)' }}>
 					<Box
 						className={`userstatus ${
-							profile.status ? 'Activated' : 'Unactivate'
+							getProfileByAdmin.status ? 'Activated' : 'Unactivate'
 						}`}
 					>
-						{profile.status ? 'Activated' : 'Unactivated'}
+						{getProfileByAdmin.status ? 'Activated' : 'Unactivated'}
 					</Box>
 					<Box>
 						<form onSubmit={handleUpdateProfileStatus}>
@@ -146,7 +144,7 @@ export default function User() {
 													}}
 												>
 													<Avatar
-														src={profile.user.profilePic}
+														src={getProfileByAdmin.user.profilePic}
 														alt='avatar'
 														variant={'rounded'}
 														className='avatar'
@@ -160,80 +158,81 @@ export default function User() {
 															<Typography
 																style={{ fontWeight: '700', color: '#fff' }}
 															>
-																{profile.bio.fname + ' ' + profile.bio.lname}
+																{getProfileByAdmin.bio.fname +
+																	' ' +
+																	getProfileByAdmin.bio.lname}
 															</Typography>
 															<Typography
 																variant='body2'
 																style={{ display: 'flex', color: '#fff' }}
 															>
-																<LocationOn /> {profile.bio.residence}
+																<LocationOn /> {getProfileByAdmin.bio.residence}
 															</Typography>
 														</Stack>
 													</Box>
 												</Box>
-											
-													<Box>
-														<IconButton
-															component={'a'}
-															href={`/update/profile/${profile._id}`}
-														>
-															<Edit
-																sx={{ fontSize: 14 }}
-																style={{
-																	border: '1px solid rgb(13, 50, 80)',
-																	borderRadius: '5px',
-																	color: '#f7f7f7',
-																	padding: '5px',
-																	margin: '10px 5px',
-																	cursor: 'pointer',
-																}}
-															/>
-														</IconButton>
-														<IconButton>
-															<Delete
-																onClick={handleOpen}
-																sx={{ fontSize: 14 }}
-																style={{
-																	border: '1px solid rgb(13, 50, 80)',
-																	borderRadius: '5px',
-																	color: '#f7f7f7',
-																	padding: '5px',
-																	cursor: 'pointer',
-																}}
-															/>
-														</IconButton>
-													</Box>
-												
+
+												<Box>
+													<IconButton
+														component={'a'}
+														href={`/update/profile/${getProfileByAdmin._id}`}
+													>
+														<Edit
+															sx={{ fontSize: 14 }}
+															style={{
+																border: '1px solid rgb(13, 50, 80)',
+																borderRadius: '5px',
+																color: '#f7f7f7',
+																padding: '5px',
+																margin: '10px 5px',
+																cursor: 'pointer',
+															}}
+														/>
+													</IconButton>
+													<IconButton>
+														<Delete
+															onClick={handleOpen}
+															sx={{ fontSize: 14 }}
+															style={{
+																border: '1px solid rgb(13, 50, 80)',
+																borderRadius: '5px',
+																color: '#f7f7f7',
+																padding: '5px',
+																cursor: 'pointer',
+															}}
+														/>
+													</IconButton>
+												</Box>
 											</Box>
 										</Box>
 										<Divider style={{ background: 'rgb(13, 50, 80)' }} />
-											<Stack
-												direction='row'
-												alignItems='center'
-												justifyContent='space-between'
-												sx={{ px: 2, py: 1 }}
-												style={{ background: 'rgb(0, 26, 53)' }}
-											>
-												<Box>
-													<Chip
-														label={status ? 'Activated' : 'Unactivate'}
-														className={`status ${
-															status ? 'Activated' : 'Unactivate'
-														}`}
-													/>
-												</Box>
-												<FormGroup>
-													<FormControlLabel
-														control={
-															<Switch
-																checked={status}
-																onChange={handleStatus}
-																value={status}
-															/>
-														}
-													/>
-												</FormGroup>
-											</Stack>
+										<Stack
+											direction='row'
+											alignItems='center'
+											justifyContent='space-between'
+											sx={{ px: 2, py: 1 }}
+											style={{ background: 'rgb(0, 26, 53)' }}
+										>
+											<Box>
+												<Chip
+													label={status ? 'Activated' : 'Unactivate'}
+													className={`status ${
+														status ? 'Activated' : 'Unactivate'
+													}`}
+												/>
+											</Box>
+											<FormGroup>
+												<FormControlLabel
+													control={
+														<Switch
+															checked={status}
+															onChange={handleStatus}
+															value={status}
+														/>
+													}
+												/>
+											</FormGroup>
+										</Stack>
 									</Card>
 								</Container>
 							</Box>
@@ -274,7 +273,7 @@ export default function User() {
 						<UserDelete
 							open={open}
 							handleClose={handleClose}
-							profile={profile}
+							profile={getProfileByAdmin}
 						/>
 
 						<Container maxWidth={'md'} className=' m-2'>
@@ -295,7 +294,7 @@ export default function User() {
 												}}
 												component='span'
 											>
-												{profile.dir.entry}
+												{getProfileByAdmin.dir.entry}
 											</Typography>
 										}
 									/>
@@ -306,32 +305,32 @@ export default function User() {
 										primary='Directory'
 										secondary={
 											<Typography sx={{ display: 'inline' }} component='span'>
-												{ profile.dir.directory}
+												{getProfileByAdmin.dir.directory}
 											</Typography>
 										}
 									/>
 								</ListItem>
 								<Divider style={{ background: 'rgb(13, 50, 80)' }} />
-								{profile.dir.mainEntry && (
+								{getProfileByAdmin.dir.mainEntry && (
 									<ListItem alignItems='flex-start' className='p-2 textColor'>
 										<ListItemText
 											primary='Category'
 											secondary={
 												<Typography sx={{ display: 'inline' }} component='span'>
-													{profile.dir.mainEntry}
+													{getProfileByAdmin.dir.mainEntry}
 												</Typography>
 											}
 										/>
 									</ListItem>
 								)}
 								<Divider style={{ background: 'rgb(13, 50, 80)' }} />
-								{profile.dir.subEntry && (
+								{getProfileByAdmin.dir.subEntry && (
 									<ListItem alignItems='flex-start' className='p-2 textColor'>
 										<ListItemText
 											primary='Sub Category'
 											secondary={
 												<Typography sx={{ display: 'inline' }} component='span'>
-													{profile.dir.subEntry}
+													{getProfileByAdmin.dir.subEntry}
 												</Typography>
 											}
 										/>
@@ -348,7 +347,7 @@ export default function User() {
 												variant='body2'
 												color='text.primary'
 											>
-												{profile.bio.rank}
+												{getProfileByAdmin.bio.rank}
 											</Typography>
 										}
 									/>
@@ -364,7 +363,7 @@ export default function User() {
 												component='span'
 												variant='body2'
 											>
-												{profile.bio.phoneNumber}
+												{getProfileByAdmin.bio.phoneNumber}
 											</Typography>
 										}
 									/>
@@ -375,7 +374,7 @@ export default function User() {
 										primary='Gender'
 										secondary={
 											<Typography sx={{ display: 'inline' }} component='span'>
-												{profile.bio.gender}
+												{getProfileByAdmin.bio.gender}
 											</Typography>
 										}
 									/>
@@ -396,14 +395,14 @@ export default function User() {
 										primary='Description'
 										secondary={
 											<Typography sx={{ display: 'inline' }} component='span'>
-												{profile.bio.desc}
+												{getProfileByAdmin.bio.desc}
 											</Typography>
 										}
 									/>
 								</ListItem>
 							</Card>
 						</Container>
-						{profile.bio.qualification && (
+						{getProfileByAdmin.bio.qualification && (
 							<Container maxWidth={'md'} className=' m-2'>
 								<Typography className='p-2 textColor' component='span'>
 									Qualifications
@@ -416,7 +415,7 @@ export default function User() {
 										padding: '5px',
 									}}
 								>
-									{profile.bio.qualification.map((item, idx) => (
+									{getProfileByAdmin.bio.qualification.map((item, idx) => (
 										<Chip
 											label={item}
 											key={idx}
@@ -426,7 +425,7 @@ export default function User() {
 								</Paper>
 							</Container>
 						)}
-						{profile.bio.research && (
+						{getProfileByAdmin.bio.research && (
 							<Container maxWidth={'md'} className=' m-2'>
 								<Typography className='p-2 textColor' component='span'>
 									Areas of Specialization
@@ -439,7 +438,7 @@ export default function User() {
 										padding: '5px',
 									}}
 								>
-									{profile.bio.research.map((item, idx) => (
+									{getProfileByAdmin.bio.research.map((item, idx) => (
 										<Chip
 											label={item}
 											key={idx}

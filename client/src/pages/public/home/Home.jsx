@@ -1,4 +1,3 @@
-import React, { useContext } from 'react';
 import { Box, Container } from '@material-ui/core';
 import Profile from '../../../components/profile/Profile';
 import Animate from '../../../components/widget/animate/Animate';

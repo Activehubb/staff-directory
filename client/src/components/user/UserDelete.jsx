@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
-// import {useHistory} from 'react-router-dom'
+import React, { useContext, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -21,7 +20,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function UserDelete({ open, handleClose }) {
-	const { profile, dispatch, isDeleted } = useContext(ProfileContext);
+	const { profile, dispatch, del, isDeleted } = useContext(ProfileContext);
 
 	const location = useLocation();
 	const path = location.pathname.split('/')[1];
@@ -36,7 +35,7 @@ export default function UserDelete({ open, handleClose }) {
 
 	return (
 		<Paper elevation={3}>
-			{isDeleted ? (
+			{del === false ? (
 				<Dialog
 					open={open}
 					TransitionComponent={Transition}
@@ -117,9 +116,7 @@ export default function UserDelete({ open, handleClose }) {
 									padding: '1rem 0',
 								}}
 							>
-								{`Note:  this user is ${
-									profile.status ? 'activated' : 'unactivate yet'
-								} by deleting this profile it can't be reverse`}
+								{isDeleted}
 							</DialogContentText>
 						</DialogContent>
 						<DialogActions>

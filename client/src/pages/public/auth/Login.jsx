@@ -27,6 +27,7 @@ const useStyles = makeStyles({
 		display: 'flex',
 		justifyContent: 'center',
 		margin: '1rem 0',
+		// background: '#f7f7f7'
 	},
 
 	mbox: {

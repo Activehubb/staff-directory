@@ -4,7 +4,7 @@ import { createContext, useEffect, useReducer } from 'react';
 const INITIAL_STATE = {
 	user: JSON.parse(sessionStorage.getItem('user')) || null,
 	admin: JSON.parse(sessionStorage.getItem('admin')) || null,
-	isAdm: false,
+	users: null,
 	isAuthenticated: false,
 	isFetching: false,
 	error: false,
@@ -28,7 +28,6 @@ const AuthContextProvider = ({ children }) => {
 			value={{
 				user: state.user,
 				admin: state.admin,
-				isAdm: state.isAdm,
 				isAuthenticated: state.isAuthenticated,
 				isFetching: state.isFetching,
 				error: state.error,

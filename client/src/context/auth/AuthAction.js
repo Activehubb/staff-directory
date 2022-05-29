@@ -16,6 +16,14 @@ export const signupFailure = (error) => ({
 	type: 'SIGNUP_FAILURE',
 	payload: error
 });
+export const getAllUserSuccess = (users) => ({
+	type: 'ALL_USERS_SUCCESS',
+	payload: users
+});
+export const getAllUserFailure = (error) => ({
+	type: 'ALL_USERS_FAILURE',
+	payload: error
+});
 
 // ADMIN
 
