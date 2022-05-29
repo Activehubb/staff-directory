@@ -9,7 +9,7 @@ import { Avatar, Box, Paper, Typography } from '@material-ui/core';
 import { useLocation } from 'react-router-dom';
 import {
 	deleteProfile,
-	getProfile,
+	getUserProfileByAdmin,
 } from '../../context/profile/profileApiCall';
 import { ProfileContext } from '../../context/profile/profileContext';
 import { Stack } from '@mui/material';
@@ -20,13 +20,14 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function UserDelete({ open, handleClose }) {
-	const { profile, dispatch, del, isDeleted } = useContext(ProfileContext);
+	const { getProfileByAdmin, dispatch, del, isDeleted } =
+		useContext(ProfileContext);
 
 	const location = useLocation();
-	const path = location.pathname.split('/')[1];
+	const path = location.pathname.split('/')[3];
 
 	useEffect(() => {
-		getProfile(path, dispatch);
+		getUserProfileByAdmin(path, dispatch);
 	}, [path, dispatch]);
 
 	const handleDelete = () => {
@@ -35,7 +36,6 @@ export default function UserDelete({ open, handleClose }) {
 
 	return (
 		<Paper elevation={3}>
-			{del === false ? (
 				<Dialog
 					open={open}
 					TransitionComponent={Transition}
@@ -57,7 +57,7 @@ export default function UserDelete({ open, handleClose }) {
 								}}
 							>
 								<Avatar
-									src={profile.user.profilePic}
+									src={getProfileByAdmin.user.profilePic}
 									alt='avatar'
 									variant={'rounded'}
 									className='avatar'
@@ -66,13 +66,15 @@ export default function UserDelete({ open, handleClose }) {
 								<Box component={'div'} style={{ paddingLeft: '1rem' }}>
 									<Stack spacing={1}>
 										<Typography style={{ fontWeight: '700', color: '#fff' }}>
-											{profile.bio.fname + ' ' + profile.bio.lname}
+											{getProfileByAdmin.bio.fname +
+												' ' +
+												getProfileByAdmin.bio.lname}
 										</Typography>
 										<Typography
 											variant='body2'
 											style={{ display: 'flex', color: '#fff' }}
 										>
-											<LocationOn /> {profile.bio.residence}
+											<LocationOn /> {getProfileByAdmin.bio.residence}
 										</Typography>
 									</Stack>
 								</Box>
@@ -85,7 +87,7 @@ export default function UserDelete({ open, handleClose }) {
 								}}
 							>
 								{`Note:  this user is ${
-									profile.status ? 'activated' : 'unactivate yet'
+									getProfileByAdmin.status ? 'activated' : 'unactivate yet'
 								} by deleting this profile it can't be reverse`}
 							</DialogContentText>
 						</DialogContent>
@@ -95,9 +97,8 @@ export default function UserDelete({ open, handleClose }) {
 						</DialogActions>
 					</Box>
 				</Dialog>
-			) : (
-				<Dialog
-					open={open}
+				 {/* <Dialog
+					open={del}
 					TransitionComponent={Transition}
 					keepMounted
 					onClose={handleClose}
@@ -116,7 +117,7 @@ export default function UserDelete({ open, handleClose }) {
 									padding: '1rem 0',
 								}}
 							>
-								{isDeleted}
+								{isDeleted.msg}
 							</DialogContentText>
 						</DialogContent>
 						<DialogActions>
@@ -125,8 +126,7 @@ export default function UserDelete({ open, handleClose }) {
 							</Button>
 						</DialogActions>
 					</Box>
-				</Dialog>
-			)}
+				</Dialog> */}
 		</Paper>
 	);
 }

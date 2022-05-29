@@ -27,7 +27,7 @@ import { AuthContext } from '../../../context/auth/AuthContext';
 import Loader from '../../../utils/Loader';
 
 export default function User() {
-	const { getCurrentProfile, dispatch, error, isError, profile } =
+	const { getCurrentProfile, dispatch, error, isError } =
 		useContext(ProfileContext);
 
 	const { admin } = useContext(AuthContext);
@@ -41,87 +41,56 @@ export default function User() {
 	const theme = useTheme();
 	const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
-	if (getCurrentProfile === null && isError === null && profile === null) {
+	if (getCurrentProfile === null && isError === null) {
 		return <Loader />;
-	} 
+	}
+
+	const { profile } = getCurrentProfile;
 
 	return (
 		<>
 			<Container maxWidth={'md'}>
-				{profile.success === true && (
-					<Dialog
-						fullScreen={fullScreen}
-						open={getCurrentProfile.success}
-						style={{ color: '#333' }}
-					>
-						<DialogContent>
-							<DialogContentText>{`${getCurrentProfile.msg}`}</DialogContentText>
-						</DialogContent>
-						<DialogActions>
-							<Button component={'a'} href={'/'}>
-								See more Profile
-							</Button>
-						</DialogActions>
-					</Dialog>
-				)}
-				{!isError ? (
+				{!isError && (
 					<>
-						{admin && (
-							<Card
-								style={{
-									background: 'rgb(0, 30, 60)',
-									border: '1px solid rgb(15, 80, 133)',
-									margin: '1rem 2rem',
-								}}
-							>
-								<Box style={{ display: 'flex', padding: '5px 10px' }}>
-									<ListItemText
-										className='textColor'
-										secondary={
-											<Typography
-												sx={{ display: 'inline' }}
-												component='span'
-												variant='body2'
-												color='text.primary'
-											>
-												{getCurrentProfile._id &&
-													`ID: ${getCurrentProfile._id}`}
-											</Typography>
-										}
-									/>
-									<ListItemText
-										className='textColor'
-										secondary={
-											<Typography
-												sx={{ display: 'inline' }}
-												component='span'
-												variant='body2'
-												color='text.primary'
-											>
-												{getCurrentProfile.createdAt &&
-													`Created At: ${new Date(
-														getCurrentProfile.createdAt
-													).toDateString()}`}
-											</Typography>
-										}
-									/>
-									<ListItemText
-										className='textColor'
-										secondary={
-											<Typography
-												sx={{ display: 'inline' }}
-												component='span'
-												variant='body2'
-												color='text.primary'
-											>
-												{getCurrentProfile.user.email &&
-													`Email: ${getCurrentProfile.user.email}`}
-											</Typography>
-										}
-									/>
-								</Box>
-							</Card>
-						)}
+						<Card
+							style={{
+								background: 'rgb(0, 30, 60)',
+								border: '1px solid rgb(15, 80, 133)',
+								margin: '1rem 2rem',
+							}}
+						>
+							<Box style={{ display: 'flex', padding: '5px 10px' }}>
+								<ListItemText
+									className='textColor'
+									secondary={
+										<Typography
+											sx={{ display: 'inline' }}
+											component='span'
+											variant='body2'
+											color='text.primary'
+										>
+											{profile.createdAt &&
+												`Created At: ${new Date(
+													profile.createdAt
+												).toDateString()}`}
+										</Typography>
+									}
+								/>
+								<ListItemText
+									className='textColor'
+									secondary={
+										<Typography
+											sx={{ display: 'inline' }}
+											component='span'
+											variant='body2'
+											color='text.primary'
+										>
+											{profile.user.email && `Email: ${profile.user.email}`}
+										</Typography>
+									}
+								/>
+							</Box>
+						</Card>
 						<Box>
 							<Box>
 								<Box>
@@ -142,7 +111,7 @@ export default function User() {
 														}}
 													>
 														<Avatar
-															src={getCurrentProfile.user.profilePic}
+															src={profile.user.profilePic}
 															alt='avatar'
 															variant={'rounded'}
 															className='avatar'
@@ -156,16 +125,13 @@ export default function User() {
 																<Typography
 																	style={{ fontWeight: '700', color: '#fff' }}
 																>
-																	{getCurrentProfile.bio.fname +
-																		' ' +
-																		getCurrentProfile.bio.lname}
+																	{profile.bio.fname + ' ' + profile.bio.lname}
 																</Typography>
 																<Typography
 																	variant='body2'
 																	style={{ display: 'flex', color: '#fff' }}
 																>
-																	<LocationOn />{' '}
-																	{getCurrentProfile.bio.residence}
+																	<LocationOn /> {profile.bio.residence}
 																</Typography>
 															</Stack>
 														</Box>
@@ -173,7 +139,7 @@ export default function User() {
 													<Box>
 														<IconButton
 															component={'a'}
-															href={`/update/profile/${getCurrentProfile._id}`}
+															href={`/update/profile/${profile._id}`}
 														>
 															<Edit
 																sx={{ fontSize: 14 }}
@@ -195,7 +161,6 @@ export default function User() {
 
 								<Container maxWidth={'md'} className=' m-2'>
 									<Card
-										elevation={3}
 										style={{
 											background: 'rgb(0, 30, 60)',
 											border: '1px solid rgb(15, 80, 133)',
@@ -203,27 +168,72 @@ export default function User() {
 									>
 										<ListItem alignItems='flex-start' className='p-2 textColor'>
 											<ListItemText
+												primary='Entry'
+												secondary={
+													<Typography
+														style={{
+															display: 'inline',
+															textTransform: 'capitalize',
+														}}
+														component='span'
+													>
+														{profile.dir.entry}
+													</Typography>
+												}
+											/>
+										</ListItem>
+										<Divider style={{ background: 'rgb(13, 50, 80)' }} />
+										<ListItem alignItems='flex-start' className='p-2 textColor'>
+											<ListItemText
 												primary='Directory'
 												secondary={
 													<Typography
 														sx={{ display: 'inline' }}
 														component='span'
-														variant='body2'
-														color='text.primary'
 													>
-														{getCurrentProfile.dir
-															? `Faculty — ${getCurrentProfile.faculty}`
-															: getCurrentProfile.college
-															? `College — ${getCurrentProfile.college}`
-															: getCurrentProfile.center
-															? `Center — ${getCurrentProfile.center}`
-															: getCurrentProfile.unit
-															? `Unit — ${getCurrentProfile.unit}`
-															: ''}
+														{profile.dir.directory}
 													</Typography>
 												}
 											/>
 										</ListItem>
+										<Divider style={{ background: 'rgb(13, 50, 80)' }} />
+										{profile.dir.mainEntry && (
+											<ListItem
+												alignItems='flex-start'
+												className='p-2 textColor'
+											>
+												<ListItemText
+													primary='Category'
+													secondary={
+														<Typography
+															sx={{ display: 'inline' }}
+															component='span'
+														>
+															{profile.dir.mainEntry}
+														</Typography>
+													}
+												/>
+											</ListItem>
+										)}
+										<Divider style={{ background: 'rgb(13, 50, 80)' }} />
+										{profile.dir.subEntry && (
+											<ListItem
+												alignItems='flex-start'
+												className='p-2 textColor'
+											>
+												<ListItemText
+													primary='Sub Category'
+													secondary={
+														<Typography
+															sx={{ display: 'inline' }}
+															component='span'
+														>
+															{profile.dir.subEntry}
+														</Typography>
+													}
+												/>
+											</ListItem>
+										)}
 										<Divider style={{ background: 'rgb(13, 50, 80)' }} />
 										<ListItem alignItems='flex-start' className='p-2 textColor'>
 											<ListItemText
@@ -235,28 +245,13 @@ export default function User() {
 														variant='body2'
 														color='text.primary'
 													>
-														{getCurrentProfile.bio.rank}
+														{profile.bio.rank}
 													</Typography>
 												}
 											/>
 										</ListItem>
 										<Divider style={{ background: 'rgb(13, 50, 80)' }} />
-										<ListItem alignItems='flex-start' className='p-2 textColor'>
-											<ListItemText
-												primary='Rank'
-												secondary={
-													<Typography
-														sx={{ display: 'inline' }}
-														component='span'
-														variant='body2'
-														color='text.primary'
-													>
-														{getCurrentProfile.bio.qualification}
-													</Typography>
-												}
-											/>
-										</ListItem>
-										<Divider style={{ background: 'rgb(13, 50, 80)' }} />
+
 										<ListItem alignItems='flex-start' className='p-2 textColor'>
 											<ListItemText
 												primary='Contact'
@@ -265,9 +260,8 @@ export default function User() {
 														sx={{ display: 'inline' }}
 														component='span'
 														variant='body2'
-														color='text.primary'
 													>
-														{getCurrentProfile.bio.phoneNumber}
+														{profile.bio.phoneNumber}
 													</Typography>
 												}
 											/>
@@ -280,10 +274,8 @@ export default function User() {
 													<Typography
 														sx={{ display: 'inline' }}
 														component='span'
-														variant='body2'
-														color='text.primary'
 													>
-														{getCurrentProfile.bio.gender}
+														{profile.bio.gender}
 													</Typography>
 												}
 											/>
@@ -309,15 +301,25 @@ export default function User() {
 														variant='body2'
 														color='text.primary'
 													>
-														{getCurrentProfile.bio.desc}
+														{profile.bio.desc}
 													</Typography>
 												}
 											/>
 										</ListItem>
 									</Card>
 								</Container>
-								{getCurrentProfile.bio.research && (
+
+								{profile.bio.qualification && (
 									<Container maxWidth={'md'} className=' m-2'>
+										<Typography
+											className='p-2 textColor'
+											style={{
+												color: 'rgb(0, 30, 60)',
+											}}
+											component='span'
+										>
+											Qualifications
+										</Typography>
 										<Paper
 											elevation={3}
 											style={{
@@ -326,7 +328,36 @@ export default function User() {
 												padding: '5px',
 											}}
 										>
-											{getCurrentProfile.bio.research.map((item, idx) => (
+											{profile.bio.qualification.map((item, idx) => (
+												<Chip
+													label={item}
+													key={idx}
+													style={{ margin: ' 0 10px' }}
+												/>
+											))}
+										</Paper>
+									</Container>
+								)}
+
+								{profile.bio.research && (
+									<Container maxWidth={'md'} className=' m-2'>
+										<Typography
+											style={{
+												color: 'rgb(0, 30, 60)',
+											}}
+											component='span'
+										>
+											Areas of Specialization
+										</Typography>
+										<Paper
+											elevation={3}
+											style={{
+												background: 'rgb(0, 30, 60)',
+												border: '1px solid rgb(15, 80, 133)',
+												padding: '5px',
+											}}
+										>
+											{profile.bio.research.map((item, idx) => (
 												<Chip
 													label={item}
 													key={idx}
@@ -339,7 +370,9 @@ export default function User() {
 							</Box>
 						</Box>
 					</>
-				) : isError.status === 403 ? (
+				)}
+
+				{isError && isError.status === 403 && (
 					<Dialog
 						fullScreen={fullScreen}
 						open={error}
@@ -355,23 +388,22 @@ export default function User() {
 							</Button>
 						</DialogActions>
 					</Dialog>
-				) : (
-					isError.status === 500 && (
-						<Dialog
-							fullScreen={fullScreen}
-							open={error}
-							style={{ color: '#333' }}
-						>
-							<DialogContent>
-								<DialogContentText>{`${isError.statusText} check your connection`}</DialogContentText>
-							</DialogContent>
-							<DialogActions>
-								<Button component={'a'} href={'/profile'}>
-									Refresh Page
-								</Button>
-							</DialogActions>
-						</Dialog>
-					)
+				)}
+				{isError && isError.status === 500 && (
+					<Dialog
+						fullScreen={fullScreen}
+						open={error}
+						style={{ color: '#333' }}
+					>
+						<DialogContent>
+							<DialogContentText>{`${isError.statusText} check your connection`}</DialogContentText>
+						</DialogContent>
+						<DialogActions>
+							<Button component={'a'} href={'/profile'}>
+								Refresh Page
+							</Button>
+						</DialogActions>
+					</Dialog>
 				)}
 			</Container>
 		</>

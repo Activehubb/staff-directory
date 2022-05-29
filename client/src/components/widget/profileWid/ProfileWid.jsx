@@ -12,7 +12,7 @@ import {
 	CardActions,
 	Button,
 } from '@material-ui/core';
-import { LocationOnOutlined, Email, More, Grade } from '@material-ui/icons';
+import { SchoolRounded, Email, More, Grade } from '@material-ui/icons';
 import Stack from '@mui/material/Stack';
 import { Link } from 'react-router-dom';
 
@@ -87,12 +87,12 @@ export default function ProfileWid({ profile }) {
 										label={profile.user.email}
 										icon={<Email />}
 									/>
-									{/* {profile.bio.residence && (
+									{profile.dir.entry && (
 										<Chip
-											label={profile.bio.residence}
-											icon={<LocationOnOutlined />}
+											label={profile.dir.entry}
+											icon={<SchoolRounded />}
 										/>
-									)} */}
+									)}
 								</Stack>
 							</CardContent>
 						</Box>

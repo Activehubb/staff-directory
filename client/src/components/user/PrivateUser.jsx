@@ -19,7 +19,7 @@ import { Stack, IconButton } from '@mui/material';
 import { Delete, Edit, LocationOn } from '@material-ui/icons';
 import { useLocation } from 'react-router-dom';
 import {
-	getProfile,
+	getUserProfileByAdmin,
 	updateProfileStatus,
 } from '../../context/profile/profileApiCall';
 import { ProfileContext } from '../../context/profile/profileContext';
@@ -47,14 +47,14 @@ export default function User() {
 	};
 
 	useEffect(() => {
-		getProfile(path, dispatch);
+		getUserProfileByAdmin(path, dispatch);
 	}, [dispatch, path]);
 
 	if (getProfileByAdmin === null) {
 		return <Loader />;
 	}
 
-	console.log(getProfileByAdmin);
+	console.log(getProfileByAdmin._id);
 
 	const handleUpdateProfileStatus = (e) => {
 		e.preventDefault();
@@ -81,7 +81,7 @@ export default function User() {
 									variant='body2'
 									color='text.primary'
 								>
-									{getProfileByAdmin._id && `ID: ${getProfileByAdmin._id}`}
+									{`ID: ${getProfileByAdmin._id}`}
 								</Typography>
 							}
 						/>
@@ -270,11 +270,7 @@ export default function User() {
 							)}
 						</form>
 
-						<UserDelete
-							open={open}
-							handleClose={handleClose}
-							profile={getProfileByAdmin}
-						/>
+						<UserDelete open={open} handleClose={handleClose} />
 
 						<Container maxWidth={'md'} className=' m-2'>
 							<Card
@@ -311,19 +307,19 @@ export default function User() {
 									/>
 								</ListItem>
 								<Divider style={{ background: 'rgb(13, 50, 80)' }} />
-								{getProfileByAdmin.dir.mainEntry && (
-									<ListItem alignItems='flex-start' className='p-2 textColor'>
-										<ListItemText
-											primary='Category'
-											secondary={
-												<Typography sx={{ display: 'inline' }} component='span'>
-													{getProfileByAdmin.dir.mainEntry}
-												</Typography>
-											}
-										/>
-									</ListItem>
-								)}
+
+								<ListItem alignItems='flex-start' className='p-2 textColor'>
+									<ListItemText
+										primary='Category'
+										secondary={
+											<Typography sx={{ display: 'inline' }} component='span'>
+												{getProfileByAdmin.dir.mainEntry}
+											</Typography>
+										}
+									/>
+								</ListItem>
 								<Divider style={{ background: 'rgb(13, 50, 80)' }} />
+
 								{getProfileByAdmin.dir.subEntry && (
 									<ListItem alignItems='flex-start' className='p-2 textColor'>
 										<ListItemText
@@ -402,52 +398,40 @@ export default function User() {
 								</ListItem>
 							</Card>
 						</Container>
-						{getProfileByAdmin.bio.qualification && (
-							<Container maxWidth={'md'} className=' m-2'>
-								<Typography className='p-2 textColor' component='span'>
-									Qualifications
-								</Typography>
-								<Paper
-									elevation={3}
-									style={{
-										background: 'rgb(0, 30, 60)',
-										border: '1px solid rgb(15, 80, 133)',
-										padding: '5px',
-									}}
-								>
-									{getProfileByAdmin.bio.qualification.map((item, idx) => (
-										<Chip
-											label={item}
-											key={idx}
-											style={{ margin: ' 0 10px' }}
-										/>
-									))}
-								</Paper>
-							</Container>
-						)}
-						{getProfileByAdmin.bio.research && (
-							<Container maxWidth={'md'} className=' m-2'>
-								<Typography className='p-2 textColor' component='span'>
-									Areas of Specialization
-								</Typography>
-								<Paper
-									elevation={3}
-									style={{
-										background: 'rgb(0, 30, 60)',
-										border: '1px solid rgb(15, 80, 133)',
-										padding: '5px',
-									}}
-								>
-									{getProfileByAdmin.bio.research.map((item, idx) => (
-										<Chip
-											label={item}
-											key={idx}
-											style={{ margin: ' 0 10px' }}
-										/>
-									))}
-								</Paper>
-							</Container>
-						)}
+						<Container maxWidth={'md'} className=' m-2'>
+							<Typography className='p-2 textColor' component='span'>
+								Qualifications
+							</Typography>
+							<Paper
+								elevation={3}
+								style={{
+									background: 'rgb(0, 30, 60)',
+									border: '1px solid rgb(15, 80, 133)',
+									padding: '5px',
+								}}
+							>
+								{getProfileByAdmin.bio.qualification.map((item, idx) => (
+									<Chip label={item} key={idx} style={{ margin: ' 0 10px' }} />
+								))}
+							</Paper>
+						</Container>
+						<Container maxWidth={'md'} className=' m-2'>
+							<Typography className='p-2 textColor' component='span'>
+								Areas of Specialization
+							</Typography>
+							<Paper
+								elevation={3}
+								style={{
+									background: 'rgb(0, 30, 60)',
+									border: '1px solid rgb(15, 80, 133)',
+									padding: '5px',
+								}}
+							>
+								{getProfileByAdmin.bio.research.map((item, idx) => (
+									<Chip label={item} key={idx} style={{ margin: ' 0 10px' }} />
+								))}
+							</Paper>
+						</Container>
 					</Box>
 				</Card>
 			</Container>

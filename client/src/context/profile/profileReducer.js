@@ -13,6 +13,7 @@ const ProfileReducer = (state, action) => {
 		case 'CREATE_PROFILE_SUCCESS':
 		case 'GET_PROFILE_SUCCESS':
 		case 'GET_CURRENT_PROFILE_SUCCESS':
+		case 'GET_PROFILE_BY_ADMIN_SUCCESS':
 		case 'UPDATE_PROFILE_SUCCESS':
 		case 'UPDATE_STATUS_SUCCESS':
 		case 'DELETE_PROFILE_SUCCESS':

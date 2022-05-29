@@ -1,281 +1,129 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useEffect, useContext } from 'react';
 import {
 	Avatar,
 	Box,
 	Card,
-	CardContent,
 	Chip,
 	Container,
 	Divider,
-	FormControlLabel,
-	FormGroup,
 	ListItem,
 	ListItemText,
 	Paper,
-	Switch,
 	Typography,
 } from '@material-ui/core';
-import { Stack, IconButton } from '@mui/material';
-import { Delete, Edit, LocationOn } from '@material-ui/icons';
+import { Stack,  } from '@mui/material';
+import { LocationOn } from '@material-ui/icons';
 import { useLocation } from 'react-router-dom';
 import {
-	getProfile,
-	updateProfileStatus,
+	getUserProfile,
 } from '../../context/profile/profileApiCall';
 import { ProfileContext } from '../../context/profile/profileContext';
 import Loader from '../../utils/Loader';
 import './user.css';
-import UserDelete from './UserDelete';
-import { AuthContext } from '../../context/auth/AuthContext';
 
 export default function User() {
 	const location = useLocation();
 	const path = location.pathname.split('/')[2];
-	const { admin } = useContext(AuthContext);
-	const { profile, dispatch } = useContext(ProfileContext);
-	const [status, setStatus] = useState(true);
-	const [open, setOpen] = useState(false);
-
-	const handleOpen = () => {
-		setOpen(true);
-	};
-
-	const handleClose = () => {
-		setOpen(false);
-	};
-
-	const handleStatus = (event) => {
-		setStatus(event.target.checked);
-	};
+	const { getProfile, dispatch } = useContext(ProfileContext);
 
 	useEffect(() => {
-		getProfile(path, dispatch);
-	}, [dispatch, path]);
+		getUserProfile(path, dispatch);
+	}, [path, dispatch]);
 
-	if (profile === null) {
+	if (getProfile === null) {
 		return <Loader />;
 	}
 
-	console.log(profile);
-
-	const handleUpdateProfileStatus = (e) => {
-		e.preventDefault();
-		updateProfileStatus({ status }, path, dispatch);
-	};
 
 	return (
 		<>
 			<Container maxWidth={'md'}>
-				
-					<Card
-						style={{
-							background: 'rgb(0, 30, 60)',
-							border: '1px solid rgb(15, 80, 133)',
-							margin: '1rem 0',
-						}}
-					>
-						<Box style={{ display: 'flex', padding: '5px' }}>
-							<ListItemText
-								className='textColor'
-								secondary={
-									<Typography
-										sx={{ display: 'inline' }}
-										component='span'
-										variant='body2'
-										color='text.primary'
-									>
-										{profile._id && `ID: ${profile._id}`}
-									</Typography>
-								}
-							/>
-							<ListItemText
-								className='textColor'
-								secondary={
-									<Typography
-										sx={{ display: 'inline' }}
-										component='span'
-										variant='body2'
-										color='text.primary'
-									>
-										{profile.createdAt &&
-											`Created At: ${new Date(
-												profile.createdAt
-											).toDateString()}`}
-									</Typography>
-								}
-							/>
-							<ListItemText
-								className='textColor'
-								secondary={
-									<Typography
-										sx={{ display: 'inline' }}
-										component='span'
-										variant='body2'
-										color='text.primary'
-									>
-										{profile.user.email && `Email: ${profile.user.email}`}
-									</Typography>
-								}
-							/>
-						</Box>
-					</Card>
 				<Card style={{ background: 'rgb(13, 50, 80)' }}>
 					<Box
 						className={`userstatus ${
-							profile.status ? 'Activated' : 'Unactivate'
+							getProfile.status ? 'Activated' : 'Unactivate'
 						}`}
 					>
-						{profile.status ? 'Activated' : 'Unactivated'}
+						{getProfile.status ? 'Activated' : 'Unactivated'}
 					</Box>
 					<Box>
-						<form onSubmit={handleUpdateProfileStatus}>
-							<Box>
-								<Container maxWidth={'md'} className=' m-2'>
-									<Card
-										style={{
-											background: 'rgb(0, 30, 60)',
-											border: '1px solid rgb(15, 80, 133)',
-										}}
-									>
-										<Box style={{ padding: '0 2rem' }}>
-											<Box className='card'>
-												<Box
-													style={{
-														display: 'flex',
-														alignItems: 'center',
-													}}
-												>
-													<Avatar
-														src={profile.user.profilePic}
-														alt='avatar'
-														variant={'rounded'}
-														className='avatar'
-														style={{ width: '72px', height: '72px' }}
-													/>
-													<Box
-														component={'div'}
-														style={{ paddingLeft: '1rem' }}
-													>
-														<Stack spacing={1}>
-															<Typography
-																style={{ fontWeight: '700', color: '#fff' }}
-															>
-																{profile.bio.fname + ' ' + profile.bio.lname}
-															</Typography>
-															<Typography
-																variant='body2'
-																style={{ display: 'flex', color: '#fff' }}
-															>
-																<LocationOn /> {profile.bio.residence}
-															</Typography>
-														</Stack>
-													</Box>
-												</Box>
-											
-													<Box>
-														<IconButton
-															component={'a'}
-															href={`/update/profile/${profile._id}`}
+						<Box>
+							<Container maxWidth={'md'} className=' m-2'>
+								<Card
+									style={{
+										background: 'rgb(0, 30, 60)',
+										border: '1px solid rgb(15, 80, 133)',
+									}}
+								>
+									<Box style={{ padding: '0 2rem' }}>
+										<Box className='card'>
+											<Box
+												style={{
+													display: 'flex',
+													alignItems: 'center',
+												}}
+											>
+												<Avatar
+													src={getProfile.user.profilePic}
+													alt='avatar'
+													variant={'rounded'}
+													className='avatar'
+													style={{ width: '72px', height: '72px' }}
+												/>
+												<Box component={'div'} style={{ paddingLeft: '1rem' }}>
+													<Stack spacing={1}>
+														<Typography
+															style={{ fontWeight: '700', color: '#fff' }}
 														>
-															<Edit
-																sx={{ fontSize: 14 }}
-																style={{
-																	border: '1px solid rgb(13, 50, 80)',
-																	borderRadius: '5px',
-																	color: '#f7f7f7',
-																	padding: '5px',
-																	margin: '10px 5px',
-																	cursor: 'pointer',
-																}}
-															/>
-														</IconButton>
-														<IconButton>
-															<Delete
-																onClick={handleOpen}
-																sx={{ fontSize: 14 }}
-																style={{
-																	border: '1px solid rgb(13, 50, 80)',
-																	borderRadius: '5px',
-																	color: '#f7f7f7',
-																	padding: '5px',
-																	cursor: 'pointer',
-																}}
-															/>
-														</IconButton>
-													</Box>
-												
+															{getProfile.bio.fname +
+																' ' +
+																getProfile.bio.lname}
+														</Typography>
+														<Typography
+															variant='body2'
+															style={{ display: 'flex', color: '#fff' }}
+														>
+															<LocationOn /> {getProfile.bio.residence}
+														</Typography>
+													</Stack>
+												</Box>
+											</Box>
+
+											<Box>
+												<ListItemText
+													className='textColor'
+													secondary={
+														<Typography
+															sx={{ display: 'inline' }}
+															component='span'
+														>
+															{getProfile.user.email &&
+																`Email: ${getProfile.user.email}`}
+														</Typography>
+													}
+												/>
+												<ListItemText
+													className='textColor'
+													secondary={
+														<Typography
+															sx={{ display: 'inline' }}
+															component='span'
+															variant='body2'
+															color='text.primary'
+														>
+															{getProfile.createdAt &&
+																`Created On: ${new Date(
+																	getProfile.createdAt
+																).toDateString()}`}
+														</Typography>
+													}
+												/>
 											</Box>
 										</Box>
-										<Divider style={{ background: 'rgb(13, 50, 80)' }} />
-											<Stack
-												direction='row'
-												alignItems='center'
-												justifyContent='space-between'
-												sx={{ px: 2, py: 1 }}
-												style={{ background: 'rgb(0, 26, 53)' }}
-											>
-												<Box>
-													<Chip
-														label={status ? 'Activated' : 'Unactivate'}
-														className={`status ${
-															status ? 'Activated' : 'Unactivate'
-														}`}
-													/>
-												</Box>
-												<FormGroup>
-													<FormControlLabel
-														control={
-															<Switch
-																checked={status}
-																onChange={handleStatus}
-																value={status}
-															/>
-														}
-													/>
-												</FormGroup>
-											</Stack>
-									</Card>
-								</Container>
-							</Box>
-
-							{status && (
-								<Container maxWidth={'md'}>
-									<CardContent
-										style={{
-											background: 'rgb(0, 30, 60)',
-											border: '1px solid rgb(15, 80, 133)',
-										}}
-									>
-										<input
-											type='submit'
-											value={'Update Status'}
-											style={{
-												border: '1px solid rgb(15, 80, 133)',
-												outline: 'none',
-												display: 'block',
-												textAlign: 'center',
-												color: '#fff',
-												background: 'rgb(13, 50, 80)',
-												width: '100%',
-												padding: '8px 10px',
-												borderRadius: '5px',
-												boxShadow: '0px 3px 1px -2px rgb(0 0 0 / 20%)',
-												fontSize: '14px',
-												fontWeight: 500,
-												cursor: 'pointer',
-												position: 'relative',
-											}}
-										/>
-									</CardContent>
-								</Container>
-							)}
-						</form>
-
-						<UserDelete
-							open={open}
-							handleClose={handleClose}
-							profile={profile}
-						/>
+									</Box>
+								</Card>
+							</Container>
+						</Box>
 
 						<Container maxWidth={'md'} className=' m-2'>
 							<Card
@@ -295,7 +143,7 @@ export default function User() {
 												}}
 												component='span'
 											>
-												{profile.dir.entry}
+												{getProfile.dir.entry}
 											</Typography>
 										}
 									/>
@@ -306,32 +154,32 @@ export default function User() {
 										primary='Directory'
 										secondary={
 											<Typography sx={{ display: 'inline' }} component='span'>
-												{ profile.dir.directory}
+												{getProfile.dir.directory}
 											</Typography>
 										}
 									/>
 								</ListItem>
 								<Divider style={{ background: 'rgb(13, 50, 80)' }} />
-								{profile.dir.mainEntry && (
+								{getProfile.dir.mainEntry && (
 									<ListItem alignItems='flex-start' className='p-2 textColor'>
 										<ListItemText
 											primary='Category'
 											secondary={
 												<Typography sx={{ display: 'inline' }} component='span'>
-													{profile.dir.mainEntry}
+													{getProfile.dir.mainEntry}
 												</Typography>
 											}
 										/>
 									</ListItem>
 								)}
 								<Divider style={{ background: 'rgb(13, 50, 80)' }} />
-								{profile.dir.subEntry && (
+								{getProfile.dir.subEntry && (
 									<ListItem alignItems='flex-start' className='p-2 textColor'>
 										<ListItemText
 											primary='Sub Category'
 											secondary={
 												<Typography sx={{ display: 'inline' }} component='span'>
-													{profile.dir.subEntry}
+													{getProfile.dir.subEntry}
 												</Typography>
 											}
 										/>
@@ -348,7 +196,7 @@ export default function User() {
 												variant='body2'
 												color='text.primary'
 											>
-												{profile.bio.rank}
+												{getProfile.bio.rank}
 											</Typography>
 										}
 									/>
@@ -364,7 +212,7 @@ export default function User() {
 												component='span'
 												variant='body2'
 											>
-												{profile.bio.phoneNumber}
+												{getProfile.bio.phoneNumber}
 											</Typography>
 										}
 									/>
@@ -375,7 +223,7 @@ export default function User() {
 										primary='Gender'
 										secondary={
 											<Typography sx={{ display: 'inline' }} component='span'>
-												{profile.bio.gender}
+												{getProfile.bio.gender}
 											</Typography>
 										}
 									/>
@@ -396,14 +244,14 @@ export default function User() {
 										primary='Description'
 										secondary={
 											<Typography sx={{ display: 'inline' }} component='span'>
-												{profile.bio.desc}
+												{getProfile.bio.desc}
 											</Typography>
 										}
 									/>
 								</ListItem>
 							</Card>
 						</Container>
-						{profile.bio.qualification && (
+						{getProfile.bio.qualification && (
 							<Container maxWidth={'md'} className=' m-2'>
 								<Typography className='p-2 textColor' component='span'>
 									Qualifications
@@ -416,7 +264,7 @@ export default function User() {
 										padding: '5px',
 									}}
 								>
-									{profile.bio.qualification.map((item, idx) => (
+									{getProfile.bio.qualification.map((item, idx) => (
 										<Chip
 											label={item}
 											key={idx}
@@ -426,7 +274,7 @@ export default function User() {
 								</Paper>
 							</Container>
 						)}
-						{profile.bio.research && (
+						{getProfile.bio.research && (
 							<Container maxWidth={'md'} className=' m-2'>
 								<Typography className='p-2 textColor' component='span'>
 									Areas of Specialization
@@ -439,7 +287,7 @@ export default function User() {
 										padding: '5px',
 									}}
 								>
-									{profile.bio.research.map((item, idx) => (
+									{getProfile.bio.research.map((item, idx) => (
 										<Chip
 											label={item}
 											key={idx}

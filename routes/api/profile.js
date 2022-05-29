@@ -274,7 +274,7 @@ router.get('/admin/:id', async (req, res) => {
 router.delete('/delete/:id', async (req, res) => {
 	try {
 		await Profile.findByIdAndRemove(req.params.id);
-		res.status(200).json('Account deleted...');
+		res.status(200).json({success:true, msg: 'Account deleted...'});
 	} catch (error) {
 		res.status(500).json('Server Error');
 	}

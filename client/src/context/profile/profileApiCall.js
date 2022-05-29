@@ -65,7 +65,7 @@ export const getCurrentUserProfile = async (dispatch) => {
 	}
 };
 
-export const getProfile = async (path, dispatch) => {
+export const getUserProfile = async (path, dispatch) => {
 	try {
 		const res = await axios.get(`/api/profile/user/${path}`);
 
@@ -75,7 +75,7 @@ export const getProfile = async (path, dispatch) => {
 	}
 };
 
-export const getProfileByAdmin = async (path, dispatch) => {
+export const getUserProfileByAdmin = async (path, dispatch) => {
 	try {
 		const res = await axios.get(`/api/profile/admin/${path}`);
 
