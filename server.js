@@ -14,9 +14,7 @@ app.use(
 	})
 );
 
-if (process.env.NODE_ENV === 'production') {
-	app.use(express.static('client/build'));
-}
+
 
 // Admin routes
 app.use('/api/admin/admin', require('./routes/api/admin/admin'));
@@ -26,6 +24,10 @@ app.use('/api/admin/auth', require('./routes/api/admin/auth'));
 app.use('/api/user', require('./routes/api/user'));
 app.use('/api/auth', require('./routes/api/auth'));
 app.use('/api/profile', require('./routes/api/profile'));
+
+if (process.env.NODE_ENV === 'production') {
+	app.use(express.static('client/build'));
+}
 
 const PORT = process.env.PORT || 4400;
 
