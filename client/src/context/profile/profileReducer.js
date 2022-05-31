@@ -16,7 +16,6 @@ const ProfileReducer = (state, action) => {
 		case 'GET_PROFILE_BY_ADMIN_SUCCESS':
 		case 'UPDATE_PROFILE_SUCCESS':
 		case 'UPDATE_STATUS_SUCCESS':
-		case 'DELETE_PROFILE_SUCCESS':
 			return {
 				...state,
 				profile: action.payload,
@@ -25,13 +24,18 @@ const ProfileReducer = (state, action) => {
 				status: action.payload,
 				getProfileByAdmin: action.payload,
 				isProfile: true,
-				isDeleted: action.payload,
 				updateProfile: action.payload,
+			};
+		case 'DELETE_PROFILE_SUCCESS':
+			return {
+				...state,
+				isDeleted: action.payload,
 				del: true,
 			};
 		case 'GET_PROFILE_BY_ADMIN_FAILURE':
 		case 'CREATE_PROFILE_FAILURE':
 		case 'UPDATE_STATUS_FAILURE':
+		case 'UPDATE_PROFILE_FAILURE':
 		case 'GET_PROFILE_FAILURE':
 		case 'GET_CURRENT_PROFILE_FAILURE':
 		case 'GET_ALL_PROFILES_FAILURE':

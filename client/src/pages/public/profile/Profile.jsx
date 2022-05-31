@@ -445,7 +445,7 @@ export default function Profile() {
 	}
 
 	if (isProfile) {
-		navigate('/profile');
+		navigate('/notify');
 	}
 
 	return (

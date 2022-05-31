@@ -5,6 +5,7 @@ import LoginAdm from './pages/public/auth/LoginAdm';
 import Register from './pages/public/auth/Register';
 import SignupAdm from './pages/public/auth/SignupAdm';
 import PrimarySearchAppBar from './components/appbar/AppBar';
+import Notify from './components/widget/dialog/Dialog';
 import NewMember from './components/newMember/NewMember';
 import './app.css';
 import Dashboard from './pages/Private/dashboard/Dashboard';
@@ -83,15 +84,18 @@ function App() {
 					{user && (
 						<>
 							<Route path='/create/profile' element={<Profile />} />
-							<Route path='/update/profile/:id' element={<UpdateProfile />} />
-							<Route path='/users/:id' element={<SingleUser />} />
 							<Route path='/profile' element={<User />} />
+							<Route path='/users/:id' element={<SingleUser />} />
+							<Route path='/notify' element={<Notify />} />
+							<Route path='/update/profile/:id' element={<UpdateProfile />} />
 						</>
 					)}
 					{admin && (
 						<>
 							<Route path='/update/profile/:id' element={<UpdateProfile />} />
 							<Route path='/create/profile' element={<Profile />} />
+							<Route path='/notify' element={<Notify />} />
+
 							<Route path='/users/:id' element={<SingleUser />} />
 							<Route path='/admin/user/:id' element={<AdminUser />} />
 							<Route path='/profile' element={<User />} />

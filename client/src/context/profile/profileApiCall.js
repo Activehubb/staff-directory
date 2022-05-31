@@ -87,7 +87,11 @@ export const getUserProfileByAdmin = async (path, dispatch) => {
 
 export const updateProfile = async (profile, path, dispatch) => {
 	try {
-		const res = await axios.put(`/api/profile/${path}`, profile);
+		const res = await axios.put(`/api/profile/update/${path}`, profile, {
+			headers: {
+				token: `Bearer ${JSON.parse(sessionStorage.getItem('user')).userToken}`,
+			},
+		});
 		dispatch(updateProfileSuccess(res.data));
 	} catch (error) {
 		dispatch(updateProfileFailure(error.response));

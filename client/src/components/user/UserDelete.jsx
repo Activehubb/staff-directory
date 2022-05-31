@@ -36,68 +36,69 @@ export default function UserDelete({ open, handleClose }) {
 
 	return (
 		<Paper elevation={3}>
-				<Dialog
-					open={open}
-					TransitionComponent={Transition}
-					keepMounted
-					onClose={handleClose}
+			<Dialog
+				open={open}
+				TransitionComponent={Transition}
+				keepMounted
+				onClose={handleClose}
+			>
+				<Box
+					style={{
+						background: 'rgb(0, 30, 60)',
+						border: '1px solid rgb(15, 80, 133)',
+						color: '#fff',
+					}}
 				>
-					<Box
-						style={{
-							background: 'rgb(0, 30, 60)',
-							border: '1px solid rgb(15, 80, 133)',
-							color: '#fff',
-						}}
-					>
-						<DialogContent>
-							<Box
-								style={{
-									display: 'flex',
-									alignItems: 'center',
-								}}
-							>
-								<Avatar
-									src={getProfileByAdmin.user.profilePic}
-									alt='avatar'
-									variant={'rounded'}
-									className='avatar'
-									style={{ width: '72px', height: '72px' }}
-								/>
-								<Box component={'div'} style={{ paddingLeft: '1rem' }}>
-									<Stack spacing={1}>
-										<Typography style={{ fontWeight: '700', color: '#fff' }}>
-											{getProfileByAdmin.bio.fname +
-												' ' +
-												getProfileByAdmin.bio.lname}
-										</Typography>
-										<Typography
-											variant='body2'
-											style={{ display: 'flex', color: '#fff' }}
-										>
-											<LocationOn /> {getProfileByAdmin.bio.residence}
-										</Typography>
-									</Stack>
-								</Box>
+					<DialogContent>
+						<Box
+							style={{
+								display: 'flex',
+								alignItems: 'center',
+							}}
+						>
+							<Avatar
+								src={getProfileByAdmin.user.profilePic}
+								alt='avatar'
+								variant={'rounded'}
+								className='avatar'
+								style={{ width: '72px', height: '72px' }}
+							/>
+							<Box component={'div'} style={{ paddingLeft: '1rem' }}>
+								<Stack spacing={1}>
+									<Typography style={{ fontWeight: '700', color: '#fff' }}>
+										{getProfileByAdmin.bio.fname +
+											' ' +
+											getProfileByAdmin.bio.lname}
+									</Typography>
+									<Typography
+										variant='body2'
+										style={{ display: 'flex', color: '#fff' }}
+									>
+										<LocationOn /> {getProfileByAdmin.bio.residence}
+									</Typography>
+								</Stack>
 							</Box>
+						</Box>
 
-							<DialogContentText
-								style={{
-									color: '#fff',
-									padding: '1rem 0',
-								}}
-							>
-								{`Note:  this user is ${
-									getProfileByAdmin.status ? 'activated' : 'unactivate yet'
-								} by deleting this profile it can't be reverse`}
-							</DialogContentText>
-						</DialogContent>
-						<DialogActions>
-							<Button onClick={handleClose}>Back</Button>
-							<Button onClick={handleDelete}>Delete</Button>
-						</DialogActions>
-					</Box>
-				</Dialog>
-				 {/* <Dialog
+						<DialogContentText
+							style={{
+								color: '#fff',
+								padding: '1rem 0',
+							}}
+						>
+							{`Note:  this user is ${
+								getProfileByAdmin.status ? 'activated' : 'unactivate yet'
+							} by deleting this profile it can't be reverse`}
+						</DialogContentText>
+					</DialogContent>
+					<DialogActions>
+						<Button onClick={handleClose}>Back</Button>
+						<Button onClick={handleDelete}>Delete</Button>
+					</DialogActions>
+				</Box>
+			</Dialog>
+			{isDeleted && (
+				<Dialog
 					open={del}
 					TransitionComponent={Transition}
 					keepMounted
@@ -121,12 +122,13 @@ export default function UserDelete({ open, handleClose }) {
 							</DialogContentText>
 						</DialogContent>
 						<DialogActions>
-							<Button onClick={handleClose} component={'a'}>
+							<Button onClick={handleClose} component={'a'} href={'/dashboard'}>
 								Back
 							</Button>
 						</DialogActions>
 					</Box>
-				</Dialog> */}
+				</Dialog>
+			)}
 		</Paper>
 	);
 }

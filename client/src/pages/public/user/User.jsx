@@ -23,14 +23,11 @@ import { Stack, IconButton } from '@mui/material';
 import { Edit, LocationOn } from '@material-ui/icons';
 import { getCurrentUserProfile } from '../../../context/profile/profileApiCall';
 import { ProfileContext } from '../../../context/profile/profileContext';
-import { AuthContext } from '../../../context/auth/AuthContext';
 import Loader from '../../../utils/Loader';
 
 export default function User() {
 	const { getCurrentProfile, dispatch, error, isError } =
 		useContext(ProfileContext);
-
-	const { admin } = useContext(AuthContext);
 
 	useEffect(() => {
 		getCurrentUserProfile(dispatch);
@@ -40,12 +37,12 @@ export default function User() {
 
 	const theme = useTheme();
 	const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+	// const { profile } = getCurrentProfile;
 
 	if (getCurrentProfile === null && isError === null) {
 		return <Loader />;
 	}
 
-	const { profile } = getCurrentProfile;
 
 	return (
 		<>
@@ -69,9 +66,9 @@ export default function User() {
 											variant='body2'
 											color='text.primary'
 										>
-											{profile.createdAt &&
+											{getCurrentProfile.profile.createdAt &&
 												`Created At: ${new Date(
-													profile.createdAt
+													getCurrentProfile.profile.createdAt
 												).toDateString()}`}
 										</Typography>
 									}
@@ -85,7 +82,7 @@ export default function User() {
 											variant='body2'
 											color='text.primary'
 										>
-											{profile.user.email && `Email: ${profile.user.email}`}
+											{getCurrentProfile.profile.user.email && `Email: ${getCurrentProfile.profile.user.email}`}
 										</Typography>
 									}
 								/>
@@ -111,7 +108,7 @@ export default function User() {
 														}}
 													>
 														<Avatar
-															src={profile.user.profilePic}
+															src={getCurrentProfile.profile.user.profilePic}
 															alt='avatar'
 															variant={'rounded'}
 															className='avatar'
@@ -125,13 +122,13 @@ export default function User() {
 																<Typography
 																	style={{ fontWeight: '700', color: '#fff' }}
 																>
-																	{profile.bio.fname + ' ' + profile.bio.lname}
+																	{getCurrentProfile.profile.bio.fname + ' ' + getCurrentProfile.profile.bio.lname}
 																</Typography>
 																<Typography
 																	variant='body2'
 																	style={{ display: 'flex', color: '#fff' }}
 																>
-																	<LocationOn /> {profile.bio.residence}
+																	<LocationOn /> {getCurrentProfile.profile.bio.residence}
 																</Typography>
 															</Stack>
 														</Box>
@@ -139,7 +136,7 @@ export default function User() {
 													<Box>
 														<IconButton
 															component={'a'}
-															href={`/update/profile/${profile._id}`}
+															href={`/update/profile/${getCurrentProfile.profile._id}`}
 														>
 															<Edit
 																sx={{ fontSize: 14 }}
@@ -177,7 +174,7 @@ export default function User() {
 														}}
 														component='span'
 													>
-														{profile.dir.entry}
+														{getCurrentProfile.profile.dir.entry}
 													</Typography>
 												}
 											/>
@@ -191,13 +188,13 @@ export default function User() {
 														sx={{ display: 'inline' }}
 														component='span'
 													>
-														{profile.dir.directory}
+														{getCurrentProfile.profile.dir.directory}
 													</Typography>
 												}
 											/>
 										</ListItem>
 										<Divider style={{ background: 'rgb(13, 50, 80)' }} />
-										{profile.dir.mainEntry && (
+										{getCurrentProfile.profile.dir.mainEntry && (
 											<ListItem
 												alignItems='flex-start'
 												className='p-2 textColor'
@@ -209,14 +206,14 @@ export default function User() {
 															sx={{ display: 'inline' }}
 															component='span'
 														>
-															{profile.dir.mainEntry}
+															{getCurrentProfile.profile.dir.mainEntry}
 														</Typography>
 													}
 												/>
 											</ListItem>
 										)}
 										<Divider style={{ background: 'rgb(13, 50, 80)' }} />
-										{profile.dir.subEntry && (
+										{getCurrentProfile.profile.dir.subEntry && (
 											<ListItem
 												alignItems='flex-start'
 												className='p-2 textColor'
@@ -228,7 +225,7 @@ export default function User() {
 															sx={{ display: 'inline' }}
 															component='span'
 														>
-															{profile.dir.subEntry}
+															{getCurrentProfile.profile.dir.subEntry}
 														</Typography>
 													}
 												/>
@@ -245,7 +242,7 @@ export default function User() {
 														variant='body2'
 														color='text.primary'
 													>
-														{profile.bio.rank}
+														{getCurrentProfile.profile.bio.rank}
 													</Typography>
 												}
 											/>
@@ -261,7 +258,7 @@ export default function User() {
 														component='span'
 														variant='body2'
 													>
-														{profile.bio.phoneNumber}
+														{getCurrentProfile.profile.bio.phoneNumber}
 													</Typography>
 												}
 											/>
@@ -275,7 +272,7 @@ export default function User() {
 														sx={{ display: 'inline' }}
 														component='span'
 													>
-														{profile.bio.gender}
+														{getCurrentProfile.profile.bio.gender}
 													</Typography>
 												}
 											/>
@@ -301,7 +298,7 @@ export default function User() {
 														variant='body2'
 														color='text.primary'
 													>
-														{profile.bio.desc}
+														{getCurrentProfile.profile.bio.desc}
 													</Typography>
 												}
 											/>
@@ -309,7 +306,7 @@ export default function User() {
 									</Card>
 								</Container>
 
-								{profile.bio.qualification && (
+								{getCurrentProfile.profile.bio.qualification && (
 									<Container maxWidth={'md'} className=' m-2'>
 										<Typography
 											className='p-2 textColor'
@@ -328,7 +325,7 @@ export default function User() {
 												padding: '5px',
 											}}
 										>
-											{profile.bio.qualification.map((item, idx) => (
+											{getCurrentProfile.profile.bio.qualification.map((item, idx) => (
 												<Chip
 													label={item}
 													key={idx}
@@ -339,7 +336,7 @@ export default function User() {
 									</Container>
 								)}
 
-								{profile.bio.research && (
+								{getCurrentProfile.profile.bio.research && (
 									<Container maxWidth={'md'} className=' m-2'>
 										<Typography
 											style={{
@@ -357,7 +354,7 @@ export default function User() {
 												padding: '5px',
 											}}
 										>
-											{profile.bio.research.map((item, idx) => (
+											{getCurrentProfile.profile.bio.research.map((item, idx) => (
 												<Chip
 													label={item}
 													key={idx}

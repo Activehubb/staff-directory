@@ -63,11 +63,24 @@ router.post('/create', verify, async (req, res) => {
 
 		await profile.save();
 
-		const profileUrl = `${req.protocol}://${req.get('host')}/api/profile/user/${
+		const profileUrl = `${req.protocol}://${req.get('host')}//users/${
 			profile.id
 		}`;
+		const home = `${req.protocol}://${req.get('host')}`;
 
-		const emailMessage = `Congratulation ${profile.bio.fname} ${profile.bio.middleName}\n\nYou have successfully created your profile\n\nYour account is under review for the next 24hrs and will be activated by the administrator\n\nFollow the link below to my profile\n\n${profileUrl}`;
+		// const emailMessage = `Congratulation ${profile.bio.fname} ${profile.bio.middleName}\n\nYou have successfully created your profile\n\nYour account is under review for the next 24hrs and will be activated by the administrator\n\nFollow the link below to my profile\n\n${profileUrl}`;
+
+		const emailMessage = `<div class="text" style="padding: 0 2.5em; text-align: center; font-family: Segoe-ui">
+            				<h2>Congratulation ${profile.bio.fname} ${profile.bio.middleName}l</h2>
+            				<h3>You have successfully created your profile</h3>
+            				<h3>Your account is under review for the next 24hrs and will be activated by the administrator</h3>
+							<div style="display: flex; justify-content: space-between;">
+            				<p><a href="${profileUrl}" style="padding: 10px 15px; display: inline-block border-radius: 5px; background: #30e3ca; color: #ffffff;">Go to Staff Directory</a></p>
+            				<p><a href="${profileUrl}" style="padding: 10px 15px; display: inline-block border-radius: 5px; background: #30e3ca; color: #ffffff;">Go to Profile</a></p>
+							
+							</div>
+            			</div>
+						`;
 
 		await sendEmail({
 			email: user.email,
@@ -85,7 +98,7 @@ router.post('/create', verify, async (req, res) => {
 	}
 });
 
-router.put('/:id', verify, async (req, res) => {
+router.put('/update/:id', verify, async (req, res) => {
 	const {
 		fname,
 		avatar,
@@ -131,14 +144,8 @@ router.put('/:id', verify, async (req, res) => {
 	if (subEntry) profileFields.dir.subEntry = subEntry;
 
 	try {
-		let profile = await Profile.findById(req.user.id);
-
-		if (!profile.status) {
-			return res.status(403).json('This account is under review');
-		}
-
-		profile = await Profile.findByIdAndUpdate(
-			req.user.id,
+		const profile = await Profile.findByIdAndUpdate(
+			req.params.id,
 			{ $set: profileFields },
 			{ new: true }
 		);
@@ -274,7 +281,7 @@ router.get('/admin/:id', async (req, res) => {
 router.delete('/delete/:id', async (req, res) => {
 	try {
 		await Profile.findByIdAndRemove(req.params.id);
-		res.status(200).json({success:true, msg: 'Account deleted...'});
+		res.status(200).json({ success: true, msg: 'Account deleted...' });
 	} catch (error) {
 		res.status(500).json('Server Error');
 	}

@@ -37,7 +37,6 @@ import { updateProfile } from '../../../context/profile/profileApiCall';
 import { ProfileContext } from '../../../context/profile/profileContext';
 import { useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { AuthContext } from '../../../context/auth/AuthContext';
 import { wordCounter } from '../../../components/widget/wordCounter';
 
 const icon = <CheckBoxOutlineBlank fontSize='small' />;
@@ -45,11 +44,9 @@ const checkedIcon = <CheckBox fontSize='small' />;
 
 export default function UpdateProfile() {
 	const { isProfile, dispatch, error, isError } = useContext(ProfileContext);
-	const { user } = useContext(AuthContext);
 	const [fname, setFirstName] = useState('');
 	const [middleName, setMiddleName] = useState('');
 	const [lname, setLastName] = useState('');
-	const [email, setEmail] = useState('');
 	const [phoneNumber, setPhone] = useState('');
 	const [research, setResearch] = useState('');
 	const [desc, setDesc] = useState('');
@@ -375,15 +372,14 @@ export default function UpdateProfile() {
 
 
 	const location = useLocation();
-	const path = location.pathname.split('/')[1];
-
+	const path = location.pathname.split('/')[3];
+console.log(isError, error)
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		updateProfile(
 			{
 				fname,
 				lname,
-				email,
 				middleName,
 				phoneNumber,
 				research,
@@ -499,7 +495,7 @@ export default function UpdateProfile() {
 																		onChange={(e) =>
 																			setFirstName(e.target.value)
 																		}
-																		required
+																		
 																		variant='outlined'
 																		fullWidth
 																		className={classes.textField}
@@ -512,7 +508,7 @@ export default function UpdateProfile() {
 																		onChange={(e) =>
 																			setMiddleName(e.target.value)
 																		}
-																		required
+																		
 																		variant='outlined'
 																		fullWidth
 																		className={classes.textField}
@@ -525,23 +521,13 @@ export default function UpdateProfile() {
 																		onChange={(e) =>
 																			setLastName(e.target.value)
 																		}
-																		required
+																		
 																		variant='outlined'
 																		fullWidth
 																		className={classes.textField}
 																		placeholder='Other Names such as middle name or last name'
 																	/>
-																	<TextField
-																		id='email'
-																		label='Email'
-																		value={user.email}
-																		onChange={(e) => setEmail(e.target.value)}
-																		required
-																		variant='outlined'
-																		fullWidth
-																		className={classes.textField}
-																		placeholder='Alternative Email for recovery of credentials'
-																	/>
+																	
 																	<TextField
 																		id='phone'
 																		label='Phone'
@@ -687,7 +673,7 @@ export default function UpdateProfile() {
 																							label='Faculty'
 																							value={mainEntry}
 																							onChange={handleMainEntry}
-																							required
+																							
 																							fullWidth
 																						>
 																							{panel.formOne.facOption.map(
@@ -724,7 +710,7 @@ export default function UpdateProfile() {
 																							label='Department'
 																							value={subEntry}
 																							onChange={handleSubEntry}
-																							required
+																							
 																							fullWidth
 																						>
 																							{panel.formOne.dept.map(
@@ -765,7 +751,7 @@ export default function UpdateProfile() {
 																							label='College'
 																							value={mainEntry}
 																							onChange={handleMainEntry}
-																							required
+																							
 																							fullWidth
 																						>
 																							{panel.formOne.collOption.map(
@@ -809,7 +795,7 @@ export default function UpdateProfile() {
 																							value={mainEntry}
 																							onChange={handleMainEntry}
 																							fullWidth
-																							required
+																							
 																						>
 																							{panel.formOne.centerOption.map(
 																								(center, idx) => (
@@ -846,7 +832,7 @@ export default function UpdateProfile() {
 																							value={mainEntry}
 																							onChange={handleMainEntry}
 																							fullWidth
-																							required
+																							
 																						>
 																							{panel.formOne.unitOption.map(
 																								(unit, idx) => (
@@ -883,7 +869,7 @@ export default function UpdateProfile() {
 																							value={mainEntry}
 																							onChange={handleMainEntry}
 																							fullWidth
-																							required
+																							
 																						>
 																							{panel.formOne.instituteOption.map(
 																								(unit, idx) => (
@@ -949,7 +935,7 @@ export default function UpdateProfile() {
 																			value={desc}
 																			multiline='true'
 																			onChange={(e) => setDesc(e.target.value)}
-																			required
+																			
 																			disabled={
 																				wordCounter(desc) === 75 ? true : false
 																			}
@@ -1090,7 +1076,7 @@ export default function UpdateProfile() {
 																		onChange={(e) =>
 																			setResidence(e.target.value)
 																		}
-																		required
+																		
 																		variant='outlined'
 																		fullWidth
 																		placeholder='Full details of your office address'
@@ -1102,7 +1088,7 @@ export default function UpdateProfile() {
 																		onChange={(e) =>
 																			setResearch(e.target.value)
 																		}
-																		required
+																		
 																		variant='outlined'
 																		fullWidth
 																		className={classes.textField}

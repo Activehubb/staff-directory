@@ -31,6 +31,10 @@ const PORT = process.env.PORT || 4400;
 
 DB();
 
+if (process.env.NODE_ENV === 'production') {
+	 app.use(express.static('client/build'))
+}
+
 app.listen(PORT, () => {
 	console.log(`Server connected on PORT ${PORT}`);
 });
