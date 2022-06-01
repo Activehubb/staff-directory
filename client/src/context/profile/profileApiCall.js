@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { axiosInstance } from '../../utils/AxiosInstance';
 import {
 	createProfileFailure,
 	createProfileSuccess,
@@ -22,7 +23,7 @@ import {
 
 export const createProfile = async (profile, dispatch) => {
 	try {
-		const res = await axios.post('/api/profile/create', profile, {
+		const res = await axiosInstance.post('/api/profile/create', profile, {
 			headers: {
 				token: `Bearer ${JSON.parse(sessionStorage.getItem('user')).userToken}`,
 			},
@@ -35,7 +36,7 @@ export const createProfile = async (profile, dispatch) => {
 
 export const getProfiles = async (dispatch) => {
 	try {
-		const res = await axios.get('/api/profile/profiles');
+		const res = await axiosInstance.get('/api/profile/profiles');
 		dispatch(getAllProfileSuccess(res.data.profile));
 	} catch (error) {
 		dispatch(getAllProfileFailure(error.response));
@@ -44,7 +45,7 @@ export const getProfiles = async (dispatch) => {
 
 export const getUnactivatedProfiles = async (dispatch) => {
 	try {
-		const res = await axios.get('/api/profile/profiles/unactivate');
+		const res = await axiosInstance.get('/api/profile/profiles/unactivate');
 		dispatch(getUnactivatedProfileSuccess(res.data.profile));
 	} catch (error) {
 		dispatch(getUnactivatedProfileFailure(error.response));
@@ -53,7 +54,7 @@ export const getUnactivatedProfiles = async (dispatch) => {
 
 export const getCurrentUserProfile = async (dispatch) => {
 	try {
-		const res = await axios.get(`/api/profile`, {
+		const res = await axiosInstance.get(`/api/profile`, {
 			headers: {
 				token: `Bearer ${JSON.parse(sessionStorage.getItem('user')).userToken}`,
 			},
@@ -67,7 +68,7 @@ export const getCurrentUserProfile = async (dispatch) => {
 
 export const getUserProfile = async (path, dispatch) => {
 	try {
-		const res = await axios.get(`/api/profile/user/${path}`);
+		const res = await axiosInstance.get(`/api/profile/user/${path}`);
 
 		dispatch(getProfileSuccess(res.data));
 	} catch (error) {
@@ -77,7 +78,7 @@ export const getUserProfile = async (path, dispatch) => {
 
 export const getUserProfileByAdmin = async (path, dispatch) => {
 	try {
-		const res = await axios.get(`/api/profile/admin/${path}`);
+		const res = await axiosInstance.get(`/api/profile/admin/${path}`);
 
 		dispatch(getProfileByAdminSuccess(res.data));
 	} catch (error) {
@@ -87,7 +88,7 @@ export const getUserProfileByAdmin = async (path, dispatch) => {
 
 export const updateProfile = async (profile, path, dispatch) => {
 	try {
-		const res = await axios.put(`/api/profile/update/${path}`, profile, {
+		const res = await axiosInstance.put(`/api/profile/update/${path}`, profile, {
 			headers: {
 				token: `Bearer ${JSON.parse(sessionStorage.getItem('user')).userToken}`,
 			},
@@ -100,7 +101,7 @@ export const updateProfile = async (profile, path, dispatch) => {
 
 export const updateProfileStatus = async (status, path, dispatch) => {
 	try {
-		const res = await axios.put(`/api/profile/status/${path}`, status);
+		const res = await axiosInstance.put(`/api/profile/status/${path}`, status);
 		dispatch(updateStatusSuccess(res.data));
 	} catch (error) {
 		dispatch(updateStatusFailure(error.response));
@@ -109,7 +110,7 @@ export const updateProfileStatus = async (status, path, dispatch) => {
 
 export const deleteProfile = async (path, dispatch) => {
 	try {
-		const res = await axios.delete(`/api/profile/delete/${path}`);
+		const res = await axiosInstance.delete(`/api/profile/delete/${path}`);
 		dispatch(deleteProfileSuccess(res.data));
 	} catch (error) {
 		dispatch(deleteProfileFailure(error.response));

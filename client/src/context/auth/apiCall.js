@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { axiosInstance } from '../../utils/AxiosInstance';
 import {
 	signinFailure,
 	signinSuccess,
@@ -16,7 +17,7 @@ import {
 // USER
 export const signup = async (user, dispatch) => {
 	try {
-		const res = await axios.post('/api/user/signup', user);
+		const res = await axiosInstance.post('/api/user/signup', user);
 		dispatch(signupSuccess(res.data));
 	} catch (error) {
 		dispatch(signupFailure(error.response));
@@ -25,7 +26,7 @@ export const signup = async (user, dispatch) => {
 
 export const usernameSignin = async (user, dispatch) => {
 	try {
-		const res = await axios.post('/api/auth/username/signin', user);
+		const res = await axiosInstance.post('/api/auth/username/signin', user);
 		dispatch(signinSuccess(res.data));
 	} catch (error) {
 		dispatch(signinFailure(error.response));
@@ -34,7 +35,7 @@ export const usernameSignin = async (user, dispatch) => {
 
 export const emailSignin = async (user, dispatch) => {
 	try {
-		const res = await axios.post('/api/auth/email/signin', user);
+		const res = await axiosInstance.post('/api/auth/email/signin', user);
 		dispatch(signinSuccess(res.data));
 	} catch (error) {
 		dispatch(signinFailure(error.response));
@@ -43,7 +44,7 @@ export const emailSignin = async (user, dispatch) => {
 
 export const users = async (dispatch) => {
 	try {
-		const res = await axios.get('/api/user')
+		const res = await axiosInstance.get('/api/user')
 
 		dispatch(getAllUserSuccess(res.data))
 	} catch (error) {
@@ -57,7 +58,7 @@ export const users = async (dispatch) => {
 
 export const signupAdmin = async (user, dispatch) => {
 	try {
-		const res = await axios.post('/api/admin/admin/signup', user);
+		const res = await axiosInstance.post('/api/admin/admin/signup', user);
 		dispatch(signupSuccessAdmin(res.data));
 	} catch (error) {
 		dispatch(signupFailureAdmin(error.response));
@@ -66,7 +67,7 @@ export const signupAdmin = async (user, dispatch) => {
 
 export const emailSigninAdmin = async (user, dispatch) => {
 	try {
-		const res = await axios.post('/api/admin/auth/email', user);
+		const res = await axiosInstance.post('/api/admin/auth/email', user);
 		dispatch(signinSuccessAdmin(res.data));
 	} catch (error) {
 		dispatch(signinFailureAdmin(error.response));
@@ -75,7 +76,7 @@ export const emailSigninAdmin = async (user, dispatch) => {
 
 export const usernameSigninAdmin = async (user, dispatch) => {
 	try {
-		const res = await axios.post('/api/admin/auth/username', user);
+		const res = await axiosInstance.post('/api/admin/auth/username', user);
 		dispatch(signinSuccessAdmin(res.data));
 	} catch (error) {
 		dispatch(signinFailureAdmin(error.response));

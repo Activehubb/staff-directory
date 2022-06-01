@@ -4,12 +4,10 @@
 	"description": "staff directory implementation ",
 	"main": "server.js",
 	"scripts": {
-    "client": "npm start --prefix client",
+		"client": "npm start --prefix client",
 		"server": "nodemon server.js",
 		"dev": "concurrently \"npm run server\" \"npm run client\"",
-		"build": "npm run build --prefix client",
-		"npm-install-client": "npm install --prefix client",
-		"heroku-postbuild": "npm run npm-install-client && npm run build",
+		"heroku-postbuild": "cd client && npm install && npm run build",
 		"start": "node server.js"
 	},
 	"keywords": [
