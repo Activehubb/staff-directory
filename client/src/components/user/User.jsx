@@ -11,12 +11,10 @@ import {
 	Paper,
 	Typography,
 } from '@material-ui/core';
-import { Stack,  } from '@mui/material';
+import { Stack } from '@mui/material';
 import { LocationOn } from '@material-ui/icons';
 import { useLocation } from 'react-router-dom';
-import {
-	getUserProfile,
-} from '../../context/profile/profileApiCall';
+import { getUserProfile } from '../../context/profile/profileApiCall';
 import { ProfileContext } from '../../context/profile/profileContext';
 import Loader from '../../utils/Loader';
 import './user.css';
@@ -33,7 +31,6 @@ export default function User() {
 	if (getProfile === null) {
 		return <Loader />;
 	}
-
 
 	return (
 		<>
