@@ -3,6 +3,7 @@ const app = express();
 const DB = require('./config/db');
 const morgan = require('morgan');
 const cors = require('cors');
+const path = require('path')
 
 app.use(express.json());
 app.use(morgan('combined'));
@@ -23,10 +24,10 @@ app.use('/api/user', require('./routes/api/user'));
 app.use('/api/auth', require('./routes/api/auth'));
 app.use('/api/profile', require('./routes/api/profile'));
 
-app.use(express.static(path.join(__dirname, "client/build")));
+app.use(express.static(path.join(__dirname, "/client/build")));
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+  res.sendFile(path.join(__dirname, '/client/build', 'index.html'));
 });
 
 const PORT = process.env.PORT || 4400;
