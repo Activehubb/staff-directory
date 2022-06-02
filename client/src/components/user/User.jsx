@@ -41,10 +41,10 @@ export default function User() {
 				<Card style={{ background: 'rgb(13, 50, 80)' }}>
 					<Box
 						className={`userstatus ${
-							getProfile.status ? 'Activated' : 'Unactivate'
+							getProfile.profile.status ? 'Activated' : 'Unactivate'
 						}`}
 					>
-						{getProfile.status ? 'Activated' : 'Unactivated'}
+						{getProfile.profile.status ? 'Activated' : 'Unactivated'}
 					</Box>
 					<Box>
 						<Box>
@@ -64,7 +64,7 @@ export default function User() {
 												}}
 											>
 												<Avatar
-													src={getProfile.user.profilePic}
+													src={getProfile.profile.user.profilePic}
 													alt='avatar'
 													variant={'rounded'}
 													className='avatar'
@@ -75,15 +75,15 @@ export default function User() {
 														<Typography
 															style={{ fontWeight: '700', color: '#fff' }}
 														>
-															{getProfile.bio.fname +
+															{getProfile.profile.bio.fname +
 																' ' +
-																getProfile.bio.lname}
+																getProfile.profile.bio.lname}
 														</Typography>
 														<Typography
 															variant='body2'
 															style={{ display: 'flex', color: '#fff' }}
 														>
-															<LocationOn /> {getProfile.bio.residence}
+															<LocationOn /> {getProfile.profile.bio.residence}
 														</Typography>
 													</Stack>
 												</Box>
@@ -97,8 +97,8 @@ export default function User() {
 															sx={{ display: 'inline' }}
 															component='span'
 														>
-															{getProfile.user.email &&
-																`Email: ${getProfile.user.email}`}
+															{getProfile.profile.user.email &&
+																`Email: ${getProfile.profile.user.email}`}
 														</Typography>
 													}
 												/>
@@ -111,9 +111,9 @@ export default function User() {
 															variant='body2'
 															color='text.primary'
 														>
-															{getProfile.createdAt &&
+															{getProfile.profile.createdAt &&
 																`Created On: ${new Date(
-																	getProfile.createdAt
+																	getProfile.profile.createdAt
 																).toDateString()}`}
 														</Typography>
 													}
@@ -143,7 +143,7 @@ export default function User() {
 												}}
 												component='span'
 											>
-												{getProfile.dir.entry}
+												{getProfile.profile.dir.entry}
 											</Typography>
 										}
 									/>
@@ -154,32 +154,32 @@ export default function User() {
 										primary='Directory'
 										secondary={
 											<Typography sx={{ display: 'inline' }} component='span'>
-												{getProfile.dir.directory}
+												{getProfile.profile.dir.directory}
 											</Typography>
 										}
 									/>
 								</ListItem>
 								<Divider style={{ background: 'rgb(13, 50, 80)' }} />
-								{getProfile.dir.mainEntry && (
+								{getProfile.profile.dir.mainEntry && (
 									<ListItem alignItems='flex-start' className='p-2 textColor'>
 										<ListItemText
 											primary='Category'
 											secondary={
 												<Typography sx={{ display: 'inline' }} component='span'>
-													{getProfile.dir.mainEntry}
+													{getProfile.profile.dir.mainEntry}
 												</Typography>
 											}
 										/>
 									</ListItem>
 								)}
 								<Divider style={{ background: 'rgb(13, 50, 80)' }} />
-								{getProfile.dir.subEntry && (
+								{getProfile.profile.dir.subEntry && (
 									<ListItem alignItems='flex-start' className='p-2 textColor'>
 										<ListItemText
 											primary='Sub Category'
 											secondary={
 												<Typography sx={{ display: 'inline' }} component='span'>
-													{getProfile.dir.subEntry}
+													{getProfile.profile.dir.subEntry}
 												</Typography>
 											}
 										/>
@@ -196,7 +196,7 @@ export default function User() {
 												variant='body2'
 												color='text.primary'
 											>
-												{getProfile.bio.rank}
+												{getProfile.profile.bio.rank}
 											</Typography>
 										}
 									/>
@@ -212,7 +212,7 @@ export default function User() {
 												component='span'
 												variant='body2'
 											>
-												{getProfile.bio.phoneNumber}
+												{getProfile.profile.bio.phoneNumber}
 											</Typography>
 										}
 									/>
@@ -223,7 +223,7 @@ export default function User() {
 										primary='Gender'
 										secondary={
 											<Typography sx={{ display: 'inline' }} component='span'>
-												{getProfile.bio.gender}
+												{getProfile.profile.bio.gender}
 											</Typography>
 										}
 									/>
@@ -244,14 +244,14 @@ export default function User() {
 										primary='Description'
 										secondary={
 											<Typography sx={{ display: 'inline' }} component='span'>
-												{getProfile.bio.desc}
+												{getProfile.profile.bio.desc}
 											</Typography>
 										}
 									/>
 								</ListItem>
 							</Card>
 						</Container>
-						{getProfile.bio.qualification && (
+						{getProfile.profile.bio.qualification && (
 							<Container maxWidth={'md'} className=' m-2'>
 								<Typography className='p-2 textColor' component='span'>
 									Qualifications
@@ -264,7 +264,7 @@ export default function User() {
 										padding: '5px',
 									}}
 								>
-									{getProfile.bio.qualification.map((item, idx) => (
+									{getProfile.profile.bio.qualification.map((item, idx) => (
 										<Chip
 											label={item}
 											key={idx}
@@ -274,7 +274,7 @@ export default function User() {
 								</Paper>
 							</Container>
 						)}
-						{getProfile.bio.research && (
+						{getProfile.profile.bio.research && (
 							<Container maxWidth={'md'} className=' m-2'>
 								<Typography className='p-2 textColor' component='span'>
 									Areas of Specialization
@@ -287,7 +287,7 @@ export default function User() {
 										padding: '5px',
 									}}
 								>
-									{getProfile.bio.research.map((item, idx) => (
+									{getProfile.profile.bio.research.map((item, idx) => (
 										<Chip
 											label={item}
 											key={idx}
