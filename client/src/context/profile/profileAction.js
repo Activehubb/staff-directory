@@ -57,6 +57,15 @@ export const getAllProfileFailure = (isError) => ({
 	type: 'GET_ALL_PROFILES_FAILURE',
 	payload: isError,
 });
+export const getAllUsersProfileSuccess = (getAllProfileUsers) => ({
+	type: 'GET_ALL_USERS_PROFILES_SUCCESS',
+	payload: getAllProfileUsers,
+});
+
+export const getAllUsersProfileFailure = (isError) => ({
+	type: 'GET_ALL_USERS_PROFILES_FAILURE',
+	payload: isError,
+});
 
 export const updateStatusSuccess = (status) => ({
 	type: 'UPDATE_STATUS_SUCCESS',

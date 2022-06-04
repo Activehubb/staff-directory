@@ -25,15 +25,33 @@ import {
 import { ProfileContext } from '../../context/profile/profileContext';
 import Loader from '../../utils/Loader';
 import './user.css';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import Slide from '@mui/material/Slide';
 import UserDelete from './UserDelete';
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+	return <Slide direction='up' ref={ref} {...props} />;
+});
 
 export default function User() {
 	const location = useLocation();
 	const path = location.pathname.split('/')[3];
 	const { getProfileByAdmin, dispatch } = useContext(ProfileContext);
 	const [status, setStatus] = useState(true);
+	const [openStatus, setOpenStatus] = useState(false);
 	const [open, setOpen] = useState(false);
 
+	const handleOpenStatus = () => {
+		setOpenStatus(getProfileByAdmin.status === true ? !open : true);
+	};
+
+	const handleCloseStatus = () => {
+		setOpenStatus(getProfileByAdmin.status === true && false);
+	};
 	const handleOpen = () => {
 		setOpen(true);
 	};
@@ -237,7 +255,7 @@ export default function User() {
 								</Container>
 							</Box>
 
-							{status && (
+							{status ? (
 								<Container maxWidth={'md'}>
 									<CardContent
 										style={{
@@ -247,13 +265,13 @@ export default function User() {
 									>
 										<input
 											type='submit'
-											value={'Update Status'}
+											value={'Activate this User'}
 											style={{
 												border: '1px solid rgb(15, 80, 133)',
 												outline: 'none',
 												display: 'block',
 												textAlign: 'center',
-												color: '#fff',
+												color: '#00ff00',
 												background: 'rgb(13, 50, 80)',
 												width: '100%',
 												padding: '8px 10px',
@@ -264,6 +282,38 @@ export default function User() {
 												cursor: 'pointer',
 												position: 'relative',
 											}}
+											onClick={handleOpenStatus}
+										/>
+									</CardContent>
+								</Container>
+							) : (
+								<Container maxWidth={'md'}>
+									<CardContent
+										style={{
+											background: 'rgb(0, 30, 60)',
+											border: '1px solid rgb(15, 80, 133)',
+										}}
+									>
+										<input
+											type='submit'
+											value={'Pend this User'}
+											style={{
+												border: '1px solid rgb(15, 80, 133)',
+												outline: 'none',
+												display: 'block',
+												textAlign: 'center',
+												color: '#DC143C',
+												background: 'rgb(13, 50, 80)',
+												width: '100%',
+												padding: '8px 10px',
+												borderRadius: '5px',
+												boxShadow: '0px 3px 1px -2px rgb(0 0 0 / 20%)',
+												fontSize: '14px',
+												fontWeight: 500,
+												cursor: 'pointer',
+												position: 'relative',
+											}}
+											onClick={handleOpenStatus}
 										/>
 									</CardContent>
 								</Container>
@@ -435,6 +485,136 @@ export default function User() {
 					</Box>
 				</Card>
 			</Container>
+			{getProfileByAdmin.status ? (
+				<Dialog
+					open={openStatus}
+					TransitionComponent={Transition}
+					keepMounted
+					onClose={handleCloseStatus}
+				>
+					<Box
+						style={{
+							background: 'rgb(0, 30, 60)',
+							border: '1px solid rgb(15, 80, 133)',
+							color: '#00ff00',
+						}}
+					>
+						<DialogContent>
+							<Box
+								style={{
+									display: 'flex',
+									alignItems: 'center',
+								}}
+							>
+								<Avatar
+									src={getProfileByAdmin.user.profilePic}
+									alt='avatar'
+									variant={'rounded'}
+									className='avatar'
+									style={{ width: '72px', height: '72px' }}
+								/>
+								<Box component={'div'} style={{ paddingLeft: '1rem' }}>
+									<Stack spacing={1}>
+										<Typography style={{ fontWeight: '700', color: '#00ff00' }}>
+											{getProfileByAdmin.bio.fname +
+												' ' +
+												getProfileByAdmin.bio.lname}
+										</Typography>
+										<Typography
+											variant='body2'
+											style={{ display: 'flex', color: '#00ff00' }}
+										>
+											<LocationOn /> {getProfileByAdmin.bio.residence}
+										</Typography>
+									</Stack>
+								</Box>
+							</Box>
+
+							<DialogContentText
+								style={{
+									color: '#00ff00',
+									padding: '1rem 0',
+								}}
+							>
+								Profile Activated Successfully...
+							</DialogContentText>
+						</DialogContent>
+						<DialogActions>
+							<Button onClick={handleCloseStatus}>Okay</Button>{' '}
+							<Button component={'a'} href='/users/unactivated'>
+								Back
+							</Button>
+						</DialogActions>
+					</Box>
+				</Dialog>
+			) : (
+				<Dialog
+					open={openStatus}
+					TransitionComponent={Transition}
+					keepMounted
+					onClose={handleClose}
+				>
+					<Box
+						style={{
+							background: 'rgb(0, 30, 60)',
+							border: '1px solid rgb(15, 80, 133)',
+							color: '#0000ff',
+						}}
+					>
+						<DialogContent>
+							<Box
+								style={{
+									display: 'flex',
+									alignItems: 'center',
+								}}
+							>
+								<Avatar
+									src={getProfileByAdmin.user.profilePic}
+									alt='avatar'
+									variant={'rounded'}
+									className='avatar'
+									style={{ width: '72px', height: '72px' }}
+								/>
+								<Box component={'div'} style={{ paddingLeft: '1rem' }}>
+									<Stack spacing={1}>
+										<Typography style={{ fontWeight: '700', color: '#ff0000' }}>
+											{getProfileByAdmin.bio.fname +
+												' ' +
+												getProfileByAdmin.bio.lname}
+										</Typography>
+										<Typography
+											variant='body2'
+											style={{ display: 'flex', color: '#ff0000' }}
+										>
+											<LocationOn /> {getProfileByAdmin.bio.residence}
+										</Typography>
+									</Stack>
+								</Box>
+							</Box>
+
+							<DialogContentText
+								style={{
+									color: '#ff0000',
+									padding: '1rem 0',
+								}}
+							>
+								Profile Unactivated Successfully...
+							</DialogContentText>
+						</DialogContent>
+						<DialogActions>
+							<Button
+								onClick={handleCloseStatus}
+					
+							>
+								Okay
+							</Button>
+							<Button component={'a'} href='/users/unactivated'>
+								Back
+							</Button>
+						</DialogActions>
+					</Box>
+				</Dialog>
+			)}
 		</>
 	);
 }

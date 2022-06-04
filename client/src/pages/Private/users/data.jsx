@@ -1,29 +1,19 @@
-import React from 'react';
+import React, { useEffect, useContext } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import '../../data/table.css';
+import '../../../data/table.css';
 import { Link } from 'react-router-dom';
-import { Box, Typography, makeStyles, Avatar } from '@material-ui/core';
+import { Box, Avatar,} from '@material-ui/core';
+import { getAllProfile } from '../../../context/profile/profileApiCall';
+import { ProfileContext } from '../../../context/profile/profileContext';
+import './user.css';
 
 
-const useStyles = makeStyles({
-	Box: {
-		boxShadow: '0px 0px 10px 0px rgba(50, 50, 50, 0.4)',
-		padding: '.5rem',
-		margin: '1rem 0 ',
-		borderRadius: '.5rem',
-	},
-	Typo: {
-		fontSize: '1.5rem',
-		fontFamily: 'Quicksand',
-		fontWeight: '500',
-		padding: '.5rem',
-	},
-});
 
-export default function Users({ profiles }) {
-	
-
-	const classes = useStyles();
+export default function Data() {
+	const { dispatch, getAllProfileUsers } = useContext(ProfileContext);
+	useEffect(() => {
+		getAllProfile(dispatch);
+	}, [dispatch]);
 
 	const actionColumns = [
 		{
@@ -97,7 +87,10 @@ export default function Users({ profiles }) {
 			renderCell: (params) => {
 				return (
 					<div className='cellAction'>
-						<Link to={`/users/${params.row._id}`} className='viewAction'>
+						<Link
+							to={`/admin/user/${params.row._id}`}
+							className='viewAction'
+						>
 							View
 						</Link>
 					</div>
@@ -106,20 +99,19 @@ export default function Users({ profiles }) {
 		},
 	];
 	return (
-		<Box className={classes.Box}>
-			<Typography variant='h3' className={classes.Typo}>
-				All Users Details
-			</Typography>
-			<div style={{ height: 500, width: '100%' }}>
-				<DataGrid
-					rows={profiles}
-					getRowId={(row) => row._id}
-					columns={actionColumns}
-					pageSize={7}
-					rowsPerPageOptions={[7]}
-					checkboxSelection
-				/>
-			</div>
-		</Box>
+		<>
+			<Box>
+				<div style={{ height: 450, width: '100%' }}>
+					<DataGrid
+						rows={getAllProfileUsers}
+						getRowId={(row) => row._id}
+						columns={actionColumns}
+						pageSize={6}
+						rowsPerPageOptions={[6]}
+						checkboxSelection
+					/>
+				</div>
+			</Box>
+		</>
 	);
 }

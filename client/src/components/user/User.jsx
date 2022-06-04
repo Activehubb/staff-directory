@@ -38,10 +38,10 @@ export default function User() {
 				<Card style={{ background: 'rgb(13, 50, 80)' }}>
 					<Box
 						className={`userstatus ${
-							getProfile.profile.status ? 'Activated' : 'Unactivate'
+							getProfile.status ? 'Activated' : 'Unactivate'
 						}`}
 					>
-						{getProfile.profile.status ? 'Activated' : 'Unactivated'}
+						{getProfile.status ? 'Activated' : 'Unactivated'}
 					</Box>
 					<Box>
 						<Box>
@@ -61,7 +61,7 @@ export default function User() {
 												}}
 											>
 												<Avatar
-													src={getProfile.profile.user.profilePic}
+													src={getProfile.user.profilePic}
 													alt='avatar'
 													variant={'rounded'}
 													className='avatar'
@@ -72,33 +72,34 @@ export default function User() {
 														<Typography
 															style={{ fontWeight: '700', color: '#fff' }}
 														>
-															{getProfile.profile.bio.fname +
+															{getProfile.bio.fname +
 																' ' +
-																getProfile.profile.bio.lname}
+																getProfile.bio.lname}
 														</Typography>
 														<Typography
 															variant='body2'
 															style={{ display: 'flex', color: '#fff' }}
 														>
-															<LocationOn /> {getProfile.profile.bio.residence}
+															<LocationOn /> {getProfile.bio.residence}
 														</Typography>
 													</Stack>
 												</Box>
 											</Box>
 
 											<Box>
-												<ListItemText
-													className='textColor'
-													secondary={
-														<Typography
-															sx={{ display: 'inline' }}
-															component='span'
-														>
-															{getProfile.profile.user.email &&
-																`Email: ${getProfile.profile.user.email}`}
-														</Typography>
-													}
-												/>
+												{getProfile.user.email && (
+													<ListItemText
+														className='textColor'
+														secondary={
+															<Typography
+																sx={{ display: 'inline' }}
+																component='span'
+															>
+																{`Email: ${getProfile.user.email}`}
+															</Typography>
+														}
+													/>
+												)}
 												<ListItemText
 													className='textColor'
 													secondary={
@@ -108,9 +109,9 @@ export default function User() {
 															variant='body2'
 															color='text.primary'
 														>
-															{getProfile.profile.createdAt &&
+															{getProfile.createdAt &&
 																`Created On: ${new Date(
-																	getProfile.profile.createdAt
+																	getProfile.createdAt
 																).toDateString()}`}
 														</Typography>
 													}
@@ -129,126 +130,137 @@ export default function User() {
 									border: '1px solid rgb(15, 80, 133)',
 								}}
 							>
-								<ListItem alignItems='flex-start' className='p-2 textColor'>
-									<ListItemText
-										primary='Entry'
-										secondary={
-											<Typography
-												style={{
-													display: 'inline',
-													textTransform: 'capitalize',
-												}}
-												component='span'
-											>
-												{getProfile.profile.dir.entry}
-											</Typography>
-										}
-									/>
-								</ListItem>
+								{getProfile.dir.entry && (
+									<ListItem alignItems='flex-start' className='p-2 textColor'>
+										<ListItemText
+											primary='Entry'
+											secondary={
+												<Typography
+													style={{
+														display: 'inline',
+														textTransform: 'capitalize',
+													}}
+													component='span'
+												>
+													{getProfile.dir.entry}
+												</Typography>
+											}
+										/>
+									</ListItem>
+								)}
 								<Divider style={{ background: 'rgb(13, 50, 80)' }} />
-								<ListItem alignItems='flex-start' className='p-2 textColor'>
-									<ListItemText
-										primary='Directory'
-										secondary={
-											<Typography sx={{ display: 'inline' }} component='span'>
-												{getProfile.profile.dir.directory}
-											</Typography>
-										}
-									/>
-								</ListItem>
+								{getProfile.dir.directory && (
+									<ListItem alignItems='flex-start' className='p-2 textColor'>
+										<ListItemText
+											primary='Directory'
+											secondary={
+												<Typography sx={{ display: 'inline' }} component='span'>
+													{getProfile.dir.directory}
+												</Typography>
+											}
+										/>
+									</ListItem>
+								)}
 								<Divider style={{ background: 'rgb(13, 50, 80)' }} />
-								{getProfile.profile.dir.mainEntry && (
+								{getProfile.dir.mainEntry && (
 									<ListItem alignItems='flex-start' className='p-2 textColor'>
 										<ListItemText
 											primary='Category'
 											secondary={
 												<Typography sx={{ display: 'inline' }} component='span'>
-													{getProfile.profile.dir.mainEntry}
+													{getProfile.dir.mainEntry}
 												</Typography>
 											}
 										/>
 									</ListItem>
 								)}
 								<Divider style={{ background: 'rgb(13, 50, 80)' }} />
-								{getProfile.profile.dir.subEntry && (
+								{getProfile.dir.subEntry && (
 									<ListItem alignItems='flex-start' className='p-2 textColor'>
 										<ListItemText
 											primary='Sub Category'
 											secondary={
 												<Typography sx={{ display: 'inline' }} component='span'>
-													{getProfile.profile.dir.subEntry}
+													{getProfile.dir.subEntry}
 												</Typography>
 											}
 										/>
 									</ListItem>
 								)}
 								<Divider style={{ background: 'rgb(13, 50, 80)' }} />
-								<ListItem alignItems='flex-start' className='p-2 textColor'>
-									<ListItemText
-										primary='Rank'
-										secondary={
-											<Typography
-												sx={{ display: 'inline' }}
-												component='span'
-												variant='body2'
-												color='text.primary'
-											>
-												{getProfile.profile.bio.rank}
-											</Typography>
-										}
-									/>
-								</ListItem>
+								{getProfile.bio.rank && (
+									<ListItem alignItems='flex-start' className='p-2 textColor'>
+										<ListItemText
+											primary='Rank'
+											secondary={
+												<Typography
+													sx={{ display: 'inline' }}
+													component='span'
+													variant='body2'
+													color='text.primary'
+												>
+													{getProfile.bio.rank}
+												</Typography>
+											}
+										/>
+									</ListItem>
+								)}
 								<Divider style={{ background: 'rgb(13, 50, 80)' }} />
-
-								<ListItem alignItems='flex-start' className='p-2 textColor'>
-									<ListItemText
-										primary='Contact'
-										secondary={
-											<Typography
-												sx={{ display: 'inline' }}
-												component='span'
-												variant='body2'
-											>
-												{getProfile.profile.bio.phoneNumber}
-											</Typography>
-										}
-									/>
-								</ListItem>
+								{getProfile.bio.phoneNumber && (
+									<ListItem alignItems='flex-start' className='p-2 textColor'>
+										<ListItemText
+											primary='Contact'
+											secondary={
+												<Typography
+													sx={{ display: 'inline' }}
+													component='span'
+													variant='body2'
+												>
+													{getProfile.bio.phoneNumber}
+												</Typography>
+											}
+										/>
+									</ListItem>
+								)}
 								<Divider style={{ background: 'rgb(13, 50, 80)' }} />
-								<ListItem alignItems='flex-start' className='p-2 textColor'>
-									<ListItemText
-										primary='Gender'
-										secondary={
-											<Typography sx={{ display: 'inline' }} component='span'>
-												{getProfile.profile.bio.gender}
-											</Typography>
-										}
-									/>
-								</ListItem>
+								{getProfile.bio.gender && (
+									<ListItem alignItems='flex-start' className='p-2 textColor'>
+										<ListItemText
+											primary='Gender'
+											secondary={
+												<Typography sx={{ display: 'inline' }} component='span'>
+													{getProfile.bio.gender}
+												</Typography>
+											}
+										/>
+									</ListItem>
+								)}
 							</Card>
 						</Container>
 
-						<Container maxWidth={'md'} className=' m-2'>
-							<Card
-								elevation={3}
-								style={{
-									background: 'rgb(0, 30, 60)',
-									border: '1px solid rgb(15, 80, 133)',
-								}}
-							>
-								<ListItem alignItems='flex-start' className='p-2 textColor'>
-									<ListItemText
-										primary='Description'
-										secondary={
-											<Typography sx={{ display: 'inline' }} component='span'>
-												{getProfile.profile.bio.desc}
-											</Typography>
-										}
-									/>
-								</ListItem>
-							</Card>
-						</Container>
-						{getProfile.profile.bio.qualification && (
+						{getProfile.bio.desc && (
+							<Container maxWidth={'md'} className=' m-2'>
+								<Card
+									elevation={3}
+									style={{
+										background: 'rgb(0, 30, 60)',
+										border: '1px solid rgb(15, 80, 133)',
+									}}
+								>
+									<ListItem alignItems='flex-start' className='p-2 textColor'>
+										<ListItemText
+											primary='Description'
+											secondary={
+												<Typography sx={{ display: 'inline' }} component='span'>
+													{getProfile.bio.desc}
+												</Typography>
+											}
+										/>
+									</ListItem>
+								</Card>
+							</Container>
+						)}
+						{getProfile.bio.qualification && (
 							<Container maxWidth={'md'} className=' m-2'>
 								<Typography className='p-2 textColor' component='span'>
 									Qualifications
@@ -261,7 +273,7 @@ export default function User() {
 										padding: '5px',
 									}}
 								>
-									{getProfile.profile.bio.qualification.map((item, idx) => (
+									{getProfile.bio.qualification.map((item, idx) => (
 										<Chip
 											label={item}
 											key={idx}
@@ -271,7 +283,7 @@ export default function User() {
 								</Paper>
 							</Container>
 						)}
-						{getProfile.profile.bio.research && (
+						{getProfile.bio.research && (
 							<Container maxWidth={'md'} className=' m-2'>
 								<Typography className='p-2 textColor' component='span'>
 									Areas of Specialization
@@ -284,7 +296,7 @@ export default function User() {
 										padding: '5px',
 									}}
 								>
-									{getProfile.profile.bio.research.map((item, idx) => (
+									{getProfile.bio.research.map((item, idx) => (
 										<Chip
 											label={item}
 											key={idx}

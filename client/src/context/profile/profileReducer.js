@@ -5,13 +5,22 @@ const ProfileReducer = (state, action) => {
 				...state,
 				profiles: action.payload,
 			};
+		case 'GET_ALL_USERS_PROFILES_SUCCESS':
+			return {
+				...state,
+				getAllProfileUsers: action.payload,
+			};
 		case 'GET_UNACTIVATE_PROFILES_SUCCESS':
 			return {
 				...state,
 				unactivateProfile: action.payload,
 			};
-		case 'CREATE_PROFILE_SUCCESS':
 		case 'GET_PROFILE_SUCCESS':
+			return {
+				...state,
+				getProfile: action.payload,
+			};
+		case 'CREATE_PROFILE_SUCCESS':
 		case 'GET_CURRENT_PROFILE_SUCCESS':
 		case 'GET_PROFILE_BY_ADMIN_SUCCESS':
 		case 'UPDATE_PROFILE_SUCCESS':
@@ -19,7 +28,6 @@ const ProfileReducer = (state, action) => {
 			return {
 				...state,
 				profile: action.payload,
-				getProfile: action.payload,
 				getCurrentProfile: action.payload,
 				status: action.payload,
 				getProfileByAdmin: action.payload,
@@ -33,6 +41,7 @@ const ProfileReducer = (state, action) => {
 				del: true,
 			};
 		case 'GET_PROFILE_BY_ADMIN_FAILURE':
+		case 'GET_ALL_USERS_PROFILES_FAILURE':
 		case 'CREATE_PROFILE_FAILURE':
 		case 'UPDATE_STATUS_FAILURE':
 		case 'UPDATE_PROFILE_FAILURE':

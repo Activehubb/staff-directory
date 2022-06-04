@@ -36,11 +36,11 @@ export default function DataTable() {
 			},
 		},
 		{
-			field: 'phoneNumber',
-			headerName: 'Phone Number',
+			field: 'Rank',
+			headerName: 'Rank',
 			width: 200,
 			renderCell: (params) => {
-				return <div>{params.row.bio.phoneNumber}</div>;
+				return <div>{params.row.bio.rank}</div>;
 			},
 		},
 
@@ -74,28 +74,8 @@ export default function DataTable() {
 			width: 100,
 			renderCell: (params) => {
 				return (
-					<div
-						className={`cellwithcat ${
-							params.row.faculty
-								? 'Faculty'
-								: params.row.college
-								? 'College'
-								: params.row.center
-								? 'Center'
-								: params.row.unit
-								? 'Unit'
-								: ''
-						}`}
-					>
-						{params.row.faculty
-							? 'Faculty'
-							: params.row.college
-							? 'College'
-							: params.row.center
-							? 'Center'
-							: params.row.unit
-							? 'Unit'
-							: ''}
+					<div className={`cellwithcat ${params.row.dir.directory}`}>
+						{params.row.dir.directory}
 					</div>
 				);
 			},
@@ -121,13 +101,13 @@ export default function DataTable() {
 	}
 	return (
 		<>
-			<div style={{ height: 530, width: '100%' }}>
+			<div style={{ height: 450, width: '100%' }}>
 				<DataGrid
 					rows={unactivateProfile}
 					getRowId={(row) => row._id}
 					columns={actionColumns}
-					pageSize={8}
-					rowsPerPageOptions={[8]}
+					pageSize={6}
+					rowsPerPageOptions={[6]}
 					checkboxSelection
 				/>
 			</div>

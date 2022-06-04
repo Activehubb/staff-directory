@@ -28,13 +28,13 @@ export default function SideBar() {
 	const classes = useStyles();
 	const data = [
 		{ icon: <HomeOutlined />, label: 'Home', link: '' },
-		{ icon: <TimelineOutlined />, label: 'Analytics', analytics: 'analytics' },
+		{ icon: <TimelineOutlined />, label: 'Analytics', analytics: 'analytics', links: 'analytics' },
 		{ icon: <PeopleOutlineRounded />, label: 'Users', link: 'users' },
-		{ icon: <VerifiedUserOutlined />, label: 'Activated Users' },
+		{ icon: <VerifiedUserOutlined />, label: 'Activated Users', link: 'users/activated'},
 		{
 			icon: <PersonAddDisabledOutlined />,
 			label: 'Unactivated Users',
-			link: 'users/unactivate',
+			link: 'users/unactivated',
 		},
 	];
 	return (

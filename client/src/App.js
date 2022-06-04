@@ -12,6 +12,7 @@ import Dashboard from './pages/Private/dashboard/Dashboard';
 import Profile from './pages/public/profile/Profile';
 import Home from './pages/public/home/Home';
 import User from './pages/public/user/User';
+import Users from './pages/Private/users/Users';
 import SingleUser from './pages/Private/user/User';
 import AdminUser from './pages/Private/admin/AdminUser';
 import ActivatedUser from './pages/Private/users/Activated';
@@ -95,19 +96,16 @@ function App() {
 							<Route path='/update/profile/:id' element={<UpdateProfile />} />
 							<Route path='/create/profile' element={<Profile />} />
 							<Route path='/notify' element={<Notify />} />
-
 							<Route path='/users/:id' element={<SingleUser />} />
 							<Route path='/admin/user/:id' element={<AdminUser />} />
 							<Route path='/profile' element={<User />} />
+							<Route path='/dashboard' element={<Dashboard />} />
+							<Route path='/users' element={<Users />} />
 							<Route
-								path='/dashboard'
-								element={<Dashboard profiles={profiles} />}
-							/>
-							<Route
-								path='/users'
+								path='/users/activated'
 								element={<ActivatedUser profiles={profiles} />}
 							/>
-							<Route path='/users/unactivate' element={<UnactivatedUser />} />
+							<Route path='/users/unactivated' element={<UnactivatedUser />} />
 						</>
 					)}
 					<Route

@@ -25,7 +25,7 @@ export default function ResponsiveDialog() {
 					</DialogContent>
 					<DialogActions>
 						<Button component={'a'} href={'/profile'}>
-							My Profile
+							View Profile
 						</Button>
 					</DialogActions>
 				</Dialog>

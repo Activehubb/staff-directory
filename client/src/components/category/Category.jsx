@@ -32,8 +32,8 @@ const useStyles = makeStyles({
 		borderRadius: '.3rem',
 	},
 	Typo: {
-		fontFamily: 'Source Sans'
-	}
+		fontFamily: 'Source Sans',
+	},
 });
 
 export default function Category() {
@@ -50,26 +50,37 @@ export default function Category() {
 				</List>
 				<Divider />
 				<div className='wrapper'>
-					{data.map((item) => (
-						<Box component='div' className={classes.div}>
-								<Typography
-									component='h3'
-									sx={{ padding: '1rem', fontWeight: 'bold' }}
-								>
-									{item.cat}
-								</Typography>
-								<Typography
-									component='p'
-									sx={{ padding: '1rem', fontWeight: 'bold' }}
-								>
-									Total Users: {item.totalCat}
-								</Typography>
-								<Typography
-									component='small'
-									sx={{ padding: '1rem', fontWeight: 'bold' }}
-								>
-									{item.text}
-								</Typography>
+					{data.map((item, idx) => (
+						<Box
+							component='div'
+							style={{
+								margin: '1rem',
+								padding: '1rem',
+								width: '100%',
+								flex: '1',
+								border: '.5px solid rgba(0,0,0,.1)',
+								borderRadius: '.3rem',
+							}}
+							className={`cat cat${idx}`}
+						>
+							<Typography
+								component='h3'
+								sx={{ padding: '1rem', fontWeight: 'bold' }}
+							>
+								{item.cat}
+							</Typography>
+							<Typography
+								component='p'
+								sx={{ padding: '1rem', fontWeight: 'bold' }}
+							>
+								Total Users: {item.totalCat}
+							</Typography>
+							<Typography
+								component='small'
+								sx={{ padding: '1rem', fontWeight: 'bold' }}
+							>
+								{item.text}
+							</Typography>
 						</Box>
 					))}
 				</div>

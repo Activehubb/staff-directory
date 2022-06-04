@@ -4,6 +4,7 @@ import { createContext, useReducer } from 'react';
 const INITIAL_STATE = {
 	profile: null,
 	profiles: null,
+	getAllProfileUsers: null,
 	unactivateProfile: null,
 	getProfile: null,
 	getProfileByAdmin: null,
@@ -30,6 +31,7 @@ const ProfileContextProvider = ({ children }) => {
 				profiles: state.profiles,
 				unactivateProfile: state.unactivateProfile,
 				getProfile: state.getProfile,
+				getAllProfileUsers: state.getAllProfileUsers,
 				getProfileByAdmin: state.getProfileByAdmin,
 				getCurrentProfile: state.getCurrentProfile,
 				isProfile: state.isProfile,

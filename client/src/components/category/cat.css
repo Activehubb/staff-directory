@@ -1,4 +1,40 @@
 .wrapper {
-    display: flex;
-    flex: 4;
+	display: flex;
+	flex: 4;
+}
+
+.cat0 {
+	background: #a73737;
+	background: -webkit-linear-gradient(to right, #7a2828, #a73737);
+	background: linear-gradient(to right, #7a2828, #a73737);
+	color: #fff;
+	box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.4);
+}
+.cat1 {
+	background: #02aab0;
+	background: -webkit-linear-gradient(to right, #00cdac, #02aab0);
+	background: linear-gradient(to right, #00cdac, #02aab0);
+	color: #fff;
+	box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.4);
+}
+.cat2 {
+	background: #06beb6;
+	background: -webkit-linear-gradient(to right, #48b1bf, #06beb6);
+	background: linear-gradient(to right, #48b1bf, #06beb6);
+	color: #fff;
+	box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.4);
+}
+.cat3 {
+	background: #e44d26;
+	background: -webkit-linear-gradient(to right, #f16529, #e44d26);
+	background: linear-gradient(to right, #f16529, #e44d26);
+	color: #fff;
+	box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.4);
+}
+.cat4 {
+	background: #eacda3;
+	background: -webkit-linear-gradient(to right, #d6ae7b, #eacda3);
+	background: linear-gradient(to right, #d6ae7b, #eacda3);
+	color: #fff;
+	box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.4);
 }

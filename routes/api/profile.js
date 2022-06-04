@@ -68,7 +68,7 @@ router.post('/create', verify, async (req, res) => {
 		}`;
 		const home = `${req.protocol}://${req.get('host')}`;
 
-		// const emailMessage = `Congratulation ${profile.bio.fname} ${profile.bio.middleName}\n\nYou have successfully created your profile\n\nYour account is under review for the next 24hrs and will be activated by the administrator\n\nFollow the link below to my profile\n\n${profileUrl}`;
+
 
 		const emailMessage = `<div class="text" style="padding: 0 2.5em; text-align: center; font-family: Segoe-ui">
             				<h2>Congratulation ${profile.bio.fname} ${profile.bio.middleName}l</h2>
@@ -202,7 +202,22 @@ router.get('/', verify, async (req, res) => {
 });
 
 // Get All Profile
+router.get('/users', async (req, res) => {
+	try {
+		const AllProfile = await Profile.find().populate('user', [
+			'profilePic',
+			'email',
+			'username',
+		]);
 
+		res.status(200).json(AllProfile)
+	} catch (error) {
+		console.log(error.message);
+		res.status(500).json(`Server Error ${error.message}`)
+	}
+})
+
+// Get Activated Users
 router.get('/profiles', async (req, res) => {
 	try {
 		const profile = await Profile.find({ status: true }).populate('user', [
@@ -221,6 +236,7 @@ router.get('/profiles', async (req, res) => {
 	}
 });
 
+// Get Unactivated Profiles
 router.get('/profiles/unactivate', async (req, res) => {
 	try {
 		const profile = await Profile.find({ status: false }).populate('user', [

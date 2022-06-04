@@ -375,13 +375,13 @@ export default function User() {
 						open={error}
 						style={{ color: '#333' }}
 					>
-						<DialogTitle>{`Your access is ${isError.statusText}`}</DialogTitle>
+						<DialogTitle>{`Your access is restricted`}</DialogTitle>
 						<DialogContent>
-							<DialogContentText>{`${isError.data.msg} through the next 24hrs your profile will be activated`}</DialogContentText>
+							<DialogContentText>{`${isError.data.msg} through the next 24hrs before your profile will be activated`}</DialogContentText>
 						</DialogContent>
 						<DialogActions>
 							<Button component={'a'} href={'/'}>
-								See more profile
+								View more profile
 							</Button>
 						</DialogActions>
 					</Dialog>

@@ -3,15 +3,18 @@ import React from 'react';
 import {
 	ResponsiveContainer,
 	LineChart,
+	AreaChart,
+	Area,
+	linearGradient,
 	Tooltip,
 	CartesianGrid,
 	Line,
 	XAxis,
 	Legend,
-	YAxis
+	YAxis,
 } from 'recharts';
-import {makeStyles} from '@material-ui/core'
-import './chart.css'
+import { makeStyles } from '@material-ui/core';
+import './chart.css';
 
 const data = [
 	{
@@ -85,7 +88,7 @@ const useStyles = makeStyles({
 });
 
 export default function Chart() {
-	const classes = useStyles()
+	const classes = useStyles();
 	return (
 		<div className='wrapper'>
 			<Box className={classes.Box} component='div'>
@@ -94,12 +97,12 @@ export default function Chart() {
 				</Typography>
 				<ResponsiveContainer width='100%' aspect={4 / 1}>
 					<LineChart data={data}>
-						<XAxis dataKey='faculties' stroke='#555odf' />
-						<YAxis dataKey='Active Users'/>
+						<XAxis dataKey='faculties' stroke='#5550df' />
+						<YAxis dataKey='Active Users' />
 						<CartesianGrid strokeDasharray='3 3' />
 						<Tooltip />
 						<Legend />
-						<Line type='monotone' dataKey='Active Users' stroke='#8884d8' />
+						<Line type='monotone' dataKey='Active Users' stroke='#5550df' />
 					</LineChart>
 				</ResponsiveContainer>
 			</Box>
