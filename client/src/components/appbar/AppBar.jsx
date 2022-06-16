@@ -209,9 +209,10 @@ const PrimarySearchAppBar = ({ HandleQuery, avatar }) => {
 			>
 				<div>
 				<Container maxWidth='lg'>
-					<Navbar>
-						<Box component={'div'} style={{display: 'flex'}}>
 							<MenuRounded style={{fontSize: '2.5rem'}}/>
+					<Navbar>
+						<Container maxwidth="md">
+						<Box component={'div'} style={{display: 'flex'}}>
 							<Link
 								to='/'
 								style={{
@@ -457,12 +458,13 @@ const PrimarySearchAppBar = ({ HandleQuery, avatar }) => {
 								</IconButton>
 							</Box>
 						</Box>
+						</Container>
 					</Navbar>
 				</Container>
 				
 			</div>
-			{renderMobileMenu}
-			{renderMenu}
+			{/* {renderMobileMenu}
+			{renderMenu} */}
 			</AppBar>
 
 		</>
