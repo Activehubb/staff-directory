@@ -3,9 +3,6 @@ import React from 'react';
 import {
 	ResponsiveContainer,
 	LineChart,
-	AreaChart,
-	Area,
-	linearGradient,
 	Tooltip,
 	CartesianGrid,
 	Line,

@@ -14,10 +14,10 @@ import {
 } from '@material-ui/core';
 import { SchoolRounded, Email, More, Grade } from '@material-ui/icons';
 import Stack from '@mui/material/Stack';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 export default function ProfileWid({ profile }) {
-	const [isHovered, setHovered] = useState(false);
+	// const [isHovered, setHovered] = useState(false);
 
 	const useStyles = makeStyles((theme) => ({
 		rt: {
@@ -29,10 +29,13 @@ export default function ProfileWid({ profile }) {
 		flex: {
 			display: 'flex',
 			alignItems: 'center',
+			justifyContent: 'center',
 		},
 		wrap: {
 			padding: '1rem',
 			background: '#E2E9F9',
+			border: '1px solid #E2E9F9',
+			borderRadius: '5px',
 		},
 		desc: {
 			overflow: 'hidden',
@@ -50,36 +53,39 @@ export default function ProfileWid({ profile }) {
 				<Box className={classes.rt}>
 					<Card
 						className={classes.wrap}
-						onMouseEnter={() => {
-							setHovered(true);
-						}}
-						onMouseLeave={() => {
-							setHovered(false);
-						}}
+					
 					>
 						<Box className={classes.flex}>
 							<Box>
 								<Avatar
 									src={profile.user.profilePic}
 									alt='avatar'
-									style={{ width: 72, height: 72 }}
+									style={{ width: 56, height: 56 }}
 								/>
 							</Box>
 							<Box style={{ marginLeft: '1.5rem' }}>
 								<Typography component='div' style={{ fontWeight: 700 }}>
 									{profile.bio.fname} {profile.bio.lname.charAt(0) + '.'}
 								</Typography>
+								<Typography component='p' style={{ fontWeight: 400, textTransform: "capitalize", fontSize: ".8rem" }}>
+									{profile.dir.entry}
+								</Typography>
+							</Box>
+						</Box>
+						<Box component='div'>
+							<Box>
 								{profile.dir && (
 									<Box component='div'>
-										<Typography component=''>{`${profile.dir.directory} of ${profile.dir.mainEntry}`}</Typography>
-										{profile.dir.subEntry && (
-											<Typography component=''>{`${profile.dir.subEntry}`}</Typography>
+										{profile.dir.directory && (
+											<Box component='span'>
+												<Typography component=''>{`${profile.dir.directory} of ${profile.dir.mainEntry}`}</Typography>
+											</Box>
 										)}
 									</Box>
 								)}
 							</Box>
 						</Box>
-						<Box>
+						{/* <Box>
 							<CardContent>
 								<Stack direction='row' spacing={1}>
 									<Chip
@@ -91,12 +97,13 @@ export default function ProfileWid({ profile }) {
 										<Chip
 											label={profile.dir.entry}
 											icon={<SchoolRounded />}
+											style={{ textTransform: 'capitalize' }}
 										/>
 									)}
 								</Stack>
 							</CardContent>
-						</Box>
-						{isHovered && (
+						</Box> */}
+						{/* {isHovered && (
 							<Paper
 								variant='outlined'
 								elevation={6}
@@ -156,7 +163,7 @@ export default function ProfileWid({ profile }) {
 									</Button>
 								</CardActions>
 							</Paper>
-						)}
+						)} */}
 					</Card>
 				</Box>
 			)}

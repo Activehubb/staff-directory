@@ -11,6 +11,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { makeStyles } from '@material-ui/core';
 
+
 const useStyles = makeStyles({
 	root: {
 		background: 'rgb(13, 50, 80)',
@@ -24,9 +25,9 @@ const useStyles = makeStyles({
 	},
 });
 
-export default function SideBar() {
+export default function SideBar({toggle}) {
 	const classes = useStyles();
-	const data = [
+	const admin = [
 		{ icon: <HomeOutlined />, label: 'Home', link: '' },
 		{ icon: <TimelineOutlined />, label: 'Analytics', analytics: 'analytics', links: 'analytics' },
 		{ icon: <PeopleOutlineRounded />, label: 'Users', link: 'users' },
@@ -37,8 +38,20 @@ export default function SideBar() {
 			link: 'users/unactivated',
 		},
 	];
+	const user = [
+		{ icon: <HomeOutlined />, label: 'Home', link: '' },
+		// { icon: <TimelineOutlined />, label: 'Users', users: 'Users', links: 'analytics' },
+		{ icon: <PeopleOutlineRounded />, label: 'Users', link: 'users' },
+		{ icon: <VerifiedUserOutlined />, label: 'Profiles', link: 'users/activated'},
+		// {
+		// 	icon: <PersonAddDisabledOutlined />,
+		// 	label: 'Unactivated Users',
+		// 	link: 'users/unactivated',
+		// },
+	];
 	return (
 		<div>
+			
 			<Box className={classes.root} component='div' sx={{ p: 0, m: 0 }}>
 				<List sx={{ p: 0, m: 0 }}>
 					<ListItemButton component='a' href='/dashboard' sx={{ my: 0 }}>
@@ -55,7 +68,7 @@ export default function SideBar() {
 						</ListItem>
 					</ListItemButton>
 					<Divider />
-					{data.map((item) => (
+					{admin.map((item) => (
 						<ListItemButton
 							key={item.label}
 							component='a'
@@ -63,7 +76,9 @@ export default function SideBar() {
 						>
 							<ListItem>
 								<ListItemIcon sx={{ color: '#fff' }}>{item.icon}</ListItemIcon>
+								{toggle && (
 								<ListItemText>{item.label}</ListItemText>
+								)}
 							</ListItem>
 						</ListItemButton>
 					))}

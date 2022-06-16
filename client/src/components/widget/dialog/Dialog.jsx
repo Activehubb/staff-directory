@@ -18,7 +18,7 @@ export default function ResponsiveDialog() {
 			{profile && (
 				<Dialog fullScreen={fullScreen} open={isProfile}>
 					<DialogTitle>
-						Congratulations Profile Created Successfully
+						Congratulations, Profile Created Successfully
 					</DialogTitle>
 					<DialogContent>
 						<DialogContentText>{profile.msg}</DialogContentText>

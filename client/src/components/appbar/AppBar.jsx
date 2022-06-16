@@ -15,10 +15,11 @@ import { useLocation } from 'react-router-dom';
 import { Button, Container, Stack } from '@mui/material';
 import { AuthContext } from '../../context/auth/AuthContext';
 import './appbar.css';
-import { ExitToAppRounded } from '@material-ui/icons';
+import { ExitToAppRounded, MenuRounded } from '@material-ui/icons';
 import { ProfileContext } from '../../context/profile/profileContext';
 import { Link } from 'react-router-dom';
 import { userLogout } from '../../context/auth/apiCall';
+import SideBar from '../sidebar/SideBar'
 
 const Search = styled('div')(({ theme }) => ({
 	position: 'relative',
@@ -195,7 +196,8 @@ const PrimarySearchAppBar = ({ HandleQuery, avatar }) => {
 
 	return (
 		<>
-			<AppBar
+			
+			<AppBar 
 				className='appBg'
 				style={{
 					background: 'rgb(13, 50, 80)',
@@ -205,9 +207,11 @@ const PrimarySearchAppBar = ({ HandleQuery, avatar }) => {
 					color: '#fff',
 				}}
 			>
-				<Container maxWidth='xl'>
+				<div>
+				<Container maxWidth='lg'>
 					<Navbar>
-						<Box component={'div'}>
+						<Box component={'div'} style={{display: 'flex'}}>
+							<MenuRounded style={{fontSize: '2.5rem'}}/>
 							<Link
 								to='/'
 								style={{
@@ -455,9 +459,12 @@ const PrimarySearchAppBar = ({ HandleQuery, avatar }) => {
 						</Box>
 					</Navbar>
 				</Container>
-			</AppBar>
+				
+			</div>
 			{renderMobileMenu}
 			{renderMenu}
+			</AppBar>
+
 		</>
 	);
 };

@@ -5,6 +5,7 @@ import LoginAdm from './pages/public/auth/LoginAdm';
 import Register from './pages/public/auth/Register';
 import SignupAdm from './pages/public/auth/SignupAdm';
 import PrimarySearchAppBar from './components/appbar/AppBar';
+import Footer from './components/footer/Footer';
 import Notify from './components/widget/dialog/Dialog';
 import NewMember from './components/newMember/NewMember';
 import './app.css';
@@ -42,6 +43,7 @@ function App() {
 		<Fragment>
 			<div className='app'>
 				<PrimarySearchAppBar HandleQuery={HandleQuery} avatar={userAvatar} />
+				{/* <Nav/> */}
 				<Routes>
 					<>
 						<Route
@@ -113,6 +115,7 @@ function App() {
 						element={<Navigate to={isAuthenticated ? '/' : 'signin'} />}
 					/>
 				</Routes>
+				<Footer/>
 			</div>
 		</Fragment>
 	);
