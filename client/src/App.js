@@ -23,16 +23,23 @@ import Query from './components/query/Query';
 import { ProfileContext } from './context/profile/profileContext';
 import { getProfiles } from './context/profile/profileApiCall';
 import UpdateProfile from './pages/public/update/UpdateProfile';
+import SideBar from './components/sidebar/SideBar';
+import { useSwitch } from './hooks/useSwitch';
+import { Container } from '@material-ui/core';
 
 function App() {
 	const { user, admin, isAuthenticated } = useContext(AuthContext);
 	const { profiles, dispatch } = useContext(ProfileContext);
+	const [open, handleOpen] = useState(false);
 
 	const [query, setQuery] = useState('');
 	const HandleQuery = (e) => setQuery(e.target.value);
 	const [userAvatar, setUserAvatar] = useState(false);
 	const handleAvatar = (e) => {
 		setUserAvatar(e.target.files[0]);
+	};
+	const handleToggle = () => {
+		handleOpen(!open)
 	};
 
 	useEffect(() => {
@@ -42,80 +49,100 @@ function App() {
 	return (
 		<Fragment>
 			<div className='app'>
-				<PrimarySearchAppBar HandleQuery={HandleQuery} avatar={userAvatar} />
-				{/* <Nav/> */}
-				<Routes>
-					<>
-						<Route
-							path='/'
-							element={
-								query ? (
-									<Query query={query} profiles={profiles} />
-								) : (
-									<Home profiles={profiles} />
-								)
-							}
-						/>
-						<Route
-							path='/users/profiles'
-							element={
-								query ? (
-									<Query query={query} profiles={profiles} />
-								) : (
-									<NewMember profiles={profiles} />
-								)
-							}
-						/>
-						<Route
-							path='/signup'
-							element={
-								<Register handleAvatar={handleAvatar} userAvatar={userAvatar} />
-							}
-						/>
-						<Route
-							path='/signup/admin'
-							element={
-								<SignupAdm
-									handleAvatar={handleAvatar}
-									userAvatar={userAvatar}
+				<PrimarySearchAppBar
+					HandleQuery={HandleQuery}
+					avatar={userAvatar}
+					handleToggle={handleToggle}
+				/>
+				<main style={{ display: 'flex' }}>
+					<SideBar isOpen={open} />
+					<Container maxWidth='lg' component={'main'}>
+						<Routes>
+							<>
+								<Route
+									path='/'
+									element={
+										query ? (
+											<Query query={query} profiles={profiles} />
+										) : (
+											<Home profiles={profiles} />
+										)
+									}
 								/>
-							}
-						/>
-						<Route path='/signin' element={<Login />} />
-						<Route path='/signin/admin' element={<LoginAdm />} />
-					</>
-					{user && (
-						<>
-							<Route path='/create/profile' element={<Profile />} />
-							<Route path='/profile' element={<User />} />
-							<Route path='/users/:id' element={<SingleUser />} />
-							<Route path='/notify' element={<Notify />} />
-							<Route path='/update/profile/:id' element={<UpdateProfile />} />
-						</>
-					)}
-					{admin && (
-						<>
-							<Route path='/update/profile/:id' element={<UpdateProfile />} />
-							<Route path='/create/profile' element={<Profile />} />
-							<Route path='/notify' element={<Notify />} />
-							<Route path='/users/:id' element={<SingleUser />} />
-							<Route path='/admin/user/:id' element={<AdminUser />} />
-							<Route path='/profile' element={<User />} />
-							<Route path='/dashboard' element={<Dashboard />} />
-							<Route path='/users' element={<Users />} />
+								<Route
+									path='/users/profiles'
+									element={
+										query ? (
+											<Query query={query} profiles={profiles} />
+										) : (
+											<NewMember profiles={profiles} />
+										)
+									}
+								/>
+								<Route
+									path='/signup'
+									element={
+										<Register
+											handleAvatar={handleAvatar}
+											userAvatar={userAvatar}
+										/>
+									}
+								/>
+								<Route
+									path='/signup/admin'
+									element={
+										<SignupAdm
+											handleAvatar={handleAvatar}
+											userAvatar={userAvatar}
+										/>
+									}
+								/>
+								<Route path='/signin' element={<Login />} />
+								<Route path='/signin/admin' element={<LoginAdm />} />
+							</>
+							{user && (
+								<>
+									<Route path='/create/profile' element={<Profile />} />
+									<Route path='/profile' element={<User />} />
+									<Route path='/users/:id' element={<SingleUser />} />
+									<Route path='/notify' element={<Notify />} />
+									<Route
+										path='/update/profile/:id'
+										element={<UpdateProfile />}
+									/>
+								</>
+							)}
+							{admin && (
+								<>
+									<Route
+										path='/update/profile/:id'
+										element={<UpdateProfile />}
+									/>
+									<Route path='/create/profile' element={<Profile />} />
+									<Route path='/notify' element={<Notify />} />
+									<Route path='/users/:id' element={<SingleUser />} />
+									<Route path='/admin/user/:id' element={<AdminUser />} />
+									<Route path='/profile' element={<User />} />
+									<Route path='/dashboard' element={<Dashboard />} />
+									<Route path='/users' element={<Users />} />
+									<Route
+										path='/users/activated'
+										element={<ActivatedUser profiles={profiles} />}
+									/>
+									<Route
+										path='/users/unactivated'
+										element={<UnactivatedUser />}
+									/>
+								</>
+							)}
 							<Route
-								path='/users/activated'
-								element={<ActivatedUser profiles={profiles} />}
+								path='*'
+								element={<Navigate to={isAuthenticated ? '/' : 'signin'} />}
 							/>
-							<Route path='/users/unactivated' element={<UnactivatedUser />} />
-						</>
-					)}
-					<Route
-						path='*'
-						element={<Navigate to={isAuthenticated ? '/' : 'signin'} />}
-					/>
-				</Routes>
-				<Footer/>
+						</Routes>
+					</Container>
+				</main>
+				<Footer />
 			</div>
 		</Fragment>
 	);

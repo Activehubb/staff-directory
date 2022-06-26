@@ -11,7 +11,6 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { makeStyles } from '@material-ui/core';
 
-
 const useStyles = makeStyles({
 	root: {
 		background: 'rgb(13, 50, 80)',
@@ -19,19 +18,29 @@ const useStyles = makeStyles({
 		height: 'calc(100vh - 56px)',
 		position: 'sticky',
 		top: '56px',
+		left: '0',
 		boxShadow: '0px 0px 10px 0px rgba(50, 50, 50, 0.4)',
 		margin: 0,
-		zIndex: '1100'
+		zIndex: '1100',
 	},
 });
 
-export default function SideBar({toggle}) {
+export default function SideBar({ isOpen }) {
 	const classes = useStyles();
 	const admin = [
 		{ icon: <HomeOutlined />, label: 'Home', link: '' },
-		{ icon: <TimelineOutlined />, label: 'Analytics', analytics: 'analytics', links: 'analytics' },
+		{
+			icon: <TimelineOutlined />,
+			label: 'Analytics',
+			analytics: 'analytics',
+			links: 'analytics',
+		},
 		{ icon: <PeopleOutlineRounded />, label: 'Users', link: 'users' },
-		{ icon: <VerifiedUserOutlined />, label: 'Activated Users', link: 'users/activated'},
+		{
+			icon: <VerifiedUserOutlined />,
+			label: 'Activated Users',
+			link: 'users/activated',
+		},
 		{
 			icon: <PersonAddDisabledOutlined />,
 			label: 'Unactivated Users',
@@ -42,7 +51,11 @@ export default function SideBar({toggle}) {
 		{ icon: <HomeOutlined />, label: 'Home', link: '' },
 		// { icon: <TimelineOutlined />, label: 'Users', users: 'Users', links: 'analytics' },
 		{ icon: <PeopleOutlineRounded />, label: 'Users', link: 'users' },
-		{ icon: <VerifiedUserOutlined />, label: 'Profiles', link: 'users/activated'},
+		{
+			icon: <VerifiedUserOutlined />,
+			label: 'Profiles',
+			link: 'users/activated',
+		},
 		// {
 		// 	icon: <PersonAddDisabledOutlined />,
 		// 	label: 'Unactivated Users',
@@ -51,36 +64,59 @@ export default function SideBar({toggle}) {
 	];
 	return (
 		<div>
-			
 			<Box className={classes.root} component='div' sx={{ p: 0, m: 0 }}>
 				<List sx={{ p: 0, m: 0 }}>
-					<ListItemButton component='a' href='/dashboard' sx={{ my: 0 }}>
-						<ListItem>
-							<ListItemIcon sx={{ fontSize: 20 }}>
-								<Dashboard style={{ color: '#fff' }} />
-							</ListItemIcon>
-							<ListItemText
-								className={classes.Typo}
-								primaryTypographyProps={{ fontSize: 20, fontWeight: 'medium' }}
-							>
-								Dashboard
-							</ListItemText>
-						</ListItem>
-					</ListItemButton>
+					<ListItem sx={{ p: 0, m: 0 }}>
+						<ListItemButton component='a' href='/dashboard' sx={{ my: 0 }}>
+							{isOpen ? (
+								<>
+									<ListItemIcon sx={{ fontSize: 20 }}>
+										<Dashboard style={{ color: '#fff' }} />
+									</ListItemIcon>
+									<ListItemText
+										primaryTypographyProps={{
+											fontSize: 20,
+											fontWeight: 'medium',
+										}}
+									>
+										Dashboard
+									</ListItemText>
+								</>
+							) : (
+								<span sx={{ fontSize: 20 }}>
+									<Dashboard style={{ color: '#fff' }} />
+								</span>
+							)}
+						</ListItemButton>
+					</ListItem>
 					<Divider />
 					{admin.map((item) => (
-						<ListItemButton
-							key={item.label}
-							component='a'
-							href={item.link ? `/${item.link}` : '/'}
-						>
-							<ListItem>
-								<ListItemIcon sx={{ color: '#fff' }}>{item.icon}</ListItemIcon>
-								{toggle && (
-								<ListItemText>{item.label}</ListItemText>
-								)}
+						<>
+							<ListItem
+								key={item}
+								style={{
+									paddingRight: 'none',
+									paddingLeft: 'none',
+								}}
+							>
+								<ListItemButton
+									component='a'
+									href={item.link ? `/${item.link}` : '/'}
+								>
+									{isOpen ? (
+										<>
+											<ListItemIcon sx={{ color: '#fff' }}>
+												{item.icon}
+											</ListItemIcon>
+											<ListItemText>{item.label}</ListItemText>
+										</>
+									) : (
+										<span style={{ color: '#fff' }}>{item.icon}</span>
+									)}
+								</ListItemButton>
 							</ListItem>
-						</ListItemButton>
+							<Divider />
+						</>
 					))}
 				</List>
 			</Box>

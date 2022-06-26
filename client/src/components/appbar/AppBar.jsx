@@ -14,12 +14,10 @@ import { Avatar, Chip, makeStyles } from '@material-ui/core';
 import { useLocation } from 'react-router-dom';
 import { Button, Container, Stack } from '@mui/material';
 import { AuthContext } from '../../context/auth/AuthContext';
-import './appbar.css';
 import { ExitToAppRounded, MenuRounded } from '@material-ui/icons';
 import { ProfileContext } from '../../context/profile/profileContext';
 import { Link } from 'react-router-dom';
 import { userLogout } from '../../context/auth/apiCall';
-import SideBar from '../sidebar/SideBar'
 
 const Search = styled('div')(({ theme }) => ({
 	position: 'relative',
@@ -78,7 +76,7 @@ const Navbar = styled('div')(({ theme }) => ({
 	},
 }));
 
-const PrimarySearchAppBar = ({ HandleQuery, avatar }) => {
+const PrimarySearchAppBar = ({ HandleQuery, avatar, handleToggle }) => {
 	const { user, dispatch, admin } = React.useContext(AuthContext);
 	const handleLogout = () => {
 		userLogout(dispatch);
@@ -196,212 +194,180 @@ const PrimarySearchAppBar = ({ HandleQuery, avatar }) => {
 
 	return (
 		<>
-			
-			<AppBar 
-				className='appBg'
-				style={{
-					background: 'rgb(13, 50, 80)',
-					position: 'sticky',
-					padding: '.5rem 0',
-					zIndex: '1000',
-					color: '#fff',
-				}}
-			>
-				<div>
-				<Container maxWidth='lg'>
-							<MenuRounded style={{fontSize: '2.5rem'}}/>
-					<Navbar>
-						<Container maxwidth="md">
-						<Box component={'div'} style={{display: 'flex'}}>
-							<Link
-								to='/'
+			<header>
+				<AppBar
+					style={{
+						background: 'rgb(13, 50, 80)',
+						position: 'sticky',
+						top: '0',
+						padding: '.5rem 0',
+						zIndex: '1000',
+						color: '#fff',
+					}}
+				>
+					<Container maxwidth='lg'>
+						<Navbar>
+							<MenuRounded
 								style={{
-									display: 'flex',
-									textDecoration: 'none',
-									gap: '0 .5rem',
-									color: '#fff',
-									alignItems: 'center',
+									fontSize: '2.5rem',
+									color: '#f4f4f4',
+									cursor: 'pointer',
 								}}
-							>
-								<Avatar
-									alt='oau logo'
-									variant={'rounded'}
-									src='/image/oaulogo.png'
-								/>{' '}
-								<Typography
-									variant='h6'
-									noWrap
-									component='div'
-									sx={{ display: { xs: 'none', sm: 'block' } }}
+								onClick={handleToggle}
+							/>
+							<Box component={'div'} style={{ display: 'flex' }}>
+								<Link
+									to='/'
+									style={{
+										display: 'flex',
+										textDecoration: 'none',
+										gap: '0 .5rem',
+										color: '#fff',
+										alignItems: 'center',
+									}}
 								>
-									Staff Directory
-								</Typography>
-							</Link>
-						</Box>
-						<Box>
-							{path.includes('signin') ? (
-								''
-							) : path.includes('signup') ? (
-								''
-							) : path.includes('create') ? (
-								''
-							) : (
-								<Search>
-									<SearchIconWrapper>
-										<SearchIcon />
-									</SearchIconWrapper>
-
-									<StyledInputBase
-										placeholder='Search…'
-										inputProps={{ 'aria-label': 'search' }}
-										onChange={HandleQuery}
-									/>
-								</Search>
-							)}
-						</Box>
-						<Box className={classes.Box}>
-							{admin && (
-								<Box className={classes.Auth}>
-									{admin && (
-										<Stack direction='row'>
-											<Chip
-												avatar={<Avatar alt='avatar' src={admin.profilePic} />}
-												label={admin.username}
-											/>
-										</Stack>
-									)}
-
-									<Button
-										component={'a'}
-										href='/signin'
-										onClick={handleLogout}
-										style={{
-											padding: '.2rem 0',
-											marginLeft: '1rem',
-											color: '#fff',
-											textTransform: 'capitalize',
-										}}
+									<Avatar
+										alt='oau logo'
+										variant={'rounded'}
+										src='/image/oaulogo.png'
+									/>{' '}
+									<Typography
+										variant='h6'
+										noWrap
+										component='div'
+										sx={{ display: { xs: 'none', sm: 'block' } }}
 									>
-										Logout
-										<ExitToAppRounded style={{ paddingLeft: '.2rem' }} />
-									</Button>
-								</Box>
-							)}
-							{user && (
-								<Box className={classes.Auth}>
-									{path.includes('create') ? (
-										''
-									) : path.includes('signin') ? (
-										''
-									) : path.includes('signup') ? (
-										''
-									) : (
-										<>
-											{!isProfile && (
-												<Link
-													to='/create/profile'
-													style={{
-														textDecoration: 'none',
-														color: 'white',
-														padding: '0 10px',
-													}}
-												>
-													Create Profile
-												</Link>
-											)}
-										</>
-									)}
+										Staff Directory
+									</Typography>
+								</Link>
+							</Box>
+							<Box>
+								{path.includes('signin') ? (
+									''
+								) : path.includes('signup') ? (
+									''
+								) : path.includes('create') ? (
+									''
+								) : (
+									<Search>
+										<SearchIconWrapper>
+											<SearchIcon />
+										</SearchIconWrapper>
 
-									<IconButton
-										size='large'
-										edge='end'
-										aria-label='account of current user'
-										aria-controls={menuId}
-										aria-haspopup='true'
-										// onClick={handleProfileMenuOpen}
-										color='inherit'
-									>
-										<Link
-											to='/profile'
-											style={{
-												textDecoration: 'none',
-												color: 'white',
-												padding: '0 10px',
-												margin: '0 .5rem',
-												display: 'flex',
-												justifyContent: 'center',
-												alignItems: 'center',
-											}}
-										>
-											<AccountCircleIcon />
-										</Link>
-									</IconButton>
-									{user && (
-										<Stack direction='row'>
-											<Chip
-												avatar={<Avatar alt='avatar' src={user.profilePic} />}
-												label={user.username}
-											/>
-										</Stack>
-									)}
-									<Button
-										component={'a'}
-										href='/signin'
-										onClick={handleLogout}
-										style={{
-											padding: '.2rem 0',
-											marginLeft: '1rem',
-											color: '#fff',
-											textTransform: 'capitalize',
-										}}
-									>
-										Logout
-										<ExitToAppRounded style={{ paddingLeft: '.2rem' }} />
-									</Button>
-								</Box>
-							)}
-							{!user && !admin && (
-								<Box className={classes.Auth}>
-									{path.includes('signin') ? (
+										<StyledInputBase
+											placeholder='Search…'
+											inputProps={{ 'aria-label': 'search' }}
+											onChange={HandleQuery}
+										/>
+									</Search>
+								)}
+							</Box>
+							<Box className={classes.Box}>
+								{admin && (
+									<Box className={classes.Auth}>
+										{admin && (
+											<Stack direction='row'>
+												<Chip
+													avatar={
+														<Avatar alt='avatar' src={admin.profilePic} />
+													}
+													label={admin.username}
+												/>
+											</Stack>
+										)}
+
 										<Button
-											LinkComponent={'a'}
-											href='/signup'
-											style={{
-												color: '#fff',
-												textTransform: 'capitalize',
-											}}
-											size='large'
-										>
-											Create Account
-										</Button>
-									) : path.includes('signup') ? (
-										<Button
-											LinkComponent={'a'}
+											component={'a'}
 											href='/signin'
-											variant='outlined'
+											onClick={handleLogout}
 											style={{
-												border: '1px solid rgba(255, 255, 255, .5)',
+												padding: '.2rem 0',
+												marginLeft: '1rem',
 												color: '#fff',
 												textTransform: 'capitalize',
-												margin: '0 .5rem',
 											}}
-											size='large'
 										>
-											Log In
+											Logout
+											<ExitToAppRounded style={{ paddingLeft: '.2rem' }} />
 										</Button>
-									) : (
-										<Box>
-											<Button
-												LinkComponent={'a'}
-												href={!user || !admin ? '/signin' : '/users/profiles'}
+									</Box>
+								)}
+								{user && (
+									<Box className={classes.Auth}>
+										{path.includes('create') ? (
+											''
+										) : path.includes('signin') ? (
+											''
+										) : path.includes('signup') ? (
+											''
+										) : (
+											<>
+												{!isProfile && (
+													<Link
+														to='/create/profile'
+														style={{
+															textDecoration: 'none',
+															color: 'white',
+															padding: '0 10px',
+														}}
+													>
+														Create Profile
+													</Link>
+												)}
+											</>
+										)}
+
+										<IconButton
+											size='large'
+											edge='end'
+											aria-label='account of current user'
+											aria-controls={menuId}
+											aria-haspopup='true'
+											// onClick={handleProfileMenuOpen}
+											color='inherit'
+										>
+											<Link
+												to='/profile'
 												style={{
-													color: '#fff',
-													textTransform: 'capitalize',
+													textDecoration: 'none',
+													color: 'white',
+													padding: '0 10px',
+													margin: '0 .5rem',
+													display: 'flex',
+													justifyContent: 'center',
+													alignItems: 'center',
 												}}
-												size='large'
 											>
-												Users
-											</Button>
+												<AccountCircleIcon />
+											</Link>
+										</IconButton>
+										{user && (
+											<Stack direction='row'>
+												<Chip
+													avatar={<Avatar alt='avatar' src={user.profilePic} />}
+													label={user.username}
+												/>
+											</Stack>
+										)}
+										<Button
+											component={'a'}
+											href='/signin'
+											onClick={handleLogout}
+											style={{
+												padding: '.2rem 0',
+												marginLeft: '1rem',
+												color: '#fff',
+												textTransform: 'capitalize',
+											}}
+										>
+											Logout
+											<ExitToAppRounded style={{ paddingLeft: '.2rem' }} />
+										</Button>
+									</Box>
+								)}
+								{!user && !admin && (
+									<Box className={classes.Auth}>
+										{path.includes('signin') ? (
 											<Button
 												LinkComponent={'a'}
 												href='/signup'
@@ -413,6 +379,7 @@ const PrimarySearchAppBar = ({ HandleQuery, avatar }) => {
 											>
 												Create Account
 											</Button>
+										) : path.includes('signup') ? (
 											<Button
 												LinkComponent={'a'}
 												href='/signin'
@@ -427,46 +394,82 @@ const PrimarySearchAppBar = ({ HandleQuery, avatar }) => {
 											>
 												Log In
 											</Button>
-										</Box>
-									)}
-									{avatar && (
-										<Stack direction='row'>
-											<Chip
-												avatar={
-													<Avatar
-														alt='avatar'
-														src={URL.createObjectURL(avatar)}
-													/>
-												}
-												label='Avatar'
-												style={{ cursor: 'pointer' }}
-											/>
-										</Stack>
-									)}
+										) : (
+											<Box>
+												<Button
+													LinkComponent={'a'}
+													href={!user || !admin ? '/signin' : '/users/profiles'}
+													style={{
+														color: '#fff',
+														textTransform: 'capitalize',
+													}}
+													size='large'
+												>
+													Users
+												</Button>
+												<Button
+													LinkComponent={'a'}
+													href='/signup'
+													style={{
+														color: '#fff',
+														textTransform: 'capitalize',
+													}}
+													size='large'
+												>
+													Create Account
+												</Button>
+												<Button
+													LinkComponent={'a'}
+													href='/signin'
+													variant='outlined'
+													style={{
+														border: '1px solid rgba(255, 255, 255, .5)',
+														color: '#fff',
+														textTransform: 'capitalize',
+														margin: '0 .5rem',
+													}}
+													size='large'
+												>
+													Log In
+												</Button>
+											</Box>
+										)}
+										{avatar && (
+											<Stack direction='row'>
+												<Chip
+													avatar={
+														<Avatar
+															alt='avatar'
+															src={URL.createObjectURL(avatar)}
+														/>
+													}
+													label='Avatar'
+													style={{ cursor: 'pointer' }}
+												/>
+											</Stack>
+										)}
+									</Box>
+								)}
+								<Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+									<IconButton
+										size='large'
+										aria-label='show more'
+										aria-controls={mobileMenuId}
+										aria-haspopup='true'
+										onClick={handleMobileMenuOpen}
+										color='inherit'
+									>
+										<MoreIcon />
+									</IconButton>
 								</Box>
-							)}
-							<Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-								<IconButton
-									size='large'
-									aria-label='show more'
-									aria-controls={mobileMenuId}
-									aria-haspopup='true'
-									onClick={handleMobileMenuOpen}
-									color='inherit'
-								>
-									<MoreIcon />
-								</IconButton>
 							</Box>
-						</Box>
-						</Container>
-					</Navbar>
-				</Container>
-				
-			</div>
-			{/* {renderMobileMenu}
-			{renderMenu} */}
-			</AppBar>
+						</Navbar>
+					</Container>
 
+					{/* {renderMobileMenu}
+			{renderMenu} */}
+				</AppBar>
+			</header>
 		</>
 	);
 };
