@@ -207,13 +207,6 @@ const PrimarySearchAppBar = ({ HandleQuery, avatar }) => {
 				>
 					<Container maxwidth='lg'>
 						<Navbar>
-							<MenuRounded
-								style={{
-									fontSize: '2.5rem',
-									color: '#f4f4f4',
-									cursor: 'pointer',
-								}}
-							/>
 							<Box component={'div'} style={{ display: 'flex' }}>
 								<Link
 									to='/'
