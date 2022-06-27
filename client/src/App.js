@@ -30,7 +30,7 @@ import { Container } from '@material-ui/core';
 function App() {
 	const { user, admin, isAuthenticated } = useContext(AuthContext);
 	const { profiles, dispatch } = useContext(ProfileContext);
-	const [open, handleOpen] = useState(false);
+	
 
 	const [query, setQuery] = useState('');
 	const HandleQuery = (e) => setQuery(e.target.value);
@@ -38,9 +38,7 @@ function App() {
 	const handleAvatar = (e) => {
 		setUserAvatar(e.target.files[0]);
 	};
-	const handleToggle = () => {
-		handleOpen(!open)
-	};
+
 
 	useEffect(() => {
 		getProfiles(dispatch);
@@ -52,10 +50,9 @@ function App() {
 				<PrimarySearchAppBar
 					HandleQuery={HandleQuery}
 					avatar={userAvatar}
-					handleToggle={handleToggle}
 				/>
 				<main style={{ display: 'flex' }}>
-					<SideBar isOpen={open} />
+					<SideBar/>
 					<Container maxWidth='lg' component={'main'}>
 						<Routes>
 							<>

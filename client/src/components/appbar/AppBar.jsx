@@ -76,7 +76,7 @@ const Navbar = styled('div')(({ theme }) => ({
 	},
 }));
 
-const PrimarySearchAppBar = ({ HandleQuery, avatar, handleToggle }) => {
+const PrimarySearchAppBar = ({ HandleQuery, avatar }) => {
 	const { user, dispatch, admin } = React.useContext(AuthContext);
 	const handleLogout = () => {
 		userLogout(dispatch);
@@ -213,7 +213,6 @@ const PrimarySearchAppBar = ({ HandleQuery, avatar, handleToggle }) => {
 									color: '#f4f4f4',
 									cursor: 'pointer',
 								}}
-								onClick={handleToggle}
 							/>
 							<Box component={'div'} style={{ display: 'flex' }}>
 								<Link
